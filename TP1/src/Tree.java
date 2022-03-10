@@ -20,5 +20,13 @@ public class Tree {
         public int getDepth() {
             return depth;
         }
+
+        public double getHeur() {
+            return tablero.getH();
+        }
+
+        public double getF() {
+            return 1 + getHeur(); // cost of moving to a next state is always 1
+        }
     }
 }

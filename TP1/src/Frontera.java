@@ -5,24 +5,37 @@ import java.util.List;
 
 public class Frontera {
 
-    private int compareType;
+    public enum CompareTypes {
+        BPA,
+        BPP,
+        BPPV,
+        HEUR,
+        ASTAR,
+    }
+
+    private CompareTypes compareType;
     private List<Tree.Node> nodes;
 
-    public Frontera(int compareType) {
+    public Frontera(CompareTypes compareType) {
         this.compareType = compareType;
         nodes = new ArrayList<Tree.Node>();
     }
 
     public void sort() {
         switch (compareType) {
-            case 0:
+            case BPA:
                 Collections.sort(nodes, Comparator.comparing(Tree.Node::getDepth)); // bfs
-            case 1:
-                Collections.sort(nodes, Comparator.comparing(Tree.Node::getDepth).reversed()); // dfs
-            case 2:
+                break;
+            case BPP: // dfs & its variable version
+            case BPPV:
+                Collections.sort(nodes, Comparator.comparing(Tree.Node::getDepth).reversed());
+                break;
+            case HEUR:
                 Collections.sort(nodes, Comparator.comparing(Tree.Node::getHeur)); // heuristicas
-            case 3:
-                Collections.sort(nodes, Comparator.comparing(Tree.Node::getf)); // a*
+                break;
+            case ASTAR:
+                Collections.sort(nodes, Comparator.comparing(Tree.Node::getF)); // a*
+                break;
 
         }
     }
