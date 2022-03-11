@@ -1,17 +1,18 @@
 package main;
 
 public class Tablero {
-	
+
 	private String estado;
 	private int zeroPos;
-	private String[] rotaciones= {"-1", "-1", "-1", "-1"};
-	private static String GOAL= "123456780";
-	private static int[][] COORD= {{2,2}, {0,0}, {0,1}, {0,2}, {1,0}, {1,1}, {1,2}, {2,0}, {2,1}};
-	private static int ASCII= 48;
-	
+	private String[] rotaciones = { "-1", "-1", "-1", "-1" };
+	private static String GOAL = "123456780";
+	private static int[][] COORD = { { 2, 2 }, { 0, 0 }, { 0, 1 }, { 0, 2 }, { 1, 0 }, { 1, 1 }, { 1, 2 }, { 2, 0 },
+			{ 2, 1 } };
+	private static int ASCII = 48;
+
 	public Tablero(String cadena) {
-		estado= cadena;
-		zeroPos= estado.indexOf("0");
+		estado = cadena;
+		zeroPos = estado.indexOf("0");
 	}
 
 	public String getEstado() {
@@ -19,89 +20,107 @@ public class Tablero {
 	}
 
 	public String[] getRotaciones() {
-		
 		switch (zeroPos) {
-		case 0:
-			rotaciones[0]= swap(estado, 0, 1);
-			rotaciones[1]= swap(estado, 0, 3);
-			break;
-		case 1:
-			rotaciones[0]= swap(estado, 1, 0);
-			rotaciones[1]= swap(estado, 1, 2);
-			rotaciones[2]= swap(estado, 1, 4);
-			break;
-		case 2:
-			rotaciones[0]= swap(estado, 2, 1);
-			rotaciones[1]= swap(estado, 2, 5);
-			break;
-		case 3:
-			rotaciones[0]= swap(estado, 3, 0);
-			rotaciones[1]= swap(estado, 3, 4);
-			rotaciones[2]= swap(estado, 3, 6);
-			break;
-		case 4:
-			rotaciones[0]= swap(estado, 4, 1);
-			rotaciones[1]= swap(estado, 4, 3);
-			rotaciones[2]= swap(estado, 4, 5);
-			rotaciones[3]= swap(estado, 4, 7);
-			break;
-		case 5:
-			rotaciones[0]= swap(estado, 5, 2);
-			rotaciones[1]= swap(estado, 5, 4);
-			rotaciones[2]= swap(estado, 5, 8);
-			break;
-		case 6:
-			rotaciones[0]= swap(estado, 6, 3);
-			rotaciones[1]= swap(estado, 6, 7);
-			break;
-		case 7:
-			rotaciones[0]= swap(estado, 7, 4);
-			rotaciones[1]= swap(estado, 7, 6);
-			rotaciones[2]= swap(estado, 7, 8);
-			break;
-		case 8:
-			rotaciones[0]= swap(estado, 8, 5);
-			rotaciones[1]= swap(estado, 8, 7);
-			break;
-		default:
-			break;
+			case 0:
+				rotaciones[0] = swap(estado, 0, 1);
+				rotaciones[1] = swap(estado, 0, 3);
+				break;
+			case 1:
+				rotaciones[0] = swap(estado, 1, 0);
+				rotaciones[1] = swap(estado, 1, 2);
+				rotaciones[2] = swap(estado, 1, 4);
+				break;
+			case 2:
+				rotaciones[0] = swap(estado, 2, 1);
+				rotaciones[1] = swap(estado, 2, 5);
+				break;
+			case 3:
+				rotaciones[0] = swap(estado, 3, 0);
+				rotaciones[1] = swap(estado, 3, 4);
+				rotaciones[2] = swap(estado, 3, 6);
+				break;
+			case 4:
+				rotaciones[0] = swap(estado, 4, 1);
+				rotaciones[1] = swap(estado, 4, 3);
+				rotaciones[2] = swap(estado, 4, 5);
+				rotaciones[3] = swap(estado, 4, 7);
+				break;
+			case 5:
+				rotaciones[0] = swap(estado, 5, 2);
+				rotaciones[1] = swap(estado, 5, 4);
+				rotaciones[2] = swap(estado, 5, 8);
+				break;
+			case 6:
+				rotaciones[0] = swap(estado, 6, 3);
+				rotaciones[1] = swap(estado, 6, 7);
+				break;
+			case 7:
+				rotaciones[0] = swap(estado, 7, 4);
+				rotaciones[1] = swap(estado, 7, 6);
+				rotaciones[2] = swap(estado, 7, 8);
+				break;
+			case 8:
+				rotaciones[0] = swap(estado, 8, 5);
+				rotaciones[1] = swap(estado, 8, 7);
+				break;
+			default:
+				break;
 		}
 		return rotaciones;
 	}
 
 	private String swap(String e, int i, int j) {
-		char[] cadena= e.toCharArray();
-		char aux= cadena[i];
-		cadena[i]= cadena[j];
-		cadena[j]= aux;
-		
-		String cadenaSwapeada= "";
+		char[] cadena = e.toCharArray();
+		char aux = cadena[i];
+		cadena[i] = cadena[j];
+		cadena[j] = aux;
+
+		String cadenaSwapeada = "";
 		for (int k = 0; k < cadena.length; k++) {
-			cadenaSwapeada= cadenaSwapeada + cadena[k];
+			cadenaSwapeada = cadenaSwapeada + cadena[k];
 		}
 
 		return cadenaSwapeada;
 	}
 
 	public int getManhattan() {
-		int manhattan= 0;
+		int manhattan = 0;
 		for (int i = 0; i < estado.length(); i++) {
-			int origin= (int) estado.charAt(i) - ASCII;
-			int dest= (int) GOAL.charAt(i) - ASCII;
+			int origin = (int) estado.charAt(i) - ASCII;
+			int dest = (int) GOAL.charAt(i) - ASCII;
 			if (origin != dest) {
-				manhattan= manhattan + correction(origin, dest);
+				manhattan = manhattan + correction(origin, dest);
 			}
 		}
-		return (manhattan/2);
+		return (manhattan / 2);
 	}
 
 	private int correction(int origin, int dest) {
-		int a= COORD[origin][0] - COORD[dest][0];
-		int b= COORD[origin][1] - COORD[dest][1];
-		return ((a+b>0) ? a+b : -(a+b)); //Toma el módulo
+		int a = COORD[origin][0] - COORD[dest][0];
+		int b = COORD[origin][1] - COORD[dest][1];
+		return ((a + b > 0) ? a + b : -(a + b)); // Toma el mï¿½dulo
 	}
 
+	public double getEuclidean() {
+		double euclid = 0;
+		for (int i = 0; i < estado.length(); i++) {
+			int origin = (int) estado.charAt(i) - ASCII;
+			int dest = (int) GOAL.charAt(i) - ASCII;
+			if (origin != dest) {
+				euclid = euclid + diagonal(origin, dest);
+			}
+		}
+		return (euclid / 2);
+	}
 
+	private double diagonal(int origin, int dest) {
+		int a = COORD[origin][0] - COORD[dest][0];
+		int b = COORD[origin][1] - COORD[dest][1];
+		return Math.sqrt(a * a + b * b);
+	}
 
+	public int getInvalid() {
+		return 42; // TODO: do something
+	}
 
 }

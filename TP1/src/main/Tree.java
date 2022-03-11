@@ -1,9 +1,12 @@
+package main;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Tree {
     private Node root;
 
+    // TODO: pass config params as parameters...
     public Tree(String rootString) {
         this.root = new Node();
         this.root.tablero = new Tablero(rootString);
@@ -12,6 +15,7 @@ public class Tree {
     }
 
     public static class Node {
+        private int hSelected;
         private int depth;
         private Tablero tablero;
         private Node parent;
@@ -22,7 +26,15 @@ public class Tree {
         }
 
         public double getHeur() {
-            return tablero.getH();
+            switch (hSelected) {
+                case 0:
+                    return tablero.getEuclidean();
+                case 1:
+                    return tablero.getManhattan();
+                case 2:
+                default:
+                    return tablero.getInvalid();
+            }
         }
 
         public double getF() {

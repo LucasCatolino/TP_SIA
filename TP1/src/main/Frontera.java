@@ -1,7 +1,11 @@
+package main;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import main.Tree.Node;
 
 public class Frontera {
 
