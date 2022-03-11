@@ -96,9 +96,9 @@ public class Tablero {
 	}
 
 	private int correction(int origin, int dest) {
-		int a = COORD[origin][0] - COORD[dest][0];
-		int b = COORD[origin][1] - COORD[dest][1];
-		return ((a + b > 0) ? a + b : -(a + b)); // Toma el m�dulo
+		int a= calcularCateto(origin, dest, 0);
+		int b= calcularCateto(origin, dest, 1);
+		return ((a + b > 0) ? a + b : -(a + b)); // Toma el modulo
 	}
 
 	public double getEuclidean() {
@@ -114,9 +114,13 @@ public class Tablero {
 	}
 
 	private double diagonal(int origin, int dest) {
-		int a = COORD[origin][0] - COORD[dest][0];
-		int b = COORD[origin][1] - COORD[dest][1];
+		int a= calcularCateto(origin, dest, 0);
+		int b= calcularCateto(origin, dest, 1);
 		return Math.sqrt(a * a + b * b);
+	}
+
+	private int calcularCateto(int origin, int dest, int i) {
+		return COORD[origin][i] - COORD[dest][i];
 	}
 
 	public int getInvalid() {
