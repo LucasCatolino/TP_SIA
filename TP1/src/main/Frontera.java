@@ -52,4 +52,8 @@ public class Frontera {
         return nodes.isEmpty();
     }
 
+    public int getSize() {
+        return nodes.size();
+    }
+
 }
