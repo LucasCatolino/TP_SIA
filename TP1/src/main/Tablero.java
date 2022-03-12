@@ -1,10 +1,13 @@
 package main;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Tablero {
 
 	private String estado;
 	private int zeroPos;
-	private String[] rotaciones = { "-1", "-1", "-1", "-1" };
+	// private String[] rotaciones = { "-1", "-1", "-1", "-1" };
 	private static String GOAL = "123456780";
 	private static int[][] COORD = { { 2, 2 }, { 0, 0 }, { 0, 1 }, { 0, 2 }, { 1, 0 }, { 1, 1 }, { 1, 2 }, { 2, 0 },
 			{ 2, 1 } };
@@ -19,49 +22,50 @@ public class Tablero {
 		return estado;
 	}
 
-	public String[] getRotaciones() {
+	public List<String> getRotaciones() {
+		List<String> rotaciones = new ArrayList<>();
 		switch (zeroPos) {
 			case 0:
-				rotaciones[0] = swap(estado, 0, 1);
-				rotaciones[1] = swap(estado, 0, 3);
+				rotaciones.add(swap(estado, 0, 1));
+				rotaciones.add(swap(estado, 0, 3));
 				break;
 			case 1:
-				rotaciones[0] = swap(estado, 1, 0);
-				rotaciones[1] = swap(estado, 1, 2);
-				rotaciones[2] = swap(estado, 1, 4);
+				rotaciones.add(swap(estado, 1, 0));
+				rotaciones.add(swap(estado, 1, 2));
+				rotaciones.add(swap(estado, 1, 4));
 				break;
 			case 2:
-				rotaciones[0] = swap(estado, 2, 1);
-				rotaciones[1] = swap(estado, 2, 5);
+				rotaciones.add(swap(estado, 2, 1));
+				rotaciones.add(swap(estado, 2, 5));
 				break;
 			case 3:
-				rotaciones[0] = swap(estado, 3, 0);
-				rotaciones[1] = swap(estado, 3, 4);
-				rotaciones[2] = swap(estado, 3, 6);
+				rotaciones.add(swap(estado, 3, 0));
+				rotaciones.add(swap(estado, 3, 4));
+				rotaciones.add(swap(estado, 3, 6));
 				break;
 			case 4:
-				rotaciones[0] = swap(estado, 4, 1);
-				rotaciones[1] = swap(estado, 4, 3);
-				rotaciones[2] = swap(estado, 4, 5);
-				rotaciones[3] = swap(estado, 4, 7);
+				rotaciones.add(swap(estado, 4, 1));
+				rotaciones.add(swap(estado, 4, 3));
+				rotaciones.add(swap(estado, 4, 5));
+				rotaciones.add(swap(estado, 4, 7));
 				break;
 			case 5:
-				rotaciones[0] = swap(estado, 5, 2);
-				rotaciones[1] = swap(estado, 5, 4);
-				rotaciones[2] = swap(estado, 5, 8);
+				rotaciones.add(swap(estado, 5, 2));
+				rotaciones.add(swap(estado, 5, 4));
+				rotaciones.add(swap(estado, 5, 8));
 				break;
 			case 6:
-				rotaciones[0] = swap(estado, 6, 3);
-				rotaciones[1] = swap(estado, 6, 7);
+				rotaciones.add(swap(estado, 6, 3));
+				rotaciones.add(swap(estado, 6, 7));
 				break;
 			case 7:
-				rotaciones[0] = swap(estado, 7, 4);
-				rotaciones[1] = swap(estado, 7, 6);
-				rotaciones[2] = swap(estado, 7, 8);
+				rotaciones.add(swap(estado, 7, 4));
+				rotaciones.add(swap(estado, 7, 6));
+				rotaciones.add(swap(estado, 7, 8));
 				break;
 			case 8:
-				rotaciones[0] = swap(estado, 8, 5);
-				rotaciones[1] = swap(estado, 8, 7);
+				rotaciones.add(swap(estado, 8, 5));
+				rotaciones.add(swap(estado, 8, 7));
 				break;
 			default:
 				break;
@@ -96,8 +100,8 @@ public class Tablero {
 	}
 
 	private int correction(int origin, int dest) {
-		int a= calcularCateto(origin, dest, 0);
-		int b= calcularCateto(origin, dest, 1);
+		int a = calcularCateto(origin, dest, 0);
+		int b = calcularCateto(origin, dest, 1);
 		return ((a + b > 0) ? a + b : -(a + b)); // Toma el modulo
 	}
 
@@ -114,8 +118,8 @@ public class Tablero {
 	}
 
 	private double diagonal(int origin, int dest) {
-		int a= calcularCateto(origin, dest, 0);
-		int b= calcularCateto(origin, dest, 1);
+		int a = calcularCateto(origin, dest, 0);
+		int b = calcularCateto(origin, dest, 1);
 		return Math.sqrt(a * a + b * b);
 	}
 
@@ -125,6 +129,10 @@ public class Tablero {
 
 	public int getInvalid() {
 		return 42; // TODO: do something
+	}
+
+	public boolean goalReached() {
+		return estado.compareTo(GOAL) == 0;
 	}
 
 }

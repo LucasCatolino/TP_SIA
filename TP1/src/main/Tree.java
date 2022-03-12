@@ -16,6 +16,10 @@ public class Tree {
         this.root.parent = null;
     }
 
+    public Node getRoot() {
+        return root;
+    }
+
     public static class Node {
         private Heuristics hSelected;
         private int depth;
@@ -24,11 +28,28 @@ public class Tree {
         private List<Node> children;
 
         public Node() {
+            children = new ArrayList<>();
             parent = null;
         }
 
         public Node(Node parent) {
+            children = new ArrayList<>();
             this.parent = parent;
+        }
+
+        public Node(String rootString) {
+            children = new ArrayList<>();
+            this.tablero = new Tablero(rootString);
+        }
+
+        public Node(String rootString, int depth) {
+            children = new ArrayList<>();
+            this.tablero = new Tablero(rootString);
+            this.depth = depth;
+        }
+
+        public boolean goalReached() {
+            return tablero.goalReached();
         }
 
         public double getHeur() {

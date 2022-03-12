@@ -2,6 +2,18 @@ package main;
 
 public class Config {
 
+    public Config() {
+
+    }
+
+    public Config(String puzzle, StrategyTypes strat, SearchMethods method, Heuristics h, int limit) {
+        this.puzzle = puzzle;
+        this.strategy = strat;
+        this.method = method;
+        this.hSelected = h;
+        this.limit = limit;
+    }
+
     public enum StrategyTypes {
         UNINFORMED,
         INFORMED,
