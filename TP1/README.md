@@ -6,6 +6,19 @@
 
 This project is [insert text here]
 
+### Configurations
+
+In `src/parameters` you can find the configurations file, which allows for the following to be selected: puzzle, search strategy (`uninformed | informed`), search method (`bpa | bpp | bppv| hl | hg | astar`), limit (used with BPPV) & heuristic (`euclidean | manhattan | invalid`).
+The file looks something like this:
+
+```
+puzzle: 123456708
+strategy: uninformed
+method: BPA
+limit: 1
+heur: invalid
+```
+
 ## Setup
 
 To run this project, [insert text here]

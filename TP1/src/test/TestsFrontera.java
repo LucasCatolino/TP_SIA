@@ -9,12 +9,12 @@ import org.junit.Test;
 
 import main.Frontera;
 import main.Tree;
-import main.Frontera.CompareTypes;
+import main.Config.SearchMethods;
 
 public class TestsFrontera {
 
-    Frontera fBPA = new Frontera(CompareTypes.BPA);
-    Frontera fBPP = new Frontera(CompareTypes.BPP);
+    Frontera fBPA = new Frontera(SearchMethods.BPA);
+    Frontera fBPP = new Frontera(SearchMethods.BPP);
 
     @After
     public void tearDown() throws Exception {

@@ -3,6 +3,8 @@ package main;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.Config.Heuristics;
+
 public class Tree {
     private Node root;
 
@@ -15,7 +17,7 @@ public class Tree {
     }
 
     public static class Node {
-        private int hSelected;
+        private Heuristics hSelected;
         private int depth;
         private Tablero tablero;
         private Node parent;
@@ -31,11 +33,11 @@ public class Tree {
 
         public double getHeur() {
             switch (hSelected) {
-                case 0:
+                case EUCLIDEAN:
                     return tablero.getEuclidean();
-                case 1:
+                case MANHATTAN:
                     return tablero.getManhattan();
-                case 2:
+                case INVALID:
                 default:
                     return tablero.getInvalid();
             }

@@ -4,28 +4,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
+
+import main.Config.SearchMethods;
 
 public class Frontera {
 
-    public enum CompareTypes {
-        BPA,
-        BPP,
-        BPPV,
-        HEUR,
-        ASTAR,
-    }
-
-    private CompareTypes compareType;
+    private SearchMethods method;
     private List<Tree.Node> nodes;
 
-    public Frontera(CompareTypes compareType) {
-        this.compareType = compareType;
+    public Frontera(SearchMethods method) {
+        this.method = method;
         nodes = new ArrayList<Tree.Node>();
     }
 
     public void sort() {
-        switch (compareType) {
+        switch (method) {
             case BPA:
                 Collections.sort(nodes, Comparator.comparing(Tree.Node::getDepth)); // bfs
                 break;
@@ -33,7 +26,8 @@ public class Frontera {
             case BPPV:
                 Collections.sort(nodes, Comparator.comparing(Tree.Node::getDepth, Comparator.reverseOrder()));
                 break;
-            case HEUR:
+            case HEURLOCAL: // TODO: is it necessary for local to sort?
+            case HEURGLOBAL:
                 Collections.sort(nodes, Comparator.comparing(Tree.Node::getHeur)); // heuristicas
                 break;
             case ASTAR:
