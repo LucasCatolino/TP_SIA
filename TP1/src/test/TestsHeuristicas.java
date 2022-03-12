@@ -11,6 +11,7 @@ public class TestsHeuristicas {
 
 	Tablero tablero32 = new Tablero("123456708");
 	Tablero tableroRandom = new Tablero("013425786");
+	Tablero tableroRandom2 = new Tablero("023451768");
 
 	@After
 	public void tearDown() throws Exception {
@@ -24,6 +25,11 @@ public class TestsHeuristicas {
 	@Test
 	public void test02ManhattanDevuelve4() {
 		assertEquals(4, tableroRandom.getManhattan());
+	}
+	
+	@Test
+	public void test03ManhattanDevuelve5() {
+		assertEquals(5, tableroRandom2.getManhattan());
 	}
 
 	@Test

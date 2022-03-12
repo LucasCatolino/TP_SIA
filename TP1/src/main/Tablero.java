@@ -9,8 +9,8 @@ public class Tablero {
 	private int zeroPos;
 	// private String[] rotaciones = { "-1", "-1", "-1", "-1" };
 	private static String GOAL = "123456780";
-	private static int[][] COORD = { { 2, 2 }, { 0, 0 }, { 0, 1 }, { 0, 2 }, { 1, 0 }, { 1, 1 }, { 1, 2 }, { 2, 0 },
-			{ 2, 1 } };
+	private static int[][] COORD = {{ 0, 0 }, { 0, 1 }, { 0, 2 }, { 1, 0 }, { 1, 1 }, { 1, 2 }, { 2, 0 },
+			{ 2, 1 }, {2,2}};
 	private static int ASCII = 48;
 
 	public Tablero(String cadena) {
@@ -93,7 +93,9 @@ public class Tablero {
 			int origin = (int) estado.charAt(i) - ASCII;
 			int dest = (int) GOAL.charAt(i) - ASCII;
 			if (origin != dest) {
-				manhattan = manhattan + correction(origin, dest);
+				int moveThis= estado.indexOf((char)(origin + ASCII));
+				int moveHere= estado.indexOf((char)(dest + ASCII));
+				manhattan = manhattan + correction(moveThis, moveHere);
 			}
 		}
 		return (manhattan / 2);
@@ -102,7 +104,7 @@ public class Tablero {
 	private int correction(int origin, int dest) {
 		int a = calcularCateto(origin, dest, 0);
 		int b = calcularCateto(origin, dest, 1);
-		return ((a + b > 0) ? a + b : -(a + b)); // Toma el modulo
+		return (int) Math.signum(a)*a+ (int) Math.signum(b)*b; // Toma el modulo
 	}
 
 	public double getEuclidean() {
@@ -111,7 +113,9 @@ public class Tablero {
 			int origin = (int) estado.charAt(i) - ASCII;
 			int dest = (int) GOAL.charAt(i) - ASCII;
 			if (origin != dest) {
-				euclid = euclid + diagonal(origin, dest);
+				int moveThis= estado.indexOf((char)(origin + ASCII));
+				int moveHere= estado.indexOf((char)(dest + ASCII));
+				euclid = euclid + diagonal(moveThis, moveHere);
 			}
 		}
 		return (euclid / 2);
