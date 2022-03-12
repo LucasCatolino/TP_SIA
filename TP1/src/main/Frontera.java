@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import main.Tree.Node;
+import java.util.Optional;
 
 public class Frontera {
 
@@ -32,7 +31,7 @@ public class Frontera {
                 break;
             case BPP: // dfs & its variable version
             case BPPV:
-                Collections.sort(nodes, Comparator.comparing(Tree.Node::getDepth).reversed());
+                Collections.sort(nodes, Comparator.comparing(Tree.Node::getDepth, Comparator.reverseOrder()));
                 break;
             case HEUR:
                 Collections.sort(nodes, Comparator.comparing(Tree.Node::getHeur)); // heuristicas
@@ -49,6 +48,14 @@ public class Frontera {
             return nodes.remove(0);
         }
         return null;
+    }
+
+    public void add(Tree.Node node) {
+        nodes.add(node);
+    }
+
+    public boolean isEmpty() {
+        return nodes.isEmpty();
     }
 
 }

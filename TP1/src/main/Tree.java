@@ -21,8 +21,12 @@ public class Tree {
         private Node parent;
         private List<Node> children;
 
-        public int getDepth() {
-            return depth;
+        public Node() {
+            parent = null;
+        }
+
+        public Node(Node parent) {
+            this.parent = parent;
         }
 
         public double getHeur() {
@@ -39,6 +43,38 @@ public class Tree {
 
         public double getF() {
             return 1 + getHeur(); // cost of moving to a next state is always 1
+        }
+
+        public int getDepth() {
+            return depth;
+        }
+
+        public void setDepth(int newDepth) {
+            depth = newDepth;
+        }
+
+        public Node getParent() {
+            return parent;
+        }
+
+        public void setParent(Node newParent) {
+            parent = newParent;
+        }
+
+        public Tablero getTablero() {
+            return tablero;
+        }
+
+        public void setTablero(Tablero newTablero) {
+            tablero = newTablero;
+        }
+
+        public List<Node> getChildren() {
+            return children;
+        }
+
+        public void addChild(Node newChild) {
+            children.add(newChild);
         }
     }
 }
