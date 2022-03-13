@@ -132,4 +132,20 @@ public class TestsSolverHeuristic {
         assertEquals(4, outcome.getSolutionNode().getDepth());
     }
 
+	
+	@Test
+	public void testXX() {
+		
+		Config XX = new Config("528417036", StrategyTypes.INFORMED, SearchMethods.HEURGLOBAL, Heuristics.EUCLIDEAN);
+	    Solver YY = new Solver(XX);
+
+        long startTime = System.currentTimeMillis();
+
+        Solution outcome = YY.informedResolver(XX);
+
+        long stopTime = System.currentTimeMillis();
+        System.out.println("test XX: " + outcome.getReadableTime(stopTime - startTime));
+
+        assertEquals(78, outcome.getSolutionNode().getDepth());
+    }
 }

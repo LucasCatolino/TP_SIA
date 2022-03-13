@@ -139,4 +139,16 @@ public class Tablero {
 		return estado.compareTo(GOAL) == 0;
 	}
 
+	//Para pruebas
+	public void printTablero() {
+		for (int i = 0; i < estado.length(); i++) {
+			System.out.print(estado.charAt(i));
+			if (i == 2 || i == 5) {
+				System.out.println();
+			}
+		}
+		System.out.println();
+		System.out.println();
+	}
+
 }

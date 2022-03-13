@@ -1,6 +1,7 @@
 package main;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -186,7 +187,7 @@ public class Solver {
             if (!Ex.containsKey(n.getTablero().getEstado())) {
                 Ex.put(n.getTablero().getEstado(), n);
             }
-
+            n.printTablero();
             if (n.goalReached()) {
                 // System.out.println("goal reached!");
                 solutionNode = n;
@@ -200,6 +201,7 @@ public class Solver {
                     Tree.Node child = new Tree.Node(successor, n.getDepth() + 1);
                     child.setHeuristic(config.getHSelected());
                     child.setHeuristicCost();
+                    child.setParent(n);
                     n.addChild(child);
                     F.add(child);
                 }
@@ -212,7 +214,20 @@ public class Solver {
         outcome.sizeEx = Ex.size();
         outcome.sizeF = F.getSize();
         outcome.solutionNode = solutionNode;
+        
+        System.out.println(outcome.getSolutionNode().getParent().getTablero().getEstado());
 
         return outcome;
+    }
+    
+    public Solution localHeuristicResolver() {
+    	Tree A= new Tree(config.getPuzzle());
+    	List<String> L= new ArrayList<>();
+    	
+    	Frontera F = new Frontera(config.getMethod());
+    	
+    	L.add(A.getRoot().getTablero().getEstado());
+    	
+    	return null;
     }
 }

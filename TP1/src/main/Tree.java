@@ -122,5 +122,10 @@ public class Tree {
 			this.costH= getHeur();
 		}
 
+		//Para pruebas
+		public void printTablero() {
+			this.tablero.printTablero();
+		}
+
     }
 }
