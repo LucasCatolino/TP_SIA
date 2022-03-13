@@ -21,6 +21,13 @@ public class Config {
         this.hSelected = h;
         this.limit = limit;
     }
+    
+    public Config(String puzzle, StrategyTypes strat, SearchMethods method, Heuristics h) {
+        this.puzzle = puzzle;
+        this.strategy = strat;
+        this.method = method;
+        this.hSelected = h;
+    }
 
     public enum StrategyTypes {
         UNINFORMED,

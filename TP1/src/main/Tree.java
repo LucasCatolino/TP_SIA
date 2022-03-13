@@ -23,6 +23,7 @@ public class Tree {
     public static class Node {
         private Heuristics hSelected;
         private int depth;
+        private double costH;
         private Tablero tablero;
         private Node parent;
         private List<Node> children;
@@ -48,7 +49,14 @@ public class Tree {
             this.depth = depth;
         }
 
-        public boolean goalReached() {
+        public Node(String rootString, Heuristics newHeuristic, double costH) {
+        	children = new ArrayList<>();
+            this.tablero = new Tablero(rootString);
+            this.hSelected= newHeuristic;
+            this.costH = costH;
+		}
+
+		public boolean goalReached() {
             return tablero.goalReached();
         }
 
@@ -99,5 +107,13 @@ public class Tree {
         public void addChild(Node newChild) {
             children.add(newChild);
         }
+
+		public void setHeuristic(Heuristics newHeuristic) {
+			this.hSelected= newHeuristic;
+		}
+
+		public void setHeuristicCost() {
+			this.costH= getF();
+		}
     }
 }

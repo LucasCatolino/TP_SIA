@@ -42,7 +42,7 @@ public class TestsSolver {
         Solution outcome = mySolver.unInformedResolver(myConfigBPA);
 
         long stopTime = System.currentTimeMillis();
-        System.out.println("test01: " + outcome.getReadableTime(stopTime - startTime));
+        System.out.println("test BPA: " + outcome.getReadableTime(stopTime - startTime));
 
         assertEquals(1, outcome.getSolutionNode().getDepth());
     }
@@ -54,7 +54,7 @@ public class TestsSolver {
         Solution outcome = mySolver.unInformedResolver(myConfigBPP);
 
         long stopTime = System.currentTimeMillis();
-        System.out.println("test02: " + outcome.getReadableTime(stopTime - startTime));
+        System.out.println("test BPP: " + outcome.getReadableTime(stopTime - startTime));
 
         assertEquals(true, outcome.getSolutionNode().goalReached());
     }

@@ -6,7 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 import main.Config.SearchMethods;
+import main.Tree.Node;
 
 public class Solver {
     public static class Solution {
@@ -162,7 +164,50 @@ public class Solver {
         return outcome;
     }
 
-    public void informedResolver() {
+    public Solution informedResolver(Config config) {
 
+    	Tree A = new Tree(config.getPuzzle());
+        Frontera F = new Frontera(config.getMethod());
+        Map<String, Tree.Node> Ex = new HashMap<>();
+        F.add(A.getRoot());
+
+        Tree.Node solutionNode = null;
+
+        while (!F.isEmpty()) {
+            Tree.Node n = F.getFirst();
+            // System.out.printf("running board with: %s at depth: %d\n",
+            // n.getTablero().getEstado(), n.getDepth());
+
+            if (!Ex.containsKey(n.getTablero().getEstado())) {
+                Ex.put(n.getTablero().getEstado(), n);
+            }
+
+            if (n.goalReached()) {
+                // System.out.println("goal reached!");
+                solutionNode = n;
+                break;
+            }
+
+            // expand n & add children to A and F if they are not in Ex
+            List<String> posibleSuccessors = n.getTablero().getRotaciones();
+            for (String successor : posibleSuccessors) {
+                if (!Ex.containsKey(successor)) {
+                    Tree.Node child= new Tree.Node(successor, n.getDepth() + 1);
+                    child.setHeuristic(config.getHSelected());
+                    child.setHeuristicCost();
+                    n.addChild(child);
+                    F.add(child);
+                }
+            }
+            F.sort();
+        }
+
+        Solution outcome = new Solution();
+        outcome.config = config;
+        outcome.sizeEx = Ex.size();
+        outcome.sizeF = F.getSize();
+        outcome.solutionNode = solutionNode;
+
+        return outcome;
     }
 }
