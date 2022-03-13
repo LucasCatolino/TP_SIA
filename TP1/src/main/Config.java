@@ -6,6 +6,14 @@ public class Config {
 
     }
 
+    public Config(Config config) {
+        this.puzzle = config.puzzle;
+        this.strategy = config.strategy;
+        this.method = config.method;
+        this.hSelected = config.hSelected;
+        this.limit = config.limit;
+    }
+
     public Config(String puzzle, StrategyTypes strat, SearchMethods method, Heuristics h, int limit) {
         this.puzzle = puzzle;
         this.strategy = strat;

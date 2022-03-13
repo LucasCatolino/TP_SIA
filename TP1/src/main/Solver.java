@@ -6,13 +6,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import main.Config.SearchMethods;
+
 public class Solver {
     public static class Solution {
         int sizeF;
         int sizeEx;
+        int finalLimit;
         Config config;
         Tree.Node solutionNode;
         long elapsedTimeMillis;
+
+        public int getFinalLimit() {
+            return finalLimit;
+        }
+
+        public void setFinalLimit(int newLimit) {
+            finalLimit = newLimit;
+        }
 
         public int getSizeFrontera() {
             return sizeF;
@@ -62,15 +73,45 @@ public class Solver {
     public Solution runResolver() {
         switch (config.strategy) {
             case UNINFORMED:
-                return unInformedResolver(config);
-            // TODO: add back when informed is done...
-            /*
-             * case INFORMED:
-             * return informedResolver();
-             */
+                if (config.method != SearchMethods.BPPV) {
+                    return unInformedResolver(config);
+                } else {
+                    return bppvResolver(config);
+                }
+                // TODO: add back when informed is done...
+                /*
+                 * case INFORMED:
+                 * return informedResolver();
+                 */
             default:
                 return null;
         }
+    }
+
+    public Solution bppvResolver(Config config) {
+        int lastLimit = config.limit;
+        Config auxConfig = new Config(config);
+        Solution bestOutcome = new Solution();
+        int bestLimit = 0;
+        Solution currOutcome = null;
+        // maximum expanded nodes would be about 9!
+        while (!(lastLimit > auxConfig.limit
+                && (auxConfig.limit > 0
+                        || bestOutcome.getSolutionNode() != null))) {
+            currOutcome = unInformedResolver(new Config(auxConfig));
+            lastLimit = auxConfig.limit;
+            if (currOutcome.getSolutionNode() == null) {
+                auxConfig.limit++; // this might be a nightmare given the case where it took over 50k nodes to find
+                // a solution...
+                System.out.println("new limit is: " + auxConfig.limit);
+            } else {
+                bestOutcome = currOutcome;
+                bestLimit = auxConfig.limit;
+                auxConfig.limit--;
+            }
+        }
+        bestOutcome.finalLimit = bestLimit;
+        return bestOutcome;
     }
 
     public Solution unInformedResolver(Config config) {
@@ -84,8 +125,10 @@ public class Solver {
 
         while (!F.isEmpty()) {
             Tree.Node n = F.getFirst();
-            // System.out.printf("running board with: %s at depth: %d\n",
-            // n.getTablero().getEstado(), n.getDepth());
+            /*
+             * System.out.printf("running board with: %s at depth: %d\n",
+             * n.getTablero().getEstado(), n.getDepth());
+             */
 
             if (!Ex.containsKey(n.getTablero().getEstado())) {
                 Ex.put(n.getTablero().getEstado(), n);
@@ -100,7 +143,8 @@ public class Solver {
             // expand n & add children to A and F if they are not in Ex
             List<String> posibleSuccessors = n.getTablero().getRotaciones();
             for (String successor : posibleSuccessors) {
-                if (!Ex.containsKey(successor)) {
+                if (!Ex.containsKey(successor)
+                        && (config.method == SearchMethods.BPPV ? n.getDepth() + 1 <= config.limit : true)) {
                     Tree.Node child = new Tree.Node(successor, n.getDepth() + 1);
                     n.addChild(child);
                     F.add(child);
