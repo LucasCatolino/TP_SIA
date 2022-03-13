@@ -2,9 +2,13 @@
 
 # Trabajo Practico N°1: Métodos de búsqueda
 
-## General Info
+## Descripción
 
-This project is [insert text here]
+Este proyecto es una implementación de un generador de soluciones para un rompecabezas de números (la variante de 3x3: 8-puzzle).
+
+Es capaz de generar soluciones a traves de estrategias de búsqueda no informadas (`BPA`, `BPP` y `BPPV`) y de búsquedas informadas (`Heurística Local`, `Heurística Global` y `A\*`) con 3 heurísticas elegibles: `Manhattan`, `Euclideana` y una `no admisible`.
+
+Se pueden configurar varios parámetros del problema: puzzle a resolver, tipo de estrategia, método de búsqueda, heurística, limite de profundidad _(los últimos 2 siendo tomados en cuenta cuando tenga sentido)_.
 
 ### Configuration
 
@@ -35,7 +39,12 @@ The config file **must** be in a directory alongside the .jar file, like this:
 
 ## Setup
 
-To run this project execute this command:
+### Requirements
+
+-   [Java Runtime Environment](https://www.java.com/en/download/).
+-   (if you want to open this project in VSCode [here's a link to tutorial on how to get things in place](https://code.visualstudio.com/docs/java/java-tutorial)).
+
+To run this project execute this command from the terminal (with the terminal in the directory where the .jar file is located):
 
 ```
 $> java -jar TP1.jar
@@ -51,14 +60,13 @@ Since you are working with VSCode, some things to take into account:
 -   To run a program, go to `bin` and execute: `java filename`
 -   To export a build to JAR, use the command palette and type `Java: Export Jar...`
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
 ### Folder Structure
 
 The workspace contains two folders by default, where:
 
 -   `src`: the folder to maintain sources
 -   `lib`: the folder to maintain dependencies
+-   `parameters`: the folder where the config file is found
 
 Meanwhile, the compiled output files will be generated in the `bin` folder by default.
 
