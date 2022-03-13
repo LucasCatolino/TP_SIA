@@ -16,22 +16,28 @@ public class TestsSolverHeuristic {
 	
 	Config myConfigHGEuclidean = new Config("123456708", StrategyTypes.INFORMED, SearchMethods.HEURGLOBAL, Heuristics.EUCLIDEAN);
 	Config myConfigHGManhattan = new Config("123456708", StrategyTypes.INFORMED, SearchMethods.HEURGLOBAL, Heuristics.MANHATTAN);
+	Config myConfigAStarEuclidean = new Config("123456708", StrategyTypes.INFORMED, SearchMethods.ASTAR, Heuristics.EUCLIDEAN);
+	Config myConfigAStarManhattan = new Config("123456708", StrategyTypes.INFORMED, SearchMethods.ASTAR, Heuristics.MANHATTAN);
 	Config myConfigHGManhattanRand = new Config("013425786", StrategyTypes.INFORMED, SearchMethods.HEURGLOBAL, Heuristics.MANHATTAN);
 	Config myConfigHGEuclideanRand = new Config("013425786", StrategyTypes.INFORMED, SearchMethods.HEURGLOBAL, Heuristics.EUCLIDEAN);
+	Config myConfigAStarManhattanRand = new Config("013425786", StrategyTypes.INFORMED, SearchMethods.ASTAR, Heuristics.MANHATTAN);
+	Config myConfigAStarEuclideanRand = new Config("013425786", StrategyTypes.INFORMED, SearchMethods.ASTAR, Heuristics.EUCLIDEAN);
 
     Solver mySolverHGSolverEuclidean = new Solver(myConfigHGEuclidean);
     Solver mySolverHGSolverManhattan = new Solver(myConfigHGManhattan);
+    Solver mySolverAStarEuclidean = new Solver(myConfigAStarEuclidean);
+    Solver mySolverAStarManhattan = new Solver(myConfigAStarManhattan);
     Solver mySolverHGSolverManhattanRand = new Solver(myConfigHGManhattanRand);
     Solver mySolverHGSolverEuclideanRand = new Solver(myConfigHGEuclideanRand);
-
-
+    Solver mySolverAStarSolverManhattanRand = new Solver(myConfigAStarManhattanRand);
+    Solver mySolverAStarSolverEuclideanRand = new Solver(myConfigAStarEuclideanRand);
 
 	@After
 	public void tearDown() throws Exception {
 	}
 
 	@Test
-	public void test01Euclidean() {
+	public void test01HGEuclidean() {
         long startTime = System.currentTimeMillis();
 
         Solution outcome = mySolverHGSolverEuclidean.informedResolver(myConfigHGEuclidean);
@@ -43,7 +49,7 @@ public class TestsSolverHeuristic {
     }
 	
 	@Test
-	public void test02Euclidean() {
+	public void test02HGManhattan() {
         long startTime = System.currentTimeMillis();
 
         Solution outcome = mySolverHGSolverManhattan.informedResolver(myConfigHGManhattan);
@@ -55,7 +61,31 @@ public class TestsSolverHeuristic {
     }
 	
 	@Test
-	public void test03ManhattanRand() {
+	public void test03AStarEuclidean() {
+        long startTime = System.currentTimeMillis();
+
+        Solution outcome = mySolverAStarEuclidean.informedResolver(myConfigAStarEuclidean);
+
+        long stopTime = System.currentTimeMillis();
+        System.out.println("test A* Euclidean: " + outcome.getReadableTime(stopTime - startTime));
+
+        assertEquals(1, outcome.getSolutionNode().getDepth());
+    }
+	
+	@Test
+	public void test04AStarManhattan() {
+        long startTime = System.currentTimeMillis();
+
+        Solution outcome = mySolverAStarManhattan.informedResolver(myConfigAStarManhattan);
+
+        long stopTime = System.currentTimeMillis();
+        System.out.println("test A* Manhattan: " + outcome.getReadableTime(stopTime - startTime));
+
+        assertEquals(1, outcome.getSolutionNode().getDepth());
+    }
+	
+	@Test
+	public void test05ManhattanRand() {
         long startTime = System.currentTimeMillis();
 
         Solution outcome = mySolverHGSolverManhattanRand.informedResolver(myConfigHGManhattanRand);
@@ -67,7 +97,7 @@ public class TestsSolverHeuristic {
     }
 	
 	@Test
-	public void test04EuclideanRand() {
+	public void test06EuclideanRand() {
         long startTime = System.currentTimeMillis();
 
         Solution outcome = mySolverHGSolverEuclideanRand.informedResolver(myConfigHGEuclideanRand);
@@ -78,5 +108,28 @@ public class TestsSolverHeuristic {
         assertEquals(4, outcome.getSolutionNode().getDepth());
     }
 
+	@Test
+	public void test07AStarManhattanRand() {
+        long startTime = System.currentTimeMillis();
+
+        Solution outcome = mySolverAStarSolverManhattanRand.informedResolver(myConfigAStarManhattanRand);
+
+        long stopTime = System.currentTimeMillis();
+        System.out.println("test A* Manhattan Rand: " + outcome.getReadableTime(stopTime - startTime));
+
+        assertEquals(4, outcome.getSolutionNode().getDepth());
+    }
+	
+	@Test
+	public void test08AStarEuclideanRand() {
+        long startTime = System.currentTimeMillis();
+
+        Solution outcome = mySolverAStarSolverEuclideanRand.informedResolver(myConfigAStarEuclideanRand);
+
+        long stopTime = System.currentTimeMillis();
+        System.out.println("test A* Euclidean Rand: " + outcome.getReadableTime(stopTime - startTime));
+
+        assertEquals(4, outcome.getSolutionNode().getDepth());
+    }
 
 }

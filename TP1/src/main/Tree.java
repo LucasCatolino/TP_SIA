@@ -118,8 +118,9 @@ public class Tree {
             this.hSelected = newHeuristic;
         }
 
-        public void setHeuristicCost() {
-            this.costH = getF();
-        }
+		public void setHeuristicCost() {
+			this.costH= getHeur();
+		}
+
     }
 }
