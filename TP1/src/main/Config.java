@@ -21,7 +21,7 @@ public class Config {
         this.hSelected = h;
         this.limit = limit;
     }
-    
+
     public Config(String puzzle, StrategyTypes strat, SearchMethods method, Heuristics h) {
         this.puzzle = puzzle;
         this.strategy = strat;
@@ -54,6 +54,12 @@ public class Config {
     SearchMethods method;
     int limit;
     Heuristics hSelected;
+
+    @Override
+    public String toString() {
+        return String.format("Config[puzzle: %s, strategy: %s, method: %s, limit: %d, h: %s]", puzzle, strategy, method,
+                limit, hSelected);
+    }
 
     public StrategyTypes parseStrategy(String token) throws Error {
         if (token.toLowerCase().compareTo("uninformed") == 0) {

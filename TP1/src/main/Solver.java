@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 import main.Config.SearchMethods;
 import main.Tree.Node;
 
@@ -18,6 +17,12 @@ public class Solver {
         Config config;
         Tree.Node solutionNode;
         long elapsedTimeMillis;
+
+        @Override
+        public String toString() {
+            return String.format("Solution[sizeF: %d, sizeEx: %d, finalLimit: %d, time: %s, %s, %s]", sizeF, sizeEx,
+                    finalLimit, getReadableTime(elapsedTimeMillis), config, solutionNode);
+        }
 
         public int getFinalLimit() {
             return finalLimit;
@@ -105,7 +110,7 @@ public class Solver {
             if (currOutcome.getSolutionNode() == null) {
                 auxConfig.limit++; // this might be a nightmare given the case where it took over 50k nodes to find
                 // a solution...
-                System.out.println("new limit is: " + auxConfig.limit);
+                // System.out.println("new limit is: " + auxConfig.limit);
             } else {
                 bestOutcome = currOutcome;
                 bestLimit = auxConfig.limit;
@@ -166,7 +171,7 @@ public class Solver {
 
     public Solution informedResolver(Config config) {
 
-    	Tree A = new Tree(config.getPuzzle());
+        Tree A = new Tree(config.getPuzzle());
         Frontera F = new Frontera(config.getMethod());
         Map<String, Tree.Node> Ex = new HashMap<>();
         F.add(A.getRoot());
@@ -192,7 +197,7 @@ public class Solver {
             List<String> posibleSuccessors = n.getTablero().getRotaciones();
             for (String successor : posibleSuccessors) {
                 if (!Ex.containsKey(successor)) {
-                    Tree.Node child= new Tree.Node(successor, n.getDepth() + 1);
+                    Tree.Node child = new Tree.Node(successor, n.getDepth() + 1);
                     child.setHeuristic(config.getHSelected());
                     child.setHeuristicCost();
                     n.addChild(child);

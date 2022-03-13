@@ -6,9 +6,9 @@
 
 This project is [insert text here]
 
-### Configurations
+### Configuration
 
-In `src/parameters` you can find the configurations file, which allows for the following to be selected: puzzle, search strategy (`uninformed | informed`), search method (`bpa | bpp | bppv| hl | hg | astar`), limit (used with BPPV) & heuristic (`euclidean | manhattan | invalid`).
+In `./parameters/cfg.txt` you can find the configurations file, which allows for the following to be selected: puzzle, search strategy (`uninformed | informed`), search method (`bpa | bpp | bppv| hl | hg | astar`), limit (used with BPPV) & heuristic (`euclidean | manhattan | invalid`).
 The file looks something like this:
 
 ```
@@ -19,9 +19,23 @@ limit: 1
 heur: invalid
 ```
 
+#### NOTE:
+
+The config file **must** be in a directory alongside the .jar file, like this:
+
+```
+  ./ <= the folder in which you have the program
+   |
+   |_ TP1.jar
+   |
+   |_ /parameters
+      |
+      |_cfg.txt
+```
+
 ## Setup
 
-To run this project, [insert text here]
+To run this project execute this command:
 
 ```
 $> java -jar TP1.jar

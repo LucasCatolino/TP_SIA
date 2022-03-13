@@ -1,5 +1,7 @@
 package main;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
 
@@ -25,6 +27,34 @@ public class Parser {
         }
         inputScanner = new Scanner(is);
 
+        configParser(inputScanner);
+
+        inputScanner.close();
+
+        // System.out.println("this is a test!");
+    }
+
+    // WITH THIS WE CAN NOW READ CONFIG FILES FROM THE OUTSIDE WORLD
+    // requirement: put the file in a directory next to the .jar file
+    /**
+     * ./ <= the folder in which you have the program
+     * |
+     * |_ TP1.jar
+     * |
+     * |_ /parameters
+     * |
+     * |_cfg.txt
+     *
+     */
+    public Parser(String path, boolean prod) throws IOException {
+        FileInputStream file = new FileInputStream(path);
+        inputScanner = new Scanner(file);
+        configParser(inputScanner);
+        inputScanner.close();
+        file.close();
+    }
+
+    private void configParser(Scanner inputScanner) throws Error {
         config = new Config();
 
         String token;
@@ -32,7 +62,7 @@ public class Parser {
 
         while (inputScanner.hasNext()) {
             token = inputScanner.next();
-            System.out.println(token);
+            // System.out.println(token);
 
             if (state == State.READING) {
                 state = selectMode(token);
@@ -63,9 +93,6 @@ public class Parser {
 
         }
 
-        inputScanner.close();
-
-        System.out.println("this is a test!");
     }
 
     private State selectMode(String token) {

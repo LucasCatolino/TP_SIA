@@ -28,6 +28,12 @@ public class Tree {
         private Node parent;
         private List<Node> children;
 
+        @Override
+        public String toString() {
+            return String.format("Node[h: %s, depth: %d, costH: %f, tablero: %s]", hSelected, depth, costH,
+                    tablero.getEstado());
+        }
+
         public Node() {
             children = new ArrayList<>();
             parent = null;
@@ -50,13 +56,13 @@ public class Tree {
         }
 
         public Node(String rootString, Heuristics newHeuristic, double costH) {
-        	children = new ArrayList<>();
+            children = new ArrayList<>();
             this.tablero = new Tablero(rootString);
-            this.hSelected= newHeuristic;
+            this.hSelected = newHeuristic;
             this.costH = costH;
-		}
+        }
 
-		public boolean goalReached() {
+        public boolean goalReached() {
             return tablero.goalReached();
         }
 
@@ -108,12 +114,12 @@ public class Tree {
             children.add(newChild);
         }
 
-		public void setHeuristic(Heuristics newHeuristic) {
-			this.hSelected= newHeuristic;
-		}
+        public void setHeuristic(Heuristics newHeuristic) {
+            this.hSelected = newHeuristic;
+        }
 
-		public void setHeuristicCost() {
-			this.costH= getF();
-		}
+        public void setHeuristicCost() {
+            this.costH = getF();
+        }
     }
 }
