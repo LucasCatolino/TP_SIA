@@ -155,6 +155,7 @@ public class Solver {
                 if (!Ex.containsKey(successor)
                         && (config.method == SearchMethods.BPPV ? n.getDepth() + 1 <= config.limit : true)) {
                     Tree.Node child = new Tree.Node(successor, n.getDepth() + 1);
+                    child.setParent(n);
                     n.addChild(child);
                     F.add(child);
                 }
