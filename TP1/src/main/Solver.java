@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import main.Config.SearchMethods;
-import main.Tree.Node;
 
 public class Solver {
     public static class Solution {
@@ -142,7 +141,7 @@ public class Solver {
             if (!Ex.containsKey(n.getTablero().getEstado())) {
                 Ex.put(n.getTablero().getEstado(), n);
             }
-
+            // n.printTablero();
             if (n.goalReached()) {
                 // System.out.println("goal reached!");
                 solutionNode = n;
@@ -189,7 +188,7 @@ public class Solver {
             if (!Ex.containsKey(n.getTablero().getEstado())) {
                 Ex.put(n.getTablero().getEstado(), n);
             }
-            //n.printTablero();
+            // n.printTablero();
             if (n.goalReached()) {
                 // System.out.println("goal reached!");
                 solutionNode = n;
@@ -216,49 +215,50 @@ public class Solver {
         outcome.sizeEx = Ex.size();
         outcome.sizeF = F.getSize();
         outcome.solutionNode = solutionNode;
-        
+
         return outcome;
     }
-    
+
     public Solution localHeuristicResolver(Config config) {
-    	Tree A= new Tree(config.getPuzzle());
-    	Frontera F = new Frontera(config.getMethod());
-    	F.add(A.getRoot());
-    	
-        Tree.Node solutionNode= searchLocalHeuristic(F);
-    	
+        Tree A = new Tree(config.getPuzzle());
+        Frontera F = new Frontera(config.getMethod());
+        F.add(A.getRoot());
+
+        Tree.Node solutionNode = searchLocalHeuristic(F);
+
         Solution outcome = new Solution();
         outcome.config = config;
         outcome.sizeEx = localHeurEx.size();
         outcome.sizeF = F.getSize();
         outcome.solutionNode = solutionNode;
-        
+
         return outcome;
     }
 
-	private Node searchLocalHeuristic(Frontera F) {
-		
-		if (!F.isEmpty()) {
-			//Ordena la frontera según el criterio de menor heuristica y se queda con el primero
-			F.sort();
-			Node n= F.getFirst();
-			
-			//Si el nodo ya fue explorado, sigue explorando los otros de la frontera
-			if (localHeurEx.containsKey(n.getTablero().getEstado())) {
-				return searchLocalHeuristic(F);
-			}
-			
-			//Si no fue explorado, lo explora
-			localHeurEx.put(n.getTablero().getEstado(), n);
-			
-			//Si el nodo es la solución la devuelve
-			if (n.getTablero().goalReached()) {
-				return n;
-			}
-			
-			//Si el nodo no es la solución, explora su frontera
-			Frontera newF= new Frontera(config.getMethod());
-			List<String> posibleSuccessors = n.getTablero().getRotaciones();
+    private Tree.Node searchLocalHeuristic(Frontera F) {
+
+        if (!F.isEmpty()) {
+            // Ordena la frontera segï¿½n el criterio de menor heuristica y se queda con el
+            // primero
+            F.sort();
+            Tree.Node n = F.getFirst();
+
+            // Si el nodo ya fue explorado, sigue explorando los otros de la frontera
+            if (localHeurEx.containsKey(n.getTablero().getEstado())) {
+                return searchLocalHeuristic(F);
+            }
+
+            // Si no fue explorado, lo explora
+            localHeurEx.put(n.getTablero().getEstado(), n);
+
+            // Si el nodo es la soluciï¿½n la devuelve
+            if (n.getTablero().goalReached()) {
+                return n;
+            }
+
+            // Si el nodo no es la soluciï¿½n, explora su frontera
+            Frontera newF = new Frontera(config.getMethod());
+            List<String> posibleSuccessors = n.getTablero().getRotaciones();
             for (String successor : posibleSuccessors) {
                 if (!localHeurEx.containsKey(successor)) {
                     Tree.Node child = new Tree.Node(successor, n.getDepth() + 1);
@@ -269,10 +269,10 @@ public class Solver {
                     newF.add(child);
                 }
             }
-			return searchLocalHeuristic(newF);
+            return searchLocalHeuristic(newF);
         }
-		
-		//En caso de error devuelve null
-		return null;
-	}
+
+        // En caso de error devuelve null
+        return null;
+    }
 }
