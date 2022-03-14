@@ -1,6 +1,7 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Tablero {
@@ -160,6 +161,11 @@ public class Tablero {
 	}
 
 	public boolean isSolvable() {
+		//Si está mal armada la matriz no es resoluble
+		if (!this.wellConfigured()) {
+			return false;
+		}
+		
 		int inv= 0;
 		//Elimino el espacio vacio
 		String estadoAux= this.estado.replace("0", "");
@@ -177,6 +183,20 @@ public class Tablero {
 
 		//Si inv es par es resoluble, sino no
 		return (inv%2 == 0)?true:false;
+	}
+
+	private boolean wellConfigured() {
+		//Si tiene mas o menos elementos esta mal configurado
+		if (this.estado.length() != 9) {
+			return false;
+		}
+		
+		//Creo un string ordenado con el tablero que entra
+		char [] estadoAux= this.estado.toCharArray();
+		Arrays.sort(estadoAux);
+
+		//Comparo el string con lo que es un tablero bien configurado
+		return (String.valueOf(estadoAux).compareTo("012345678") == 0);
 	}
 
 }

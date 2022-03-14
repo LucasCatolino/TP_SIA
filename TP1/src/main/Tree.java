@@ -79,7 +79,7 @@ public class Tree {
         }
 
         public double getF() {
-            return 1 + getHeur(); // cost of moving to a next state is always 1
+            return getDepth() + getHeur(); // cost of moving to a next state is always 1
         }
 
         public int getDepth() {
