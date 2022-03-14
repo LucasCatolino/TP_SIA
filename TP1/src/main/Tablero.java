@@ -159,4 +159,24 @@ public class Tablero {
 		System.out.println();
 	}
 
+	public boolean isSolvable() {
+		int inv= 0;
+		//Elimino el espacio vacio
+		String estadoAux= this.estado.replace("0", "");
+		
+		//Por cada elemento, veo si los que vienen después son menores, aumentanto el inv
+		for (int i = 0; i < estadoAux.length(); i++) {
+			int pre = (int) estadoAux.charAt(i) - ASCII;
+			for (int j = i; j < estadoAux.length(); j++) {
+				int post = (int) estadoAux.charAt(j) - ASCII;
+				if (pre>post) {
+					inv ++;
+				}
+			}
+		}
+
+		//Si inv es par es resoluble, sino no
+		return (inv%2 == 0)?true:false;
+	}
+
 }

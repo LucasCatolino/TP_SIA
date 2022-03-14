@@ -54,14 +54,15 @@ public class TestsHeuristicas {
 	}
 	
 	@Test
-	public void test08InvalidaDevuelve9() {
+	public void test08InvalidaDevuelve0() {
 		assertEquals(0, tableroOrdenado.getInvalid());
 	}
 	
 	@Test
-	public void test03EuclideanDevuelve0() {
+	public void test09InvalidaDevuelve9() {
 		Tablero tableroDesordenado = new Tablero("012345678");
 		assertEquals(9, tableroDesordenado.getInvalid());
 	}
+
 
 }
