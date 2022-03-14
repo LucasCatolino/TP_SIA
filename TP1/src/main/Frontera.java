@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import main.Config.SearchMethods;
+import main.Tree.Node;
 
 public class Frontera {
 

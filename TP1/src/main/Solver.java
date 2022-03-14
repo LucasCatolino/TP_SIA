@@ -60,6 +60,7 @@ public class Solver {
     }
 
     private Config config;
+    private Map<String, Tree.Node> localHeurEx = new HashMap<>();
 
     public Solver() {
         // demo mode: run with all search methods ?
@@ -187,7 +188,7 @@ public class Solver {
             if (!Ex.containsKey(n.getTablero().getEstado())) {
                 Ex.put(n.getTablero().getEstado(), n);
             }
-            n.printTablero();
+            //n.printTablero();
             if (n.goalReached()) {
                 // System.out.println("goal reached!");
                 solutionNode = n;
@@ -215,19 +216,62 @@ public class Solver {
         outcome.sizeF = F.getSize();
         outcome.solutionNode = solutionNode;
         
-        System.out.println(outcome.getSolutionNode().getParent().getTablero().getEstado());
-
         return outcome;
     }
     
-    public Solution localHeuristicResolver() {
+    public Solution localHeuristicResolver(Config config) {
     	Tree A= new Tree(config.getPuzzle());
-    	List<String> L= new ArrayList<>();
-    	
     	Frontera F = new Frontera(config.getMethod());
+    	F.add(A.getRoot());
     	
-    	L.add(A.getRoot().getTablero().getEstado());
+        Tree.Node solutionNode= searchLocalHeuristic(F);
     	
-    	return null;
+        Solution outcome = new Solution();
+        outcome.config = config;
+        outcome.sizeEx = localHeurEx.size();
+        outcome.sizeF = F.getSize();
+        outcome.solutionNode = solutionNode;
+        
+        return outcome;
     }
+
+	private Node searchLocalHeuristic(Frontera F) {
+		
+		if (!F.isEmpty()) {
+			//Ordena la frontera según el criterio de menor heuristica y se queda con el primero
+			F.sort();
+			Node n= F.getFirst();
+			
+			//Si el nodo ya fue explorado, sigue explorando los otros de la frontera
+			if (localHeurEx.containsKey(n.getTablero().getEstado())) {
+				return searchLocalHeuristic(F);
+			}
+			
+			//Si no fue explorado, lo explora
+			localHeurEx.put(n.getTablero().getEstado(), n);
+			
+			//Si el nodo es la solución la devuelve
+			if (n.getTablero().goalReached()) {
+				return n;
+			}
+			
+			//Si el nodo no es la solución, explora su frontera
+			Frontera newF= new Frontera(config.getMethod());
+			List<String> posibleSuccessors = n.getTablero().getRotaciones();
+            for (String successor : posibleSuccessors) {
+                if (!localHeurEx.containsKey(successor)) {
+                    Tree.Node child = new Tree.Node(successor, n.getDepth() + 1);
+                    child.setHeuristic(config.getHSelected());
+                    child.setHeuristicCost();
+                    child.setParent(n);
+                    n.addChild(child);
+                    newF.add(child);
+                }
+            }
+			return searchLocalHeuristic(newF);
+        }
+		
+		//En caso de error devuelve null
+		return null;
+	}
 }
