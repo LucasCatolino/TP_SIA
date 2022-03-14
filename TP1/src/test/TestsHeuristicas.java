@@ -39,18 +39,29 @@ public class TestsHeuristicas {
 	}
 
 	@Test
-	public void test01EuclideanDevuelve1() {
+	public void test05EuclideanDevuelve1() {
 		assertEquals(1.0, tablero32.getEuclidean(), 0.1);
 	}
 
 	@Test
-	public void test02EuclideanDevuelve4() {
+	public void test06EuclideanDevuelve4() {
 		assertEquals(3.41, tableroRandom.getEuclidean(), 0.01);
 	}
 	
 	@Test
+	public void test07InvalidaDevuelve0() {
+		assertEquals(0, tableroOrdenado.getInvalid(), 0.01);
+	}
+	
+	@Test
+	public void test08InvalidaDevuelve9() {
+		assertEquals(0, tableroOrdenado.getInvalid());
+	}
+	
+	@Test
 	public void test03EuclideanDevuelve0() {
-		assertEquals(0, tableroOrdenado.getEuclidean(), 0.01);
+		Tablero tableroDesordenado = new Tablero("012345678");
+		assertEquals(9, tableroDesordenado.getInvalid());
 	}
 
 }

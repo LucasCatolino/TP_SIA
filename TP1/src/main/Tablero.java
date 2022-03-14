@@ -132,7 +132,15 @@ public class Tablero {
 	}
 
 	public int getInvalid() {
-		return 42; // TODO: do something
+		int invalid= 0;
+		for (int i = 0; i < estado.length(); i++) {
+			int origin = (int) estado.charAt(i) - ASCII;
+			int dest = (int) GOAL.charAt(i) - ASCII;
+			if (origin != dest) {
+				invalid ++;
+			}
+		}
+		return invalid;
 	}
 
 	public boolean goalReached() {
