@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import main.Config.SearchMethods;
+import main.Tree.Node;
 
 public class Solver {
     public static class Solution {
@@ -244,7 +245,7 @@ public class Solver {
                     child.setHeuristicCost();
                     child.setParent(n);
                     n.addChild(child);
-                    F.add(child);
+                	F.add(child);
                 }
             }
             F.sort();
@@ -259,7 +260,8 @@ public class Solver {
         return outcome;
     }
 
-    public Solution localHeuristicResolver(Config config) {
+
+	public Solution localHeuristicResolver(Config config) {
         Tree A = new Tree(config.getPuzzle());
         Frontera F = new Frontera(config.getMethod());
         F.add(A.getRoot());

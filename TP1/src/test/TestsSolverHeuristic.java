@@ -191,7 +191,7 @@ public class TestsSolverHeuristic {
     @Test
     public void testXX() {
 
-        Config XX = new Config("528417036", StrategyTypes.INFORMED, SearchMethods.HEURGLOBAL, Heuristics.MANHATTAN);
+        Config XX = new Config("265013478", StrategyTypes.UNINFORMED, SearchMethods.BPPV, Heuristics.EUCLIDEAN, 12);
         Solver YY = new Solver(XX);
 
         long startTime = System.currentTimeMillis();

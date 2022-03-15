@@ -56,5 +56,17 @@ public class TestsTableroResoluble {
 		Tablero tablero = new Tablero("123405768");
 		assertFalse(tablero.isSolvable());
 	}
+	
+	@Test
+	public void test09NoResuloble() {
+		Tablero tablero = new Tablero("123415768");
+		assertFalse(tablero.isSolvable());
+	}
+	
+	@Test
+	public void test10NoResuloble() {
+		Tablero tablero = new Tablero("123415068");
+		assertFalse(tablero.isSolvable());
+	}
 
 }
