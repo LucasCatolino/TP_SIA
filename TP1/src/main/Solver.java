@@ -1,14 +1,12 @@
 package main;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import main.Config.SearchMethods;
-import main.Tree.Node;
 
 public class Solver {
     public static class Solution {
@@ -19,9 +17,19 @@ public class Solver {
         Tree.Node solutionNode;
         long elapsedTimeMillis;
 
+        public void printSolutionPath() {
+            if (this.solutionNode == null) {
+                System.out.println("No solution was found");
+            } else {
+                this.solutionNode.printPath();
+            }
+
+        }
+
         @Override
         public String toString() {
-            return String.format("Solution[sizeF: %d, sizeEx: %d, finalLimit: %d, time: %s, %s, %s]", sizeF, sizeEx,
+            return String.format("Solution[size of F: %d, size of Ex: %d, finalLimit: %d, time: %s, %s, %s]", sizeF,
+                    sizeEx,
                     finalLimit, getReadableTime(elapsedTimeMillis), config, solutionNode);
         }
 
@@ -87,11 +95,12 @@ public class Solver {
                 } else {
                     return bppvResolver(config);
                 }
-                // TODO: add back when informed is done...
-                /*
-                 * case INFORMED:
-                 * return informedResolver();
-                 */
+            case INFORMED:
+                if (config.method != SearchMethods.HEURLOCAL) {
+                    return informedResolver(config);
+                } else {
+                    return localHeuristicResolver(config);
+                }
             default:
                 return null;
         }
@@ -135,32 +144,6 @@ public class Solver {
             bestSolution.finalLimit = foundLimit;
         }
         return bestSolution;
-        /*
-         * int lastLimit = config.limit;
-         * Config auxConfig = new Config(config);
-         * Solution bestOutcome = new Solution();
-         * int bestLimit = 0;
-         * Solution currOutcome = null;
-         * // maximum expanded nodes would be about 9!
-         * while (!(lastLimit > auxConfig.limit
-         * && (auxConfig.limit > 0
-         * || bestOutcome.getSolutionNode() != null))) {
-         * currOutcome = unInformedResolver(new Config(auxConfig));
-         * lastLimit = auxConfig.limit;
-         * if (currOutcome.getSolutionNode() == null) {
-         * auxConfig.limit++; // this might be a nightmare given the case where it took
-         * over 50k nodes to find
-         * // a solution...
-         * // System.out.println("new limit is: " + auxConfig.limit);
-         * } else {
-         * bestOutcome = currOutcome;
-         * bestLimit = auxConfig.limit;
-         * auxConfig.limit--;
-         * }
-         * }
-         * bestOutcome.finalLimit = bestLimit;
-         * return bestOutcome;
-         */
     }
 
     public Solution unInformedResolver(Config config) {
@@ -245,7 +228,7 @@ public class Solver {
                     child.setHeuristicCost();
                     child.setParent(n);
                     n.addChild(child);
-                	F.add(child);
+                    F.add(child);
                 }
             }
             F.sort();
@@ -260,8 +243,7 @@ public class Solver {
         return outcome;
     }
 
-
-	public Solution localHeuristicResolver(Config config) {
+    public Solution localHeuristicResolver(Config config) {
         Tree A = new Tree(config.getPuzzle());
         Frontera F = new Frontera(config.getMethod());
         F.add(A.getRoot());

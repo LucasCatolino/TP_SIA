@@ -10,5 +10,6 @@ public class App {
 
         Solution outcome = solver.run();
         System.out.println(outcome);
+        outcome.printSolutionPath();
     }
 }

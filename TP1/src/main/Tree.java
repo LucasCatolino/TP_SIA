@@ -118,14 +118,23 @@ public class Tree {
             this.hSelected = newHeuristic;
         }
 
-		public void setHeuristicCost() {
-			this.costH= getHeur();
-		}
+        public void setHeuristicCost() {
+            this.costH = getHeur();
+        }
 
-		//Para pruebas
-		public void printTablero() {
-			this.tablero.printTablero();
-		}
+        // Para pruebas
+        public void printTablero() {
+            this.tablero.printTablero();
+        }
+
+        public void printPath() {
+            if (this.parent != null) {
+                this.parent.printPath();
+            }
+
+            printTablero();
+            System.out.println("^^^Step " + depth + "^^^\n");
+        }
 
     }
 }
