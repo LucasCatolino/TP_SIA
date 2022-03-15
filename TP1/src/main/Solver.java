@@ -97,29 +97,69 @@ public class Solver {
     }
 
     public Solution bppvResolver(Config config) {
-        int lastLimit = config.limit;
-        Config auxConfig = new Config(config);
-        Solution bestOutcome = new Solution();
-        int bestLimit = 0;
-        Solution currOutcome = null;
-        // maximum expanded nodes would be about 9!
-        while (!(lastLimit > auxConfig.limit
-                && (auxConfig.limit > 0
-                        || bestOutcome.getSolutionNode() != null))) {
-            currOutcome = unInformedResolver(new Config(auxConfig));
-            lastLimit = auxConfig.limit;
-            if (currOutcome.getSolutionNode() == null) {
-                auxConfig.limit++; // this might be a nightmare given the case where it took over 50k nodes to find
-                // a solution...
-                // System.out.println("new limit is: " + auxConfig.limit);
-            } else {
-                bestOutcome = currOutcome;
-                bestLimit = auxConfig.limit;
-                auxConfig.limit--;
+        Solution baseSolution = unInformedResolver(new Config(config));
+
+        Solution bestSolution = baseSolution;
+        Solution currentSolution = null;
+        int foundLimit = -1;
+
+        if (baseSolution.getSolutionNode() != null) {
+            for (int i = config.getLimit() - 1; i >= 0; i--) {
+                Config currentConfig = new Config(config);
+                currentConfig.setLimit(i);
+
+                currentSolution = unInformedResolver(currentConfig);
+                if (currentSolution.getSolutionNode() != null) {
+                    bestSolution = currentSolution;
+                    foundLimit = i;
+                }
+            }
+        } else {
+
+            for (int i = config.limit + 1; i < Integer.MAX_VALUE; i++) {
+
+                Config currentConfig = new Config(config);
+                currentConfig.setLimit(i);
+
+                currentSolution = unInformedResolver(currentConfig);
+                if (currentSolution.getSolutionNode() != null) {
+                    bestSolution = currentSolution;
+                    foundLimit = i;
+                    break;
+                }
             }
         }
-        bestOutcome.finalLimit = bestLimit;
-        return bestOutcome;
+        if (bestSolution.getSolutionNode() != null) {
+            bestSolution.config.limit = config.limit;
+            bestSolution.finalLimit = foundLimit;
+        }
+        return bestSolution;
+        /*
+         * int lastLimit = config.limit;
+         * Config auxConfig = new Config(config);
+         * Solution bestOutcome = new Solution();
+         * int bestLimit = 0;
+         * Solution currOutcome = null;
+         * // maximum expanded nodes would be about 9!
+         * while (!(lastLimit > auxConfig.limit
+         * && (auxConfig.limit > 0
+         * || bestOutcome.getSolutionNode() != null))) {
+         * currOutcome = unInformedResolver(new Config(auxConfig));
+         * lastLimit = auxConfig.limit;
+         * if (currOutcome.getSolutionNode() == null) {
+         * auxConfig.limit++; // this might be a nightmare given the case where it took
+         * over 50k nodes to find
+         * // a solution...
+         * // System.out.println("new limit is: " + auxConfig.limit);
+         * } else {
+         * bestOutcome = currOutcome;
+         * bestLimit = auxConfig.limit;
+         * auxConfig.limit--;
+         * }
+         * }
+         * bestOutcome.finalLimit = bestLimit;
+         * return bestOutcome;
+         */
     }
 
     public Solution unInformedResolver(Config config) {
