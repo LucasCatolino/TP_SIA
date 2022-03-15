@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import main.Config.SearchMethods;
+import main.Tree.Node;
 
 public class Solver {
     public static class Solution {
@@ -263,8 +264,11 @@ public class Solver {
 
     public Solution localHeuristicResolver(Config config) {
         Tree A = new Tree(config.getPuzzle());
+        Node node= A.getRoot();
+        node.setHeuristic(config.hSelected);
+        node.setHeuristicCost();
         Frontera F = new Frontera(config.getMethod());
-        F.add(A.getRoot());
+        F.add(node);
 
         Tree.Node solutionNode = searchLocalHeuristic(F);
 
@@ -280,7 +284,7 @@ public class Solver {
     private Tree.Node searchLocalHeuristic(Frontera F) {
 
         if (!F.isEmpty()) {
-            // Ordena la frontera seg�n el criterio de menor heuristica y se queda con el
+            // Ordena la frontera segun el criterio de menor heuristica y se queda con el
             // primero
             F.sort();
             Tree.Node n = F.getFirst();
@@ -293,12 +297,12 @@ public class Solver {
             // Si no fue explorado, lo explora
             localHeurEx.put(n.getTablero().getEstado(), n);
 
-            // Si el nodo es la soluci�n la devuelve
+            // Si el nodo es la solucion la devuelve
             if (n.getTablero().goalReached()) {
                 return n;
             }
 
-            // Si el nodo no es la soluci�n, explora su frontera
+            // Si el nodo no es la solucion, explora su frontera
             Frontera newF = new Frontera(config.getMethod());
             List<String> posibleSuccessors = n.getTablero().getRotaciones();
             for (String successor : posibleSuccessors) {
@@ -314,7 +318,7 @@ public class Solver {
             return searchLocalHeuristic(newF);
         }
 
-        // En caso de error devuelve null
+        // En caso de toda la frontera explorada devuelve null
         return null;
     }
 }
