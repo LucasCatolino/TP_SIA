@@ -1,0 +1,5 @@
+puzzle: 123456708
+strategy: uninformed
+method: BPA
+limit: 1
+heur: invalid

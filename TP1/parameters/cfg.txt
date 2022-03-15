@@ -1,0 +1,4 @@
+puzzle: 265013478
+strategy: informed
+method: hl
+heur: euclidean
