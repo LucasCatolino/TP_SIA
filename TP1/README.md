@@ -10,7 +10,7 @@ Es capaz de generar soluciones a traves de estrategias de búsqueda no informada
 
 Se pueden configurar varios parámetros del problema: puzzle a resolver, tipo de estrategia, método de búsqueda, heurística, limite de profundidad _(los últimos 2 siendo tomados en cuenta cuando tenga sentido)_.
 
-Al correr el ejecutable `TP1.jar` se imprima en la terminal los resultados de la búsqueda y se guardara en un log un nombre que siga la convención `output-yyyy-mm-dd+hh-mm-ss.txt`.
+Al correr el ejecutable `TP1.jar` se imprima en la terminal los resultados de la búsqueda y se guardara en un log un nombre que siga la convención `output-yyyy-mm-dd+hh-mm-ss.log`.
 
 ### Configuration
 
