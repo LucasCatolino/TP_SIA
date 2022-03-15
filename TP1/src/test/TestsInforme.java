@@ -15,9 +15,10 @@ import main.Solver.Solution;
 public class TestsInforme {
 
 	//BPA, BPP, BPPV
-	//HLM, HLE, HGM, HGE, A*M, A*E
+	//HLM, HLE, HGM, HGE, A*M, A*E, HLI, HGI, A*I
 	
 	//UNINFORMED
+
 	@Test
 	public void test01BPA() {
 	    Config myConfigBPA = new Config("265013478", StrategyTypes.UNINFORMED, SearchMethods.BPA, Heuristics.EUCLIDEAN, 15);
@@ -47,7 +48,7 @@ public class TestsInforme {
                 + ", size_F: " + outcome.getSizeFrontera() + ", size_Ex: " + outcome.getSizeExpandidos()
                 + ", depth: " + outcome.getSolutionNode().getDepth());
 
-        assertEquals(11, outcome.getSolutionNode().getDepth());	}
+        assertEquals(92103, outcome.getSolutionNode().getDepth());	}
 	
 	@Test
 	public void test03BPPV() {
@@ -96,7 +97,7 @@ public class TestsInforme {
                 + ", size_F: " + outcome.getSizeFrontera() + ", size_Ex: " + outcome.getSizeExpandidos()
                 + ", depth: " + outcome.getSolutionNode().getDepth());
 
-        assertEquals(11, outcome.getSolutionNode().getDepth());
+        assertEquals(199, outcome.getSolutionNode().getDepth());
 	}
 
 	@Test
@@ -113,7 +114,7 @@ public class TestsInforme {
                 + ", size_F: " + outcome.getSizeFrontera() + ", size_Ex: " + outcome.getSizeExpandidos()
                 + ", depth: " + outcome.getSolutionNode().getDepth());
 
-        assertEquals(11, outcome.getSolutionNode().getDepth());
+        assertEquals(33, outcome.getSolutionNode().getDepth());
 	}
 	
 	@Test
@@ -130,7 +131,7 @@ public class TestsInforme {
                 + ", size_F: " + outcome.getSizeFrontera() + ", size_Ex: " + outcome.getSizeExpandidos()
                 + ", depth: " + outcome.getSolutionNode().getDepth());
 
-        assertEquals(11, outcome.getSolutionNode().getDepth());
+        assertEquals(47, outcome.getSolutionNode().getDepth());
 	}
 	
 	@Test
@@ -166,4 +167,56 @@ public class TestsInforme {
 
         assertEquals(11, outcome.getSolutionNode().getDepth());
 	}
+	
+	@Test
+	public void test10HLI() {
+		Config myConfigHLI = new Config("265013478", StrategyTypes.INFORMED, SearchMethods.HEURLOCAL, Heuristics.INVALID, 15);
+	    Solver mySolver = new Solver(myConfigHLI);
+	    
+	    long startTime = System.currentTimeMillis();
+        Solution outcome = mySolver.informedResolver(myConfigHLI);
+        long stopTime = System.currentTimeMillis();
+
+
+        System.out.println("HLI: " + outcome.getReadableTime(stopTime - startTime) + ", millis: " + (stopTime - startTime)
+                + ", size_F: " + outcome.getSizeFrontera() + ", size_Ex: " + outcome.getSizeExpandidos()
+                + ", depth: " + outcome.getSolutionNode().getDepth());
+
+        assertEquals(45, outcome.getSolutionNode().getDepth());
+	}
+	
+	@Test
+	public void test11HGI() {
+		Config myConfigHGI = new Config("265013478", StrategyTypes.INFORMED, SearchMethods.HEURGLOBAL, Heuristics.INVALID, 15);
+	    Solver mySolver = new Solver(myConfigHGI);
+	    
+	    long startTime = System.currentTimeMillis();
+        Solution outcome = mySolver.informedResolver(myConfigHGI);
+        long stopTime = System.currentTimeMillis();
+
+
+        System.out.println("HGI: " + outcome.getReadableTime(stopTime - startTime) + ", millis: " + (stopTime - startTime)
+                + ", size_F: " + outcome.getSizeFrontera() + ", size_Ex: " + outcome.getSizeExpandidos()
+                + ", depth: " + outcome.getSolutionNode().getDepth());
+
+        assertEquals(45, outcome.getSolutionNode().getDepth());
+	}
+	
+	@Test
+	public void test12ASI() {
+		Config myConfigASI = new Config("265013478", StrategyTypes.INFORMED, SearchMethods.ASTAR, Heuristics.INVALID, 15);
+	    Solver mySolver = new Solver(myConfigASI);
+	    
+	    long startTime = System.currentTimeMillis();
+        Solution outcome = mySolver.informedResolver(myConfigASI);
+        long stopTime = System.currentTimeMillis();
+
+
+        System.out.println("ASI: " + outcome.getReadableTime(stopTime - startTime) + ", millis: " + (stopTime - startTime)
+                + ", size_F: " + outcome.getSizeFrontera() + ", size_Ex: " + outcome.getSizeExpandidos()
+                + ", depth: " + outcome.getSolutionNode().getDepth());
+
+        assertEquals(11, outcome.getSolutionNode().getDepth());
+	}
+	
 }
