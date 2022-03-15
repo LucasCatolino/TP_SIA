@@ -1,3 +1,4 @@
 puzzle: 265013478
-strategy: uninformed
-method: BPA
+strategy: informed
+method: astar
+heur: manhattan

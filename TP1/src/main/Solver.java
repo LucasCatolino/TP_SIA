@@ -26,11 +26,22 @@ public class Solver {
 
         }
 
+        public String writeSolutionPath() {
+            if (this.solutionNode == null) {
+                return "No solution was found";
+            } else {
+                return this.solutionNode.writePath();
+            }
+
+        }
+
         @Override
         public String toString() {
-            return String.format("Solution[size of F: %d, size of Ex: %d, finalLimit: %d, time: %s, %s, %s]", sizeF,
+            return String.format(
+                    "Solution: [size of F: %d, size of Ex: %d, finalLimit: %d, time: %s, time in millis: %d, %n%s, %n%s%n]",
+                    sizeF,
                     sizeEx,
-                    finalLimit, getReadableTime(elapsedTimeMillis), config, solutionNode);
+                    finalLimit, getReadableTime(elapsedTimeMillis), elapsedTimeMillis, config, solutionNode);
         }
 
         public int getFinalLimit() {

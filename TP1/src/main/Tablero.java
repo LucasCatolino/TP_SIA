@@ -10,8 +10,8 @@ public class Tablero {
 	private int zeroPos;
 	// private String[] rotaciones = { "-1", "-1", "-1", "-1" };
 	private static String GOAL = "123456780";
-	private static int[][] COORD = {{ 0, 0 }, { 0, 1 }, { 0, 2 }, { 1, 0 }, { 1, 1 }, { 1, 2 }, { 2, 0 },
-			{ 2, 1 }, {2,2}};
+	private static int[][] COORD = { { 0, 0 }, { 0, 1 }, { 0, 2 }, { 1, 0 }, { 1, 1 }, { 1, 2 }, { 2, 0 },
+			{ 2, 1 }, { 2, 2 } };
 	private static int ASCII = 48;
 
 	public Tablero(String cadena) {
@@ -94,8 +94,8 @@ public class Tablero {
 			int origin = (int) estado.charAt(i) - ASCII;
 			int dest = (int) GOAL.charAt(i) - ASCII;
 			if (origin != dest) {
-				int moveThis= estado.indexOf((char)(origin + ASCII));
-				int moveHere= estado.indexOf((char)(dest + ASCII));
+				int moveThis = estado.indexOf((char) (origin + ASCII));
+				int moveHere = estado.indexOf((char) (dest + ASCII));
 				manhattan = manhattan + correction(moveThis, moveHere);
 			}
 		}
@@ -105,7 +105,7 @@ public class Tablero {
 	private int correction(int origin, int dest) {
 		int a = calcularCateto(origin, dest, 0);
 		int b = calcularCateto(origin, dest, 1);
-		return (int) Math.signum(a)*a+ (int) Math.signum(b)*b; // Toma el modulo
+		return (int) Math.signum(a) * a + (int) Math.signum(b) * b; // Toma el modulo
 	}
 
 	public double getEuclidean() {
@@ -114,8 +114,8 @@ public class Tablero {
 			int origin = (int) estado.charAt(i) - ASCII;
 			int dest = (int) GOAL.charAt(i) - ASCII;
 			if (origin != dest) {
-				int moveThis= estado.indexOf((char)(origin + ASCII));
-				int moveHere= estado.indexOf((char)(dest + ASCII));
+				int moveThis = estado.indexOf((char) (origin + ASCII));
+				int moveHere = estado.indexOf((char) (dest + ASCII));
 				euclid = euclid + diagonal(moveThis, moveHere);
 			}
 		}
@@ -133,12 +133,12 @@ public class Tablero {
 	}
 
 	public int getInvalid() {
-		int invalid= 0;
+		int invalid = 0;
 		for (int i = 0; i < estado.length(); i++) {
 			int origin = (int) estado.charAt(i) - ASCII;
 			int dest = (int) GOAL.charAt(i) - ASCII;
 			if (origin != dest) {
-				invalid ++;
+				invalid++;
 			}
 		}
 		return invalid;
@@ -148,7 +148,7 @@ public class Tablero {
 		return estado.compareTo(GOAL) == 0;
 	}
 
-	//Para pruebas
+	// Para pruebas
 	public void printTablero() {
 		for (int i = 0; i < estado.length(); i++) {
 			System.out.print(estado.charAt(i));
@@ -160,42 +160,55 @@ public class Tablero {
 		System.out.println();
 	}
 
+	public String writeTablero() {
+		String s = "";
+		for (int i = 0; i < estado.length(); i++) {
+			s += estado.charAt(i);
+			if (i == 2 || i == 5) {
+				s += "\n";
+			}
+		}
+		s += "\n";
+		return s;
+	}
+
 	public boolean isSolvable() {
-		//Si está mal armada la matriz no es resoluble
+		// Si estï¿½ mal armada la matriz no es resoluble
 		if (!this.wellConfigured()) {
 			return false;
 		}
-		
-		int inv= 0;
-		//Elimino el espacio vacio
-		String estadoAux= this.estado.replace("0", "");
-		
-		//Por cada elemento, veo si los que vienen después son menores, aumentanto el inv
+
+		int inv = 0;
+		// Elimino el espacio vacio
+		String estadoAux = this.estado.replace("0", "");
+
+		// Por cada elemento, veo si los que vienen despuï¿½s son menores, aumentanto el
+		// inv
 		for (int i = 0; i < estadoAux.length(); i++) {
 			int pre = (int) estadoAux.charAt(i) - ASCII;
 			for (int j = i; j < estadoAux.length(); j++) {
 				int post = (int) estadoAux.charAt(j) - ASCII;
-				if (pre>post) {
-					inv ++;
+				if (pre > post) {
+					inv++;
 				}
 			}
 		}
 
-		//Si inv es par es resoluble, sino no
-		return (inv%2 == 0)?true:false;
+		// Si inv es par es resoluble, sino no
+		return (inv % 2 == 0) ? true : false;
 	}
 
 	private boolean wellConfigured() {
-		//Si tiene mas o menos elementos esta mal configurado
+		// Si tiene mas o menos elementos esta mal configurado
 		if (this.estado.length() != 9) {
 			return false;
 		}
-		
-		//Creo un string ordenado con el tablero que entra
-		char [] estadoAux= this.estado.toCharArray();
+
+		// Creo un string ordenado con el tablero que entra
+		char[] estadoAux = this.estado.toCharArray();
 		Arrays.sort(estadoAux);
 
-		//Comparo el string con lo que es un tablero bien configurado
+		// Comparo el string con lo que es un tablero bien configurado
 		return (String.valueOf(estadoAux).compareTo("012345678") == 0);
 	}
 

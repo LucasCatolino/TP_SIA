@@ -30,7 +30,7 @@ public class Tree {
 
         @Override
         public String toString() {
-            return String.format("Node[h: %s, depth: %d, costH: %f, tablero: %s]", hSelected, depth, costH,
+            return String.format("Node: [h: %s, depth: %d, costH: %f, tablero: %s]", hSelected, depth, costH,
                     tablero.getEstado());
         }
 
@@ -134,6 +134,15 @@ public class Tree {
 
             printTablero();
             System.out.println("^^^Step " + depth + "^^^\n");
+        }
+
+        public String writePath() {
+            String s = "\n";
+            if (this.parent != null) {
+                s = this.parent.writePath();
+            }
+
+            return String.format("%s\n%s\n^^^Step %d^^^\n", s, this.tablero.writeTablero(), depth);
         }
 
     }

@@ -57,7 +57,8 @@ public class Config {
 
     @Override
     public String toString() {
-        return String.format("Config[puzzle: %s, strategy: %s, method: %s, limit: %d, h: %s]", puzzle, strategy, method,
+        return String.format("Config: [puzzle: %s, strategy: %s, method: %s, limit: %d, h: %s]", puzzle, strategy,
+                method,
                 limit, hSelected);
     }
 

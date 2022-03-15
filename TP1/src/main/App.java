@@ -10,6 +10,8 @@ public class App {
 
         Solution outcome = solver.run();
         System.out.println(outcome);
-        outcome.printSolutionPath();
+        System.out.println(outcome.writeSolutionPath());
+        Writer writer = new Writer(outcome, "output-");
+        // outcome.printSolutionPath();
     }
 }
