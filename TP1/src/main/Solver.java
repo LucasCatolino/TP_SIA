@@ -91,7 +91,14 @@ public class Solver {
 
     public Solution run() {
         long startTime = System.currentTimeMillis();
-        Solution outcome = runResolver();
+        Tablero solvabilityCheck = new Tablero(config.getPuzzle());
+        Solution outcome;
+        if (solvabilityCheck.isSolvable()) {
+            outcome = runResolver();
+        } else {
+            outcome = new Solution();
+            outcome.config = config;
+        }
         long stopTime = System.currentTimeMillis();
         outcome.elapsedTimeMillis = stopTime - startTime;
 
