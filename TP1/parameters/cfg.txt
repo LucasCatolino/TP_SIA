@@ -1,4 +1,4 @@
 puzzle: 265013478
 strategy: informed
-method: astar
-heur: manhattan
+method: hl
+heur: euclidean
