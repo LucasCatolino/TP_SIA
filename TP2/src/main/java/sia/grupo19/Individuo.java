@@ -57,7 +57,7 @@ public class Individuo {
         return Arrays.copyOfRange(X, 9, 11);
     }
 
-    public String toJSONObject() {
+    public String getSerialized() {
         return new Gson().toJson(this);
     }
 }

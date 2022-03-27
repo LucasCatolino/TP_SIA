@@ -31,4 +31,10 @@ public class TestIndividuo {
         assertTrue(Arrays.equals(i.getR(), R));
     }
 
+    @Test
+    public void test03() {
+        Individuo i = new Individuo(X);
+        assertEquals("{\"X\":[4.4793,-4.0765,-4.0765,1.0,0.0,1.0,0.5,-0.1,0.5,0.1,0.7]}", i.getSerialized());
+    }
+
 }

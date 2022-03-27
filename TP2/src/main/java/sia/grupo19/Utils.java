@@ -1,7 +1,7 @@
 package sia.grupo19;
 
 public class Utils {
-    private static Sample[] samples = { new Sample(4.4793, -4.0765, -4.0765, 0),
+    public static Sample[] samples = { new Sample(4.4793, -4.0765, -4.0765, 0),
             new Sample(-4.1793, -4.9218, 1.7664, 1),
             new Sample(-3.9429, -0.7689, 4.8830, 1) };
 
