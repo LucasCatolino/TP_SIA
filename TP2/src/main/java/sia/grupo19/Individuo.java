@@ -1,6 +1,8 @@
-package main.java.sia.grupo19;
+package sia.grupo19;
 
 import java.util.Arrays;
+
+import com.google.gson.Gson;
 
 public class Individuo {
     /*
@@ -53,5 +55,9 @@ public class Individuo {
 
     public double[] getR() {
         return Arrays.copyOfRange(X, 9, 11);
+    }
+
+    public String toJSONObject() {
+        return new Gson().toJson(this);
     }
 }

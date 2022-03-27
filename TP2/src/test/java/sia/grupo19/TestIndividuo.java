@@ -1,4 +1,4 @@
-package test.java.sia.grupo19;
+package sia.grupo19;
 
 import static org.junit.Assert.*;
 
@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import main.java.sia.grupo19.Individuo;
+import sia.grupo19.Individuo;
 
 public class TestIndividuo {
     double[] X = { 4.4793, -4.0765, -4.0765, 1, 0, 1, 0.5, -0.1, 0.5, 0.1, 0.7 };

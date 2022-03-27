@@ -1,4 +1,4 @@
-package main.java.sia.grupo19;
+package sia.grupo19;
 
 /**
  * Hello world!

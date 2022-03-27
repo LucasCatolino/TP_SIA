@@ -1,4 +1,4 @@
-package test.java.sia.grupo19;
+package sia.grupo19;
 
 import static org.junit.Assert.assertTrue;
 
