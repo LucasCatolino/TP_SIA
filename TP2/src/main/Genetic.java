@@ -7,7 +7,6 @@ public class Genetic {
 	
 	private static final int X_LENGTH= 11;
 	
-	private double[] xi; 
 	private int generations;
 	private String crossingMethod;
 	private double mutationProb;
@@ -15,21 +14,20 @@ public class Genetic {
 	private String selectionMethod;
 	private List<Individuo> population;
 	
-	public Genetic(double[] xi, int P, int generations, String cross, double prob, double sigma, String selection) {
-		this.xi= xi;
+	public Genetic(int P, int generations, String cross, double prob, double sigma, String selection) {
 		this.generations= generations;
 		this.crossingMethod= cross;
 		this.mutationProb= prob;
-		this.deviation= sigma;this.selectionMethod= selection;
+		this.deviation= sigma;
+		this.selectionMethod= selection;
 		population= new  ArrayList<Individuo>();
 		
 		initializePopulation(P);
-		calculateFitness();
 	}
 
 	private void calculateFitness() {
 		for (Individuo ind: population) {
-			ind.setFitness(this.xi);
+			ind.getFitness();
 		}
 		//ordenar la poblacion por fitness
 	}

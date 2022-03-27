@@ -1,5 +1,7 @@
 package main;
 
+import static org.junit.Assume.assumeNoException;
+
 import java.util.Arrays;
 
 public class Individuo {
@@ -12,6 +14,7 @@ public class Individuo {
 
     private double[] X;
     private double fitness;
+    private double[] F3= new double[3];
 
     public Individuo(double[] newX) throws Error {
         if (newX.length != 11) {
@@ -56,8 +59,8 @@ public class Individuo {
         return Arrays.copyOfRange(X, 9, 11);
     }
 
-	public void setFitness(double[] xi) {
-		// TODO F(W,w,w0,xi)= g(sum (j:1 a 2) Wj g(sum (k: 1 a 3) wjk xik - w0j) - W0)
+	public void setFitness() {
+		this.fitness= Utils.E(this);
 	}
 	
 	public double getFitness() {
