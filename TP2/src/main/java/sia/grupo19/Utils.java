@@ -1,4 +1,4 @@
-package main;
+package main.java.sia.grupo19;
 
 public class Utils {
     private static Sample[] samples = { new Sample(4.4793, -4.0765, -4.0765, 0),

@@ -1,4 +1,4 @@
-package test;
+package test.java.sia.grupo19;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import main.Utils.Sample;
+import main.java.sia.grupo19.Utils.Sample;
 
 public class TestSample {
     double[] xi = { 4.4793, -4.0765, -4.0765 };

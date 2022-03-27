@@ -1,4 +1,4 @@
-package test;
+package test.java.sia.grupo19;
 
 import static org.junit.Assert.assertTrue;
 
@@ -6,8 +6,8 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import main.Individuo;
-import main.Utils;
+import main.java.sia.grupo19.Individuo;
+import main.java.sia.grupo19.Utils;
 
 public class TestUtils {
     double[] W = { 4.4793, -4.0765, -4.0765 };
