@@ -1,7 +1,5 @@
 package sia.grupo19;
 
-import static org.junit.Assume.assumeNoException;
-
 import java.util.Arrays;
 
 import com.google.gson.Gson;
@@ -16,7 +14,7 @@ public class Individuo {
 
     private double[] X;
     private double fitness;
-    private double[] F3= new double[3];
+    private double[] F3 = new double[3];
 
     public Individuo(double[] newX) throws Error {
         if (newX.length != 11) {
@@ -64,11 +62,12 @@ public class Individuo {
     public String getSerialized() {
         return new Gson().toJson(this);
     }
-	public void setFitness() {
-		this.fitness= Utils.E(this);
-	}
 
-	public double getFitness() {
-		return fitness;
-	}
+    public void setFitness() {
+        this.fitness = Utils.E(this);
+    }
+
+    public double getFitness() {
+        return fitness;
+    }
 }

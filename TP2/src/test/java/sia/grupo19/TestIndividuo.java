@@ -34,7 +34,10 @@ public class TestIndividuo {
     @Test
     public void test03() {
         Individuo i = new Individuo(X);
-        assertEquals("{\"X\":[4.4793,-4.0765,-4.0765,1.0,0.0,1.0,0.5,-0.1,0.5,0.1,0.7]}", i.getSerialized());
+        System.out.println(i.getSerialized());
+        assertEquals(
+                "{\"X\":[4.4793,-4.0765,-4.0765,1.0,0.0,1.0,0.5,-0.1,0.5,0.1,0.7],\"fitness\":0.0,\"F3\":[0.0,0.0,0.0]}",
+                i.getSerialized());
     }
 
 }
