@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import com.google.gson.Gson;
 
-public class Individuo {
+public class Individuo implements Comparable<Individuo> {
     /*
      ** W = (W0, W1, W2) [1x3]
      ** w ==> S [2x3]
@@ -21,6 +21,7 @@ public class Individuo {
             throw new Error("Invalid Individuo initialization");
         }
         X = newX;
+        this.setFitness();
     }
 
     public Individuo(double[] W, double[] S, double[] R) {
@@ -28,6 +29,7 @@ public class Individuo {
             throw new Error("Invalid Individuo initialization");
         }
         X = joinThree(W, S, R);
+        this.setFitness();
     }
 
     // horrible, i miss javascript
@@ -69,5 +71,33 @@ public class Individuo {
 
     public double getFitness() {
         return fitness;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Individuo)) {
+            return false;
+        }
+
+        Individuo other = (Individuo) o;
+        return this.X.equals(other.X);
+    }
+
+    @Override
+    public int compareTo(Individuo other) {
+        return Double.compare(this.fitness, other.getFitness());
+    }
+
+    public void setF3() {
+        this.F3[0] = Utils.F(getW(), getS(), getR(), Utils.samples[0].getXi());
+        this.F3[1] = Utils.F(getW(), getS(), getR(), Utils.samples[1].getXi());
+        this.F3[2] = Utils.F(getW(), getS(), getR(), Utils.samples[2].getXi());
+    }
+
+    public double[] getF3() {
+        return this.F3;
     }
 }

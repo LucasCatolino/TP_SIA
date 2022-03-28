@@ -1,5 +1,9 @@
 package sia.grupo19;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class Utils {
     public static Sample[] samples = { new Sample(4.4793, -4.0765, -4.0765, 0),
             new Sample(-4.1793, -4.9218, 1.7664, 1),
@@ -58,5 +62,21 @@ public class Utils {
         public int getZeta() {
             return output;
         }
+    }
+
+    public static List<Individuo> getIntersection(List<Individuo> pop1, List<Individuo> pop2) {
+        List<Individuo> list = new ArrayList<>();
+
+        for (Individuo i : pop1) {
+            if (pop2.contains(i)) { // checks using equals()
+                list.add(i);
+            }
+        }
+
+        return list;
+    }
+
+    public static Individuo getBestIndividuo(List<Individuo> pop) {
+        return Collections.max(pop); // returns one element, checks using compareTo()
     }
 }
