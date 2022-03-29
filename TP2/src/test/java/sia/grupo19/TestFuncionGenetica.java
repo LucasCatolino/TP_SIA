@@ -12,6 +12,8 @@ public class TestFuncionGenetica {
 
 	@Test
 	public void test01() {
+		Individuo bestIndividuo= genetic.runEvolution();
+		System.out.println(bestIndividuo.getSerialized());
 		// fail();
 	}
 
