@@ -17,9 +17,18 @@ public class CutOff {
 
     public CutOff(int maxGenCount, double minAcceptable, int maxRepeatedGenStructure, int maxRepeatedGenContent) {
         this.maxGenCount = maxGenCount;
-        this.minAcceptable = minAcceptable;
+        // needs to be negative since all fitness values will be negative too
+        this.minAcceptable = Math.abs(minAcceptable) * -1;
         this.maxRepeatedGenStructure = maxRepeatedGenStructure;
         this.maxRepeatedGenContent = maxRepeatedGenContent;
+    }
+
+    public CutOff(Params params) {
+        this.maxGenCount = params.getCutOffMaxGen();
+        // needs to be negative since all fitness values will be negative too
+        this.minAcceptable = Math.abs(params.getCutOffMinAcceptable()) * -1;
+        this.maxRepeatedGenStructure = params.getMaxRepeatedStruct();
+        this.maxRepeatedGenContent = params.getMaxRepeatedContent();
     }
 
     public boolean isDone(int currGen, double currBestFitness, int sharedGenStructure) {

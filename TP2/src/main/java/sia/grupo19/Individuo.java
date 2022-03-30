@@ -23,6 +23,7 @@ public class Individuo implements Comparable<Individuo> {
         }
         X = newX;
         this.setFitness();
+        this.setF3();
     }
 
     public Individuo(double[] W, double[] S, double[] R) {
@@ -31,6 +32,7 @@ public class Individuo implements Comparable<Individuo> {
         }
         X = joinThree(W, S, R);
         this.setFitness();
+        this.setF3();
     }
 
     // horrible, i miss javascript

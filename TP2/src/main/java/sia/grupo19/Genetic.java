@@ -7,41 +7,31 @@ import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import sia.grupo19.selector.Selector;
+import sia.grupo19.selector.SelectorFactory;
+
 public class Genetic {
 
 	private static final int X_LENGTH = 11;
 
 	// parameters
-	private int generations;
-	private String crossingMethod;
-	private double mutationProb;
-	private double deviation;
-	private String selectionMethod;
-	private int P;
+	private Params params;
 
 	private int generationCount = 0;
 	private List<Individuo> population;
 	private List<Individuo> lastPopulation = null;
 
 	public Genetic(int P, int generations, String cross, double prob, double sigma, String selection) {
-		this.P = P;
-		this.generations = generations;
-		this.crossingMethod = cross;
-		this.mutationProb = prob;
-		this.deviation = sigma;
-		this.selectionMethod = selection;
 		population = new ArrayList<Individuo>();
 
 		initializePopulation(P);
 	}
 
-	private void calculateFitness() {
-		/*
-		 * for (Individuo ind : population) {
-		 * ind.getFitness();
-		 * }
-		 */
-		// ordenar la poblacion por fitness
+	public Genetic(Params params) {
+		this.params = params;
+		population = new ArrayList<Individuo>();
+
+		initializePopulation(this.params.getPopulationSize());
 	}
 
 	private void initializePopulation(int p) {
@@ -57,20 +47,23 @@ public class Genetic {
 	}
 
 	public Individuo runEvolution() {
-		Individuo best = null;
-		CutOff cutOff = new CutOff(500, 0.01, 10, 8);
+		Individuo best = null; // TODO: return Solution object, that contains best and more info
+
+		CutOff cutOff = new CutOff(this.params);
+		Selector selector = new SelectorFactory().getSelector(this.params);
+
 		while (!cutOff.isDone(generationCount, getBestFitness(population),
 				getSharedCount(population, lastPopulation))) {
-			List<Individuo> next = new ArrayList<>();
 
 			lastPopulation = new ArrayList<>(population); // COPY THEM BEFORE MODIFYING THE POOL
 			List<Individuo> tiredParents = new ArrayList<>();
 
-			// LOG LAST POPULATION
+			// TODO: LOG LAST POPULATION
+
 			// Duplicate population: P/2 because in each row two sons are created
-			for (int i = 0; i < P / 2; i++) {
+			for (int i = 0; i < params.getPopulationSize() / 2; i++) {
 				// Sort population by fitness
-				Collections.sort(population, Comparator.comparing(Individuo::getFitness));
+				Collections.sort(population, Comparator.comparing(Individuo::getFitness, Comparator.reverseOrder()));
 
 				// Take first two elements
 				Individuo father = population.remove(0);
@@ -84,8 +77,8 @@ public class Genetic {
 				tiredParents.add(mother);
 
 				// Offspring might become mutants
-				sons[0].mutate(mutationProb, deviation);
-				sons[1].mutate(mutationProb, deviation);
+				sons[0].mutate(params.getMutationProb(), params.getMutationDeviation());
+				sons[1].mutate(params.getMutationProb(), params.getMutationDeviation());
 
 				// Now offspring is ready to become possible parents
 				population.add(sons[0]);
@@ -96,32 +89,15 @@ public class Genetic {
 			tiredParents.addAll(population);
 
 			// A new population is selected from previous population and fresh ones
-			population = select(tiredParents);
+			population = selector.selectFrom(tiredParents);
 
-			// while (population.size() < 2 * P) {
-			// PICK 2 from population
-			// get 2 new individuos using Cruza(i1, i2)
-			// MUTATE the 2 new ones
-			// add them to the population? to next?
-
-			// can parents be repeated? can their children be picked? PREGUNTAR
-			// }
-
-			// SELECT P individuos from population to pass on to next
-
-			// population = next; // pisar population con next
+			generationCount++;
 		}
 
-		// LOG FINAL POPULATION
+		// TODO: LOG FINAL POPULATION
 
 		// cut off said we are done, return best one
 		return Utils.getBestIndividuo(population);
-	}
-
-	private List<Individuo> select(List<Individuo> possiblePopulation) {
-		// TODO: con un case ver que metodo se esta usando
-		Collections.sort(possiblePopulation, Comparator.comparing(Individuo::getFitness, Comparator.reverseOrder()));
-		return possiblePopulation.subList(0, P);
 	}
 
 	private Individuo[] cross(Individuo father, Individuo mother) {
