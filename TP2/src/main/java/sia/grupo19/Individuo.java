@@ -12,7 +12,7 @@ public class Individuo implements Comparable<Individuo> {
      ** w0 ==> R [1x2]
      ** X = (W, S, R) = (W0, W1, W2, w11, w12, w13, w21, w22, w23, w01, w02) [1x11]
      */
-	private static final int SIZE= 11;
+    private static final int SIZE = 11;
     private double[] X;
     private double fitness;
     private double[] F3 = new double[3];
@@ -61,9 +61,9 @@ public class Individuo implements Comparable<Individuo> {
     public double[] getR() {
         return Arrays.copyOfRange(X, 9, 11);
     }
-    
+
     public double[] getX() {
-    	return X;
+        return X;
     }
 
     public String getSerialized() {
@@ -71,7 +71,7 @@ public class Individuo implements Comparable<Individuo> {
     }
 
     public void setFitness() {
-        this.fitness = Utils.E(this);
+        this.fitness = -1 * Utils.E(this);
     }
 
     public double getFitness() {
@@ -106,13 +106,13 @@ public class Individuo implements Comparable<Individuo> {
         return this.F3;
     }
 
-	public void mutate(double mutationProb, double deviation) {
-		for (int i = 0; i < SIZE; i++) {
-			if (Math.random() < mutationProb) {
-				Random random= new Random();
-				//x'i= xi + r, r~N(0, deviation)
-				X[i]+= random.nextGaussian() * deviation;
-			}
-		}	
-	}
+    public void mutate(double mutationProb, double deviation) {
+        for (int i = 0; i < SIZE; i++) {
+            if (Math.random() < mutationProb) {
+                Random random = new Random();
+                // x'i= xi + r, r~N(0, deviation)
+                X[i] += random.nextGaussian() * deviation;
+            }
+        }
+    }
 }
