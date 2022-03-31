@@ -10,10 +10,10 @@ public class CrossFactory {
                 return new SimpleCross(params.getIndividuoSize());
             case MULTIPLE:
                return new MultipleCross(params.getIndividuoSize());
-            /*case UNIFORM:
-                return new UniformCross(params.getPopulationSize(), params.getTruncatedK());*/
+            case UNIFORM:
+                return new UniformCross(params.getIndividuoSize());
             default:
-                throw new Error("WHAT ARE YOU");
+                throw new Error("I DON'T KNOW DAT LOVING MOVES");
         }
 
     }
