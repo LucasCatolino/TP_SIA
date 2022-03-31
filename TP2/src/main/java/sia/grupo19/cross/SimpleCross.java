@@ -13,8 +13,8 @@ public class SimpleCross implements Cross {
 	@Override
 	public Individuo[] cross(Individuo father, Individuo mother) {
 		int index = (int) Math.floor(Math.random() * x_lenght); // Random value between 0 and 11
-		double[] son1 = new double[11];
-		double[] son2 = new double[11];
+		double[] son1 = new double[x_lenght];
+		double[] son2 = new double[x_lenght];
 		for (int i = 0; i < index; i++) {
 			son1[i] = father.getX()[i];
 			son2[i] = mother.getX()[i];

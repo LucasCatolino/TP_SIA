@@ -42,7 +42,7 @@ public class Genetic {
 			for (int j = 0; j < X_LENGTH; j++) {
 				double element = Math.random();
 				possibleX[j] = (Math.random() > 0.5) ? element : -element; // random between -1 and 1
-				System.out.println(possibleX[j]);
+				//System.out.println(possibleX[j]);
 			}
 			population.add(new Individuo(possibleX));
 		}
