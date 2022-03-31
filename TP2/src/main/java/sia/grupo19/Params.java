@@ -1,6 +1,8 @@
 package sia.grupo19;
 
 public class Params {
+	
+	private static final int X_LENGTH= 11;
 
     public Params() {
 
@@ -138,4 +140,8 @@ public class Params {
     public void setMaxRepeatedContent(int maxRepeatedContent) {
         this.maxRepeatedContent = maxRepeatedContent;
     }
+
+	public int getIndividuoSize() {
+		return X_LENGTH;
+	}
 }

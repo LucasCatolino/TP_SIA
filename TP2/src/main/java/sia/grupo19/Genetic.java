@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import sia.grupo19.cross.Cross;
+import sia.grupo19.cross.CrossFactory;
 import sia.grupo19.selector.Selector;
 import sia.grupo19.selector.SelectorFactory;
 
@@ -51,6 +53,7 @@ public class Genetic {
 
 		CutOff cutOff = new CutOff(this.params);
 		Selector selector = new SelectorFactory().getSelector(this.params);
+		Cross crosser= new CrossFactory().getCross(this.params);
 
 		while (!cutOff.isDone(generationCount, getBestFitness(population),
 				getSharedCount(population, lastPopulation))) {
@@ -70,7 +73,8 @@ public class Genetic {
 				Individuo mother = population.remove(0);
 
 				// Cross father and mother to have two kids
-				Individuo[] sons = cross(father, mother);
+				Individuo[] sons = crosser.cross(father, mother);
+				//Individuo[] sons = cross(father, mother);
 
 				// Parents are tired so they won't love again for a while
 				tiredParents.add(father);
@@ -102,6 +106,20 @@ public class Genetic {
 
 	private Individuo[] cross(Individuo father, Individuo mother) {
 		// TODO: con un case ver que metodo se esta usando
+		switch (params.getCrossType()) {
+		case SIMPLE:
+			
+			break;
+		case MULTIPLE:
+			
+			break;
+		case UNIFORM:
+			
+			break;
+
+		default:
+			break;
+		}
 		// Nota: esto es cruza simple, despues modularizo
 		int index = (int) Math.floor(Math.random() * X_LENGTH); // Random value between 0 and 11
 		double[] son1 = new double[11];
