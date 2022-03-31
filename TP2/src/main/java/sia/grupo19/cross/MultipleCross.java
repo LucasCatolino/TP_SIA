@@ -12,7 +12,6 @@ public class MultipleCross implements Cross {
 	public MultipleCross(int x_lenght, int cuts) {
         this.x_lenght = x_lenght;
         this.cuttings= cuts;
-        System.out.println(cuts);
 	}
 
 	@Override
