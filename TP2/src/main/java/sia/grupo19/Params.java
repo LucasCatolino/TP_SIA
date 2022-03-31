@@ -20,6 +20,20 @@ public class Params {
         this.maxRepeatedStruct = maxRepeatedStruct;
         this.maxRepeatedContent = maxRepeatedContent;
     }
+    
+    public Params(int P, int maxGen, CrossType crossType, double mutationProb, double mutationDeviation,
+            SelectorType selectorType, double minAcceptable, int maxRepeatedStruct, int maxRepeatedContent, int kCuts) {
+        this.populationSize = P;
+        this.cutOffMaxGen = maxGen;
+        this.crossType = crossType;
+        this.mutationProb = mutationProb;
+        this.mutationDeviation = mutationDeviation;
+        this.selectorType = selectorType;
+        this.cutOffMinAcceptable = minAcceptable;
+        this.maxRepeatedStruct = maxRepeatedStruct;
+        this.maxRepeatedContent = maxRepeatedContent;
+        this.kCuts= kCuts;
+    }
 
     public enum SelectorType {
         ELITE,
@@ -39,7 +53,7 @@ public class Params {
 
     // crossing params
     private CrossType crossType;
-    private int kCuts= 7;
+    private int kCuts= 1;
 
     // population params
     private int populationSize = 1000;
