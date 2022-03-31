@@ -7,9 +7,11 @@ import sia.grupo19.Individuo;
 public class MultipleCross implements Cross {
 	
 	private int x_lenght;
+	private int cuttings;
 	
-	public MultipleCross(int x_lenght) {
+	public MultipleCross(int x_lenght, int cuts) {
         this.x_lenght = x_lenght;
+        this.cuttings= cuts;
 	}
 
 	@Override
@@ -18,14 +20,13 @@ public class MultipleCross implements Cross {
 		double[] son1 = new double[x_lenght];
 		double[] son2 = new double[x_lenght];
 		
-		int cuttings= (int) Math.floor(Math.random() * x_lenght); // Random value between 0 and 11: how many cuts will have the crossing
 		int[] positions= new int[cuttings+1];
 		//positions= [0, (rand), 11]
 		positions[0]= 0;
 		positions[cuttings]= x_lenght;
 		
 		int i= 1;
-		while(i < cuttings) {
+		while(i < cuttings+1) {
 			int index = (int) Math.floor(Math.random() * x_lenght); // Random value between 0 and 11: index of cutting
 			if (!Arrays.stream(positions).anyMatch(j ->j == index)) {
 				positions[i]= index;

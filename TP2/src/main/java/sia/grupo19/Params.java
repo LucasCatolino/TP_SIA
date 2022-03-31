@@ -39,6 +39,7 @@ public class Params {
 
     // crossing params
     private CrossType crossType;
+    private int kCuts= 7;
 
     // population params
     private int populationSize = 1000;
@@ -143,5 +144,9 @@ public class Params {
 
 	public int getIndividuoSize() {
 		return X_LENGTH;
+	}
+
+	public int getKCross() {
+		return kCuts;
 	}
 }
