@@ -12,6 +12,10 @@ public class SelectorFactory {
                 return new StochasticSelector(params.getPopulationSize());
             case TRUNCATED:
                 return new TruncatedSelector(params.getPopulationSize(), params.getTruncatedK());
+            case RANK:
+                return new RankSelector(params.getPopulationSize());
+            case ROULETTE:
+                return new RouletteSelector(params.getPopulationSize());
             default:
                 throw new Error("WHAT ARE YOU");
         }

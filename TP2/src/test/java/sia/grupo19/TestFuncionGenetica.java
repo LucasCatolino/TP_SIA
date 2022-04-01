@@ -11,7 +11,7 @@ import sia.grupo19.Params.SelectorType;
 public class TestFuncionGenetica {
 
 	// Genetic genetic = new Genetic(10, 10, "S", 0.1, 0.1, "E");
-	Params params = new Params(2000, 5000, CrossType.UNIFORM, 0.1, 0.1, SelectorType.ELITE, 0.001, 10, 8);
+	Params params = new Params(2000, 5000, CrossType.UNIFORM, 0.1, 0.1, SelectorType.RANK, 0.001, 10, 8);
 	Genetic genetic = new Genetic(params);
 
 	@Test

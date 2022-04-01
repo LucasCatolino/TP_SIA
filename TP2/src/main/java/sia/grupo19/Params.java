@@ -1,8 +1,8 @@
 package sia.grupo19;
 
 public class Params {
-	
-	private static final int X_LENGTH= 11;
+
+    private static final int X_LENGTH = 11;
 
     public Params() {
 
@@ -26,7 +26,7 @@ public class Params {
         STOCHASTIC,
         TRUNCATED,
         BOLTZMANN,
-        ROULETE,
+        ROULETTE,
         RANK,
         TOURNAMENT,
     };
@@ -141,7 +141,7 @@ public class Params {
         this.maxRepeatedContent = maxRepeatedContent;
     }
 
-	public int getIndividuoSize() {
-		return X_LENGTH;
-	}
+    public int getIndividuoSize() {
+        return X_LENGTH;
+    }
 }
