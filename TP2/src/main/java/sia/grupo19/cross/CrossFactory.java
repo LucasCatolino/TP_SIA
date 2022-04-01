@@ -9,7 +9,7 @@ public class CrossFactory {
             case SIMPLE:
                 return new SimpleCross(params.getIndividuoSize());
             case MULTIPLE:
-               return new MultipleCross(params.getIndividuoSize());
+               return new MultipleCross(params.getIndividuoSize(), params.getKCross());
             case UNIFORM:
                 return new UniformCross(params.getIndividuoSize());
             default:
