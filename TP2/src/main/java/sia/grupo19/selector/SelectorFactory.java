@@ -16,6 +16,8 @@ public class SelectorFactory {
                 return new RankSelector(params.getPopulationSize());
             case ROULETTE:
                 return new RouletteSelector(params.getPopulationSize());
+            case TOURNAMENT:
+                return new TournamentSelector(params.getPopulationSize());
             default:
                 throw new Error("WHAT ARE YOU");
         }
