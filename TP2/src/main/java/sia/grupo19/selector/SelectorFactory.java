@@ -18,6 +18,8 @@ public class SelectorFactory {
                 return new RouletteSelector(params.getPopulationSize());
             case TOURNAMENT:
                 return new TournamentSelector(params.getPopulationSize());
+            case BOLTZMAN:
+                return new BoltzmanSelector(params);
             default:
                 throw new Error("WHAT ARE YOU");
         }

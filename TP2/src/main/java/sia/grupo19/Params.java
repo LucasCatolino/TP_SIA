@@ -35,11 +35,29 @@ public class Params {
         this.kCuts = kCuts;
     }
 
+    public Params(int P, int maxGen, CrossType crossType, double mutationProb, double mutationDeviation,
+            SelectorType selectorType, double minAcceptable, int maxRepeatedStruct, int maxRepeatedContent, int kCuts,
+            double boltzmanT0, double boltzmanTc, double boltzmanK) {
+        this.populationSize = P;
+        this.cutOffMaxGen = maxGen;
+        this.crossType = crossType;
+        this.mutationProb = mutationProb;
+        this.mutationDeviation = mutationDeviation;
+        this.selectorType = selectorType;
+        this.cutOffMinAcceptable = minAcceptable;
+        this.maxRepeatedStruct = maxRepeatedStruct;
+        this.maxRepeatedContent = maxRepeatedContent;
+        this.kCuts = kCuts;
+        this.boltzmanT0 = boltzmanT0;
+        this.boltzmanTc = boltzmanTc;
+        this.boltzmanK = boltzmanK;
+    }
+
     public enum SelectorType {
         ELITE,
         STOCHASTIC,
         TRUNCATED,
-        BOLTZMANN,
+        BOLTZMAN,
         ROULETTE,
         RANK,
         TOURNAMENT,
@@ -65,6 +83,9 @@ public class Params {
     // selection params
     private SelectorType selectorType;
     private int truncatedK = 400;
+    private double boltzmanT0 = 5;
+    private double boltzmanTc = 2;
+    private double boltzmanK = 0.2;
 
     // cutoff params
     private int cutOffMaxGen = 5000;
@@ -162,5 +183,33 @@ public class Params {
 
     public int getKCross() {
         return kCuts;
+    }
+
+    public void setKCuts(int kCuts) {
+        this.kCuts = kCuts;
+    }
+
+    public double getBoltzmanT0() {
+        return this.boltzmanT0;
+    }
+
+    public void setBoltzmanT0(double boltzmanT0) {
+        this.boltzmanT0 = boltzmanT0;
+    }
+
+    public double getBoltzmanTc() {
+        return this.boltzmanTc;
+    }
+
+    public void setBoltzmanTc(double boltzmanTc) {
+        this.boltzmanTc = boltzmanTc;
+    }
+
+    public double getBoltzmanK() {
+        return this.boltzmanK;
+    }
+
+    public void setBoltzmanK(double boltzmanK) {
+        this.boltzmanK = boltzmanK;
     }
 }

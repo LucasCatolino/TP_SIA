@@ -42,7 +42,7 @@ public class Genetic {
 			for (int j = 0; j < X_LENGTH; j++) {
 				double element = Math.random();
 				possibleX[j] = (Math.random() > 0.5) ? element : -element; // random between -1 and 1
-				//System.out.println(possibleX[j]);
+				// System.out.println(possibleX[j]);
 			}
 			population.add(new Individuo(possibleX));
 		}
@@ -53,7 +53,7 @@ public class Genetic {
 
 		CutOff cutOff = new CutOff(this.params);
 		Selector selector = new SelectorFactory().getSelector(this.params);
-		Cross crosser= new CrossFactory().getCross(this.params);
+		Cross crosser = new CrossFactory().getCross(this.params);
 
 		while (!cutOff.isDone(generationCount, getBestFitness(population),
 				getSharedCount(population, lastPopulation))) {
@@ -74,7 +74,7 @@ public class Genetic {
 
 				// Cross father and mother to have two kids
 				Individuo[] sons = crosser.cross(father, mother);
-				//Individuo[] sons = cross(father, mother);
+				// Individuo[] sons = cross(father, mother);
 
 				// Parents are tired so they won't love again for a while
 				tiredParents.add(father);
@@ -93,7 +93,7 @@ public class Genetic {
 			tiredParents.addAll(population);
 
 			// A new population is selected from previous population and fresh ones
-			population = selector.selectFrom(tiredParents);
+			population = selector.selectFrom(tiredParents, generationCount);
 
 			generationCount++;
 		}
@@ -107,18 +107,18 @@ public class Genetic {
 	private Individuo[] cross(Individuo father, Individuo mother) {
 		// TODO: con un case ver que metodo se esta usando
 		switch (params.getCrossType()) {
-		case SIMPLE:
-			
-			break;
-		case MULTIPLE:
-			
-			break;
-		case UNIFORM:
-			
-			break;
+			case SIMPLE:
 
-		default:
-			break;
+				break;
+			case MULTIPLE:
+
+				break;
+			case UNIFORM:
+
+				break;
+
+			default:
+				break;
 		}
 		// Nota: esto es cruza simple, despues modularizo
 		int index = (int) Math.floor(Math.random() * X_LENGTH); // Random value between 0 and 11

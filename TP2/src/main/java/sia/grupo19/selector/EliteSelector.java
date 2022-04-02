@@ -15,7 +15,7 @@ public class EliteSelector implements Selector {
     }
 
     @Override
-    public List<Individuo> selectFrom(List<Individuo> inputPopulation) {
+    public List<Individuo> selectFrom(List<Individuo> inputPopulation, int generationCount) {
         if (inputPopulation.size() != 2 * P) {
             throw new Error("Population's size was not equal to 2P");
         }
