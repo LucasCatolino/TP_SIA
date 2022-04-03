@@ -1,5 +1,7 @@
 package sia.grupo19;
 
+import com.google.gson.Gson;
+
 public class Params {
 
     private static final int X_LENGTH = 11;
@@ -63,11 +65,47 @@ public class Params {
         TOURNAMENT,
     };
 
+    public SelectorType parseSelector(String token) {
+        String lowerString = token.toLowerCase();
+        switch (lowerString) {
+            case "elite":
+                return SelectorType.ELITE;
+            case "stochastic":
+                return SelectorType.STOCHASTIC;
+            case "truncated":
+                return SelectorType.TRUNCATED;
+            case "boltzman":
+                return SelectorType.BOLTZMAN;
+            case "roulette":
+                return SelectorType.ROULETTE;
+            case "rank":
+                return SelectorType.RANK;
+            case "tournament":
+                return SelectorType.TOURNAMENT;
+            default:
+                throw new Error("Invalid Selector type");
+        }
+    }
+
     public enum CrossType {
         SIMPLE,
         MULTIPLE,
         UNIFORM,
     };
+
+    public CrossType parseCross(String token) {
+        String lowerString = token.toLowerCase();
+        switch (lowerString) {
+            case "simple":
+                return CrossType.SIMPLE;
+            case "multiple":
+                return CrossType.MULTIPLE;
+            case "uniform":
+                return CrossType.UNIFORM;
+            default:
+                throw new Error("Invalid Cross type");
+        }
+    }
 
     // crossing params
     private CrossType crossType;
@@ -92,6 +130,11 @@ public class Params {
     private double cutOffMinAcceptable = 0.01;
     private int maxRepeatedStruct = 10;
     private int maxRepeatedContent = 8;
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
+    }
 
     /**
      * GETTERS/SETTERS
