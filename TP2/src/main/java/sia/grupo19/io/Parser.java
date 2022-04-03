@@ -15,6 +15,7 @@ public class Parser {
 
     public enum State {
         READING,
+        DUMP,
         POPULATION,
         // selector substates
         SELECTOR_TYPE,
@@ -122,6 +123,9 @@ public class Parser {
             case CUTOFF_MAX_REP_STRUCT:
                 params.setMaxRepeatedStruct(Integer.parseInt(token));
                 break;
+            case DUMP:
+                params.setPrintHistory(Boolean.parseBoolean(token));
+                break;
             default:
                 throw new Error("Internal Parsing Error");
         }
@@ -141,6 +145,8 @@ public class Parser {
                 return crossState(others);
             case "cutoff":
                 return cutoffState(others);
+            case "dump":
+                return State.DUMP;
             default:
                 return State.READING;
         }

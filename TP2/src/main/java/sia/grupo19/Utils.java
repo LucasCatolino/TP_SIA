@@ -79,4 +79,27 @@ public class Utils {
     public static Individuo getBestIndividuo(List<Individuo> pop) {
         return Collections.max(pop); // returns one element, checks using compareTo()
     }
+
+    public static Individuo getWorstIndividuo(List<Individuo> pop) {
+        return Collections.min(pop); // returns one element, checks using compareTo()
+    }
+
+    public static double getAverageFitness(List<Individuo> pop) {
+        return pop.stream().mapToDouble(Individuo::getFitness).sum() / pop.size();
+    }
+
+    public static double[] getAverageF3(List<Individuo> pop) {
+        double[] outF3 = { 0, 0, 0 };
+        for (Individuo i : pop) {
+            double[] currF3 = i.getF3();
+            outF3[0] += currF3[0];
+            outF3[1] += currF3[1];
+            outF3[2] += currF3[2];
+        }
+        outF3[0] = outF3[0] / pop.size();
+        outF3[1] = outF3[1] / pop.size();
+        outF3[2] = outF3[2] / pop.size();
+
+        return outF3;
+    }
 }

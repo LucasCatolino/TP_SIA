@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import sia.grupo19.cross.Cross;
 import sia.grupo19.cross.CrossFactory;
+import sia.grupo19.io.GenerationInfo;
+import sia.grupo19.io.Solution;
 import sia.grupo19.selector.Selector;
 import sia.grupo19.selector.SelectorFactory;
 
@@ -48,8 +48,11 @@ public class Genetic {
 		}
 	}
 
-	public Individuo runEvolution() {
+	public Solution runEvolution() {
+		long startTime = System.currentTimeMillis();
 		Individuo best = null; // TODO: return Solution object, that contains best and more info
+		Solution solution = new Solution();
+		solution.setParams(params);
 
 		CutOff cutOff = new CutOff(this.params);
 		Selector selector = new SelectorFactory().getSelector(this.params);
@@ -62,6 +65,7 @@ public class Genetic {
 			List<Individuo> tiredParents = new ArrayList<>();
 
 			// TODO: LOG LAST POPULATION
+			solution.addGenerationInfo(new GenerationInfo(population));
 
 			// Duplicate population: P/2 because in each row two sons are created
 			for (int i = 0; i < params.getPopulationSize() / 2; i++) {
@@ -97,45 +101,17 @@ public class Genetic {
 
 			generationCount++;
 		}
+		long stopTime = System.currentTimeMillis();
+		solution.setElapsedTimeMillis(stopTime - startTime);
 
 		// TODO: LOG FINAL POPULATION
+		solution.addGenerationInfo(new GenerationInfo(population));
+		solution.setGenerationCount(generationCount);
+
+		return solution;
 
 		// cut off said we are done, return best one
-		return Utils.getBestIndividuo(population);
-	}
-
-	private Individuo[] cross(Individuo father, Individuo mother) {
-		// TODO: con un case ver que metodo se esta usando
-		switch (params.getCrossType()) {
-			case SIMPLE:
-
-				break;
-			case MULTIPLE:
-
-				break;
-			case UNIFORM:
-
-				break;
-
-			default:
-				break;
-		}
-		// Nota: esto es cruza simple, despues modularizo
-		int index = (int) Math.floor(Math.random() * X_LENGTH); // Random value between 0 and 11
-		double[] son1 = new double[11];
-		double[] son2 = new double[11];
-		for (int i = 0; i < index; i++) {
-			son1[i] = father.getX()[i];
-			son2[i] = mother.getX()[i];
-		}
-		for (int i = index; i < X_LENGTH; i++) {
-			son1[i] = mother.getX()[i];
-			son2[i] = father.getX()[i];
-		}
-		Individuo[] toRet = new Individuo[2];
-		toRet[0] = new Individuo(son1);
-		toRet[1] = new Individuo(son2);
-		return toRet;
+		// return Utils.getBestIndividuo(population);
 	}
 
 	private int getSharedCount(List<Individuo> currPop, List<Individuo> lastPop) {

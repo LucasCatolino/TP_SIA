@@ -131,6 +131,9 @@ public class Params {
     private int maxRepeatedStruct = 10;
     private int maxRepeatedContent = 8;
 
+    // json dump flag
+    private transient boolean printHistory = false;
+
     @Override
     public String toString() {
         return new Gson().toJson(this);
@@ -254,5 +257,17 @@ public class Params {
 
     public void setBoltzmanK(double boltzmanK) {
         this.boltzmanK = boltzmanK;
+    }
+
+    public boolean isPrintHistory() {
+        return this.printHistory;
+    }
+
+    public boolean getPrintHistory() {
+        return this.printHistory;
+    }
+
+    public void setPrintHistory(boolean printHistory) {
+        this.printHistory = printHistory;
     }
 }

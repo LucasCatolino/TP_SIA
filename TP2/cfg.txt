@@ -2,4 +2,5 @@ population: 10
 selector.type: elite
 mutation.deviation: 0.1
 cross.type: uniform
-cutoff.maxgen: 101
+cutoff.maxgen: 50
+dump: true

@@ -17,3 +17,5 @@ buildNumber.properties
 bin/
 src.main.java/
 .settings/
+
+output-*.json
