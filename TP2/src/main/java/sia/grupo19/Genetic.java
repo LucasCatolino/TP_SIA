@@ -104,6 +104,9 @@ public class Genetic {
 		long stopTime = System.currentTimeMillis();
 		solution.setElapsedTimeMillis(stopTime - startTime);
 
+		solution.setStopReason(cutOff.reason(generationCount, getBestFitness(population),
+				getSharedCount(population, lastPopulation)));
+
 		// TODO: LOG FINAL POPULATION
 		solution.addGenerationInfo(new GenerationInfo(population));
 		solution.setGenerationCount(generationCount);

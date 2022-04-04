@@ -2,6 +2,7 @@ package sia.grupo19.selector;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import sia.grupo19.Individuo;
@@ -24,9 +25,15 @@ public class TruncatedSelector implements Selector {
         if (inputPopulation.size() != 2 * this.P) {
             throw new Error("Population's size was not equal to 2P");
         }
-        List<Individuo> truncatedPopulation = new ArrayList<>(inputPopulation.subList(0, this.k));
-        Collections.shuffle(truncatedPopulation);
-        return truncatedPopulation.subList(0, P);
+
+        List<Individuo> sorted = new ArrayList<>(inputPopulation);
+        Collections.sort(sorted, Comparator.comparing(Individuo::getFitness));
+        for (int i = 0; i < k; i++) {
+            sorted.remove(0);
+        }
+
+        Collections.shuffle(sorted);
+        return sorted.subList(0, P);
     }
 
 }

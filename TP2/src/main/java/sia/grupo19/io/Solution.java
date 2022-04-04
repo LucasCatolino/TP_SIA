@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 
 import sia.grupo19.Individuo;
 import sia.grupo19.Params;
+import sia.grupo19.CutOff.CutOffReason;
 
 public class Solution {
 
@@ -19,6 +20,7 @@ public class Solution {
     private long elapsedTimeMillis;
     private transient List<GenerationInfo> generationsInfo;
     private Individuo optimalIndividuo;
+    private CutOffReason stopReason;
 
     public Individuo getOptimalIndividuo() {
         return generationsInfo.get(generationCount - 1).bestIndividuo;
@@ -64,6 +66,14 @@ public class Solution {
 
     public void addGenerationInfo(GenerationInfo generationInfo) {
         this.generationsInfo.add(generationInfo);
+    }
+
+    public CutOffReason getStopReason() {
+        return this.stopReason;
+    }
+
+    public void setStopReason(CutOffReason stopReason) {
+        this.stopReason = stopReason;
     }
 
 }

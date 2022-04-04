@@ -27,7 +27,8 @@ In `./cfg.txt` you can find the configurations file, which allows for the follow
 -   `cutoff`:
     -   `maxgen` $(int)$
     -   `minacceptable` $(double)$
-    -   `maxrepstruct` $(int)$ -`maxrepcontent` $(int)$
+    -   `maxrepstruct` $(int)$
+    -   `maxrepcontent` $(int)$
 -   `dump` $(boolean)$, if true it will write info(best, avg, worst) about all generations
 
     The file looks something like this:

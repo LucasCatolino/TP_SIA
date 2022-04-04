@@ -2,6 +2,13 @@ package sia.grupo19;
 
 public class CutOff {
 
+    public enum CutOffReason {
+        MAXGEN,
+        MINACCEPTABLE,
+        MAXREPGENCONTENT,
+        MAXREPGENSTRUCT,
+    };
+
     private int maxGenCount;
     private double minAcceptable;
 
@@ -36,7 +43,7 @@ public class CutOff {
                 || isMaxRepeatedStructure(sharedGenStructure);
     }
 
-    private boolean isMaxRepeatedStructure(int sharedGenStructure) {
+    public boolean isMaxRepeatedStructure(int sharedGenStructure) {
         int diff = Math.abs(sharedGenStructure - lastSharedGenStructure);
         if (diff >= SHARED_EPSILON) {
             repeatedGenStructureCount++;
@@ -47,7 +54,7 @@ public class CutOff {
         return repeatedGenStructureCount >= maxRepeatedGenStructure;
     }
 
-    private boolean isMaxRepeatedContent(double currBestFitness) {
+    public boolean isMaxRepeatedContent(double currBestFitness) {
         double diff = Math.abs(currBestFitness - lastBestFitness);
         if (diff < EPSILON) {
             repeatedGenContentCount++;
@@ -57,12 +64,19 @@ public class CutOff {
         return repeatedGenContentCount >= maxRepeatedGenContent;
     }
 
-    private boolean isAcceptable(double currBestFitness) {
+    public boolean isAcceptable(double currBestFitness) {
         return currBestFitness >= minAcceptable;
     }
 
-    private boolean isMaxGen(int currGen) {
+    public boolean isMaxGen(int currGen) {
         return currGen >= maxGenCount;
+    }
+
+    public CutOffReason reason(int currGen, double currBestFitness, int sharedGenStructure) {
+        return isMaxGen(currGen) ? CutOffReason.MAXGEN
+                : isAcceptable(currBestFitness) ? CutOffReason.MINACCEPTABLE
+                        : isMaxRepeatedContent(currBestFitness) ? CutOffReason.MAXREPGENCONTENT
+                                : isMaxRepeatedStructure(sharedGenStructure) ? CutOffReason.MAXREPGENSTRUCT : null;
     }
 
 }

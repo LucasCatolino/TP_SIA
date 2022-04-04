@@ -19,3 +19,4 @@ src.main.java/
 .settings/
 
 output-*.json
+test*-output-*.json

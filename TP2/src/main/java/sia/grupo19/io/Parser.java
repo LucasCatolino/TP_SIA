@@ -172,11 +172,11 @@ public class Parser {
             case "type":
                 return State.CROSS_TYPE;
             case "multiple":
-                if (others[1].compareTo("multiple") == 0 && others[2].compareTo("k") == 0) {
+                if (others[1].compareTo("k") == 0) {
                     return State.CROSS_MULTIPLE_K_CUTS;
                 }
             default:
-                throw new Error("Invalid Cross param");
+                throw new Error("Invalid Cross param " + others);
         }
     }
 

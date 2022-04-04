@@ -1,0 +1,9 @@
+selector.type: roulette
+cross.type: multiple
+cross.multiple.k: 7
+population: 500
+cutoff.maxgen: 500
+cutoff.minacceptable: 0.00000001
+cutoff.maxrepstruct: 200
+cutoff.maxrepcontent: 200
+dump: true

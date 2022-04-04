@@ -55,6 +55,25 @@ public class Params {
         this.boltzmanK = boltzmanK;
     }
 
+    public Params(int P, int maxGen, CrossType crossType, double mutationProb, double mutationDeviation,
+            SelectorType selectorType, double minAcceptable, int maxRepeatedStruct, int maxRepeatedContent, int kCuts,
+            double boltzmanT0, double boltzmanTc, double boltzmanK, boolean dump) {
+        this.populationSize = P;
+        this.cutOffMaxGen = maxGen;
+        this.crossType = crossType;
+        this.mutationProb = mutationProb;
+        this.mutationDeviation = mutationDeviation;
+        this.selectorType = selectorType;
+        this.cutOffMinAcceptable = minAcceptable;
+        this.maxRepeatedStruct = maxRepeatedStruct;
+        this.maxRepeatedContent = maxRepeatedContent;
+        this.kCuts = kCuts;
+        this.boltzmanT0 = boltzmanT0;
+        this.boltzmanTc = boltzmanTc;
+        this.boltzmanK = boltzmanK;
+        this.printHistory = dump;
+    }
+
     public enum SelectorType {
         ELITE,
         STOCHASTIC,
