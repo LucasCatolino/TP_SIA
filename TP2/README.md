@@ -6,6 +6,8 @@ $inserte\ descripción\ aquí$
 
 Al correr el ejecutable `TP2.jar` se imprime en la terminal información sobre los resultados de la búsqueda y los parametros usados, además se guarda en un log con un nombre que siga la convención `output-yyyy-mm-dd+hh-mm-ss.json`.
 
+Este proyecto utiliza la libreria Gson (https://github.com/google/gson) para serializar los resultados a json de manera simple.
+
 ### Configuration
 
 In `./cfg.txt` you can find the configurations file, which allows for the following to be selected:
