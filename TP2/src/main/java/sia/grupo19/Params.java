@@ -134,7 +134,7 @@ public class Params {
     private int populationSize = 1000;
 
     // mutation params
-    private double mutationProb = 0.2;
+    private double mutationProb = 0.1;
     private double mutationDeviation = 0.05;
 
     // selection params
