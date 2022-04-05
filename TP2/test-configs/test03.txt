@@ -1,0 +1,9 @@
+selector.type: truncated
+selector.truncated.k: 200
+cross.type: simple
+population: 500
+cutoff.maxgen: 500
+cutoff.minacceptable: 0.00000001
+cutoff.maxrepstruct: 200
+cutoff.maxrepcontent: 200
+dump: true

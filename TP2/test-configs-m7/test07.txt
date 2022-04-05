@@ -1,0 +1,12 @@
+selector.type: boltzman
+selector.boltzman.t0: 5
+selector.boltzman.tc: 2
+selector.boltzman.k: 0.2
+cross.type: multiple
+cross.multiple.k: 7
+population: 500
+cutoff.maxgen: 500
+cutoff.minacceptable: 0.00000001
+cutoff.maxrepstruct: 200
+cutoff.maxrepcontent: 200
+dump: true

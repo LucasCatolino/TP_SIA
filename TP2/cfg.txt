@@ -1,0 +1,8 @@
+population: 200
+selector.type: rank
+cross.type: simple
+cutoff.maxgen: 500
+cutoff.minacceptable: 0.00000001
+cutoff.maxrepstruct: 90
+cutoff.maxrepcontent: 100
+dump: true
