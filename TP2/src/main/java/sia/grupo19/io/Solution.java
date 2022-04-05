@@ -23,7 +23,7 @@ public class Solution {
     private CutOffReason stopReason;
 
     public Individuo getOptimalIndividuo() {
-        return generationsInfo.get(generationCount - 1).bestIndividuo;
+        return generationsInfo.get(generationCount).bestIndividuo;
     }
 
     @Override

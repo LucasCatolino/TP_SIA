@@ -1,6 +1,8 @@
-population: 100
-selector.type: stochastic
-mutation.deviation: 0.1
-cross.type: simple
-cutoff.maxgen: 50
-dump: false
+population: 200
+selector.type: boltzman
+cross.type: uniform
+cutoff.maxgen: 500
+cutoff.minacceptable: 0.000001
+cutoff.maxrepstruct: 200
+cutoff.maxrepcontent: 200
+dump: true
