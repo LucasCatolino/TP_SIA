@@ -12,7 +12,7 @@ import sia.grupo19.io.Writer;
 
 public class TestRunnerUniform {
 
-    String run = "RUN02";
+    String run = "RUN-UNI";
 
     @Test
     public void test01() throws Exception {

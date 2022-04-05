@@ -12,7 +12,7 @@ import sia.grupo19.io.Writer;
 
 public class TestRunner {
 
-    String run = "RUN03";
+    String run = "RUN-SIM";
 
     @Test
     public void test01() throws Exception {

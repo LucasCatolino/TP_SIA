@@ -1,8 +1,8 @@
 population: 200
-selector.type: boltzman
-cross.type: uniform
+selector.type: rank
+cross.type: simple
 cutoff.maxgen: 500
-cutoff.minacceptable: 0.000001
-cutoff.maxrepstruct: 200
-cutoff.maxrepcontent: 200
+cutoff.minacceptable: 0.00000001
+cutoff.maxrepstruct: 90
+cutoff.maxrepcontent: 100
 dump: true

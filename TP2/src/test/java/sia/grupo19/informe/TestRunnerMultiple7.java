@@ -12,7 +12,7 @@ import sia.grupo19.io.Writer;
 
 public class TestRunnerMultiple7 {
 
-    String run = "RUN01";
+    String run = "RUN-MUL7";
 
     @Test
     public void test01() throws Exception {

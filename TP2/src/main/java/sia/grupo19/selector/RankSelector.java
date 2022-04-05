@@ -24,10 +24,10 @@ public class RankSelector implements Selector {
         List<Individuo> rankedList = new ArrayList<>(inputPopulation);
         Collections.sort(rankedList, Comparator.comparing(Individuo::getFitness, Comparator.reverseOrder()));
 
-        double totalF1 = sumOfF1(rankedList);
         List<Individuo> out = new ArrayList<>();
         int j = 0;
         while (out.size() < this.P) {
+            double totalF1 = sumOfF1(rankedList);
             double r = Math.random();
 
             double qjPrev = j == 0 ? 0 : sumOfProbabilities(j - 1, inputPopulation, rankedList, totalF1);
@@ -37,7 +37,7 @@ public class RankSelector implements Selector {
                             + calculateF1(inputPopulation.get(j + 1), rankedList);
 
             if (qjPrev < r && r < qjNext) {
-                out.add(inputPopulation.get(j));
+                out.add(inputPopulation.remove(j));
             }
 
             j = (j + 1) % inputPopulation.size();

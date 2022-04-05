@@ -19,11 +19,10 @@ public class RouletteSelector implements Selector {
             throw new Error("Population's size was not equal to 2P");
         }
 
-        double totalFitness = inputPopulation.stream().mapToDouble(Individuo::getFitness).sum();
-
         List<Individuo> out = new ArrayList<>();
         int j = 0;
         while (out.size() < this.P) {
+            double totalFitness = inputPopulation.stream().mapToDouble(Individuo::getFitness).sum();
             double r = Math.random();
 
             double qjPrev = j == 0 ? 0 : sumOfProbabilities(j - 1, inputPopulation, totalFitness);
@@ -32,7 +31,7 @@ public class RouletteSelector implements Selector {
                             + probability(inputPopulation.get(j + 1).getFitness(), totalFitness);
 
             if (qjPrev < r && r < qjNext) {
-                out.add(inputPopulation.get(j));
+                out.add(inputPopulation.remove(j));
             }
 
             j = (j + 1) % inputPopulation.size();

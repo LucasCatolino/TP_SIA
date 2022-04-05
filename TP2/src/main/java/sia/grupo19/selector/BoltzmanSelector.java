@@ -33,13 +33,12 @@ public class BoltzmanSelector implements Selector {
 
         t = generationCount;
 
-        double totalPartialVE = getTotalPartialVE(inputPopulation, T(t));
-
         List<Individuo> out = new ArrayList<>();
 
         // using roulette selection based on VE as the fitness function
         int j = 0;
         while (out.size() < this.P) {
+            double totalPartialVE = getTotalPartialVE(inputPopulation, T(t));
             double r = Math.random();
 
             double qjPrev = j == 0 ? 0 : sumOfVE(j - 1, inputPopulation, totalPartialVE);
@@ -49,7 +48,7 @@ public class BoltzmanSelector implements Selector {
                             + VE(inputPopulation.get(j + 1), T(t), totalPartialVE);
 
             if (qjPrev < r && r < qjNext) {
-                out.add(inputPopulation.get(j));
+                out.add(inputPopulation.remove(j));
             }
 
             j = (j + 1) % inputPopulation.size();
