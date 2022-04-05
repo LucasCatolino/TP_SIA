@@ -1,6 +1,6 @@
-population: 10
-selector.type: elite
+population: 100
+selector.type: stochastic
 mutation.deviation: 0.1
-cross.type: uniform
+cross.type: simple
 cutoff.maxgen: 50
-dump: true
+dump: false
