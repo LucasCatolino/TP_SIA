@@ -54,13 +54,15 @@ def f_x():
         return out
 
     return E(x)
-
+iter = 0
 start = time.time()
 MINIMUM = 0.0000001
-while (f_x() > MINIMUM):
-    #print([x.numpy(), f_x().numpy()])
-    #opt = gradient_descent.GradientDescentOptimizer(0.1).minimize(f_x) # GRADIENT DESCENT
-    opt =tf.keras.optimizers.Adam(0.1).minimize(f_x, var_list=[x])  # ADAM
+MAX_ITER = 50000
+while (f_x() > MINIMUM and iter < MAX_ITER):
+    #print([x, f_x()])
+    opt = gradient_descent.GradientDescentOptimizer(0.1).minimize(f_x) # GRADIENT DESCENT
+    #opt =tf.keras.optimizers.Adam(0.1).minimize(f_x, var_list=[x])  # ADAM
+    iter += 1
 
 done = time.time()
 elapsed =done - start
@@ -68,3 +70,4 @@ elapsed =done - start
 print("OPTIMAL ARG:", x)
 print("OPTIMAL ERROR:", f_x())
 print("TIME: ", elapsed)
+print("ITER: ", iter)

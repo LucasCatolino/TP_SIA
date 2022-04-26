@@ -70,11 +70,15 @@ def scipyOptimizeCG(x):
     #result = minimize(E, x0, method= 'Newton-CG', jac= True)
     #result = adam(E, x0)
     MINIMUM = 0.0000001
+    MAX_ITER = 500
+
     fit = 1
-    while(fit > MINIMUM):
+    iter = 0
+    while(fit > MINIMUM and iter < MAX_ITER):
         result = minimize(E, myX, method= 'Powell')
         fit = E(result.x)
         myX = result.x
+        iter = result.nit
 
     done = time.time()
     elapsed =done - start
@@ -91,6 +95,7 @@ def scipyOptimizeCG(x):
     print("OPTIMAL ARG:", myX)
     print("OPTIMAL ERROR:", E(myX))
     print("TIME: ", elapsed)
+    print("ITER: ", iter)
 
     """        x: array([   2.38222076,   49.66509128, -831.16883206,  -10.53020137,
               7.66220188,    7.86251335,   21.26905866,    7.44191062,
