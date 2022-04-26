@@ -57,7 +57,7 @@ def f_x():
 iter = 0
 start = time.time()
 MINIMUM = 0.0000001
-MAX_ITER = 50000
+MAX_ITER = 500
 while (f_x() > MINIMUM and iter < MAX_ITER):
     #print([x, f_x()])
     opt = gradient_descent.GradientDescentOptimizer(0.1).minimize(f_x) # GRADIENT DESCENT
