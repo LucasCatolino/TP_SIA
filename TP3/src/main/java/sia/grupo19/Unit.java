@@ -25,9 +25,18 @@ public class Unit {
 	public void calculateExcitation(int position, double prevActivation) {
 		excitation= excitation + weights.get(position) * prevActivation;
 	}
+	
+	public void calculateExcitation(int position, double prevActivation, boolean input) {
+		excitation= prevActivation;
+	}
 
 	public void calculateActivation() {
 		activation= Math.tanh(BETA * excitation); //TODO: desharcodear para usar otra funcion g(h)= tanh(bh)
+		System.out.println("act: " + activation);
+	}
+	
+	public void calculateActivation(boolean input) {
+		activation= excitation; //TODO: desharcodear para usar otra funcion g(h)= tanh(bh)
 		System.out.println("act: " + activation);
 	}
 

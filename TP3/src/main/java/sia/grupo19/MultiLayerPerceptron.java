@@ -35,7 +35,7 @@ public class MultiLayerPerceptron {
 			//get random X_i
 			int position= (int) Math.floor(Math.random() * X.length);
 			System.out.println("position: " + position);
-			
+
 			//calculate activation for input layer
 			network[0].apply(X[position]);
 			
@@ -72,7 +72,6 @@ public class MultiLayerPerceptron {
 
 	private void backpropagate() {
 		for (int i = lastLayer - 1; i > 0; i--) {
-			System.out.println("i: " + i);
 			network[i].calculateDelta();
 		}
 	}
@@ -93,8 +92,8 @@ public class MultiLayerPerceptron {
 	}
 
 	public static void main(String[] args) {
-		int[] hiddenLayersSizes= {3};
-		MultiLayerPerceptron multiLayerPerceptron= new MultiLayerPerceptron(2, 1, 1, hiddenLayersSizes);
+		int[] hiddenLayersSizes= {3, 3};
+		MultiLayerPerceptron multiLayerPerceptron= new MultiLayerPerceptron(2, 1, 2, hiddenLayersSizes);
 		
 		multiLayerPerceptron.run();
 	}

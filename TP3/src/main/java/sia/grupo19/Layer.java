@@ -49,14 +49,14 @@ public class Layer {
 
 	public void apply(double[] input) {
 		//calculate excitation
-		units[0].calculateExcitation(0, -1);
+		units[0].calculateExcitation(0, -1, true);
 		for (int i = 0; i < input.length; i++) {
-			units[i + 1].calculateExcitation(0, input[i]);
+			units[i + 1].calculateExcitation(0, input[i], true);
 		}
 		
 		//calculate activation
 		for (int i = 0; i < units.length; i++) {
-			units[i].calculateActivation();
+			units[i].calculateActivation(true);
 		}
 	}
 
