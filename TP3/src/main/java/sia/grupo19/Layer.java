@@ -15,7 +15,7 @@ public class Layer {
 	}
 
 	public Layer(Layer layer, int size, boolean last) {
-		int limit= (last)? size : size + 1; 
+		int limit= (last) ? size : size + 1; 
 		this.units= new Unit[limit];
 		
 		this.previousLayer= layer;
@@ -89,12 +89,17 @@ public class Layer {
 	public void calculateDelta() {
 		for (int i = 0; i < units.length; i++) {
 			double weightedDeltas= 0;
-			for (int j = 0; j < units.length; j++) { //TODO: see if is j= 0 or j= 1
-				weightedDeltas+= units[i].getWeight(i) * nextLayer.getUnitDelta(j);
+			for (int j = 0; j < nextLayer.getSize(); j++) { //TODO: see if is j= 0 or j= 1
+				//weightedDeltas+= units[i].getWeight(i) * nextLayer.getUnitDelta(j);
+				weightedDeltas+= nextLayer.getUnitWeight(i, j) * nextLayer.getUnitDelta(j);
 			}
 			units[i].calculateBackDelta(weightedDeltas);
 		}
 		
+	}
+
+	private double getUnitWeight(int childPosition, int actualPosition) {
+		return units[actualPosition].getWeight(childPosition);
 	}
 
 	private double getUnitDelta(int position) {

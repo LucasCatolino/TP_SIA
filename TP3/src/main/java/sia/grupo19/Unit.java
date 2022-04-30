@@ -28,6 +28,7 @@ public class Unit {
 
 	public void calculateActivation() {
 		activation= Math.tanh(BETA * excitation); //TODO: desharcodear para usar otra funcion g(h)= tanh(bh)
+		System.out.println("act: " + activation);
 	}
 
 	public double getActivation() {

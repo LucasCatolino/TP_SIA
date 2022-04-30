@@ -30,10 +30,11 @@ public class MultiLayerPerceptron {
 		double error= 1;
 		
 		int i= 0;		
-		while (error > 0.001 && i < LIMIT) {
+		while (error > 0.00001 && i < LIMIT) {
 			System.out.println(i);
 			//get random X_i
 			int position= (int) Math.floor(Math.random() * X.length);
+			System.out.println("position: " + position);
 			
 			//calculate activation for input layer
 			network[0].apply(X[position]);
@@ -70,13 +71,15 @@ public class MultiLayerPerceptron {
 	}
 
 	private void backpropagate() {
-		for (int i = lastLayer - 1; i < 0; i--) {
+		for (int i = lastLayer - 1; i > 0; i--) {
+			System.out.println("i: " + i);
 			network[i].calculateDelta();
 		}
 	}
 
 	private void propagate() {
 		for (int i = 1; i < lastLayer + 1; i++) { //i= 1 because first layer was already calculated
+			System.out.println("capa: " + i);
 			network[i].apply();
 		}
 		
