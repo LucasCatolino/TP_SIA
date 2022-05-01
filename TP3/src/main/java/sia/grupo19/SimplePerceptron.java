@@ -1,5 +1,7 @@
 package sia.grupo19;
 
+import com.google.gson.Gson;
+
 public class SimplePerceptron {
 
 	private static final int LIMIT = 1000;
@@ -32,7 +34,8 @@ public class SimplePerceptron {
 			double h = innerProduct(X[i_x], w);
 
 			// get activation O= sign(h)
-			int O = (int) Math.signum(h); // TODO: esto es por ser escalón
+			int O = (int) Math.signum(h - w[N - 1]); // TODO: esto es por ser escalón
+			// int O = (int) Math.signum(h); // TODO: esto es por ser escalón
 
 			// ∆w = η * (y[i_x] − O).x[i_x]
 			double correction = learningRate * innerProduct(Y[i_x] - O, X[i_x]);
@@ -45,7 +48,8 @@ public class SimplePerceptron {
 			// dudas:
 			// => Es O o O[i]? (o sea, le paso el O calculado para el X[i_x] actual o tengo
 			// que calcular el O de cada X[i] en la suma?)
-			error = calculateError(Y, O, p);
+			// error = calculateError(Y, O, p);
+			error = calculateError(X, Y, w, p);
 			if (error < minError) {
 				minError = error;
 				minW = w;
@@ -72,6 +76,7 @@ public class SimplePerceptron {
 			System.out.print(minW[j] + " ");
 		}
 		System.out.println("\nminError: " + minError);
+		System.out.println("iters: " + i);
 	}
 
 	private void zeros(double[] array) {
@@ -107,6 +112,21 @@ public class SimplePerceptron {
 	private double calculateError(int[] Y, int O, int p) {
 		double out = 0;
 		for (int i = 0; i < p; i++) {
+			out += Math.pow(Y[i] - O, 2);
+		}
+		return out / 2;
+	}
+
+	private double calculateError(int[][] X, int[] Y, double w[], int p) {
+		double out = 0;
+		for (int i = 0; i < p; i++) {
+			// get excitement h= x[i_x].w
+			double h = innerProduct(X[i], w);
+
+			// get activation O= sign(h)
+			int O = (int) Math.signum(h - w[N - 1]); // TODO: esto es por ser escalón
+
+			System.out.println("inputs: " + new Gson().toJson(X[i]) + "expected " + Y[i] + " outcome: " + O);
 			out += Math.pow(Y[i] - O, 2);
 		}
 		return out / 2;
