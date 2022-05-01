@@ -2,18 +2,37 @@ package sia.grupo19;
 
 import com.google.gson.Gson;
 
+import sia.grupo19.params.SimpleParams;
+
 public class SimplePerceptron {
 
-	private static final int LIMIT = 1000;
-	private static final double learningRate = 0.1;
-	private static final int[][] X = { { -1, 1 }, { 1, -1 }, { -1, -1 }, { 1, 1 } }; // TODO: desharcodeame esta
-	private static final int[] Y = { -1, -1, -1, 1 }; // TODO: desharcodeame esta
-	private static int N;
-	private static int p;
+	private int LIMIT = 1000;
+	private double learningRate = 0.1;
+	private double[][] X = { { -1, 1 }, { 1, -1 }, { -1, -1 }, { 1, 1 } }; // TODO: desharcodeame esta
+	private double[] Y = { -1, -1, -1, 1 }; // TODO: desharcodeame esta
+	private int N;
+	private int p;
+
+	private SimpleParams params;
 
 	public SimplePerceptron() {
 		this.N = X[0].length + 1;
 		this.p = X.length;
+
+		System.out.println("N: " + N + " p: " + p);
+	}
+
+	public SimplePerceptron(SimpleParams params) {
+		this.params = params;
+
+		this.X = params.getTrainingDataInputs();
+		this.Y = params.getTrainingDataOutputs();
+
+		this.N = params.getTrainingDataInputDimension() + 1;
+		this.p = params.getTrainingDataInputSize();
+
+		this.LIMIT = params.getIterationLimit();
+		this.learningRate = params.getLearningRate();
 
 		System.out.println("N: " + N + " p: " + p);
 	}
@@ -35,7 +54,6 @@ public class SimplePerceptron {
 
 			// get activation O= sign(h)
 			int O = (int) Math.signum(h - w[N - 1]); // TODO: esto es por ser escalón
-			// int O = (int) Math.signum(h); // TODO: esto es por ser escalón
 
 			// ∆w = η * (y[i_x] − O).x[i_x]
 			double correction = learningRate * innerProduct(Y[i_x] - O, X[i_x]);
@@ -43,12 +61,6 @@ public class SimplePerceptron {
 			// w = w + ∆w
 			w = addCorrection(w, correction);
 
-			// asumo que originalmente pasaban x, y, w, p para hacer:
-			// 1/2 * sum(1, p, (Y[i] - O)^2)
-			// dudas:
-			// => Es O o O[i]? (o sea, le paso el O calculado para el X[i_x] actual o tengo
-			// que calcular el O de cada X[i] en la suma?)
-			// error = calculateError(Y, O, p);
 			error = calculateError(X, Y, w, p);
 			if (error < minError) {
 				minError = error;
@@ -85,7 +97,7 @@ public class SimplePerceptron {
 		}
 	}
 
-	private double innerProduct(int[] a, double[] b) {
+	private double innerProduct(double[] a, double[] b) {
 		double toRet = 0;
 		for (int i = 0; i < a.length; i++) {
 			toRet += a[i] * b[i];
@@ -93,7 +105,7 @@ public class SimplePerceptron {
 		return toRet;
 	}
 
-	private double innerProduct(int a, int[] b) {
+	private double innerProduct(double a, double[] b) {
 		double toRet = 0;
 		for (int i = 0; i < b.length; i++) {
 			toRet += a * b[i];
@@ -109,15 +121,7 @@ public class SimplePerceptron {
 		return toRet;
 	}
 
-	private double calculateError(int[] Y, int O, int p) {
-		double out = 0;
-		for (int i = 0; i < p; i++) {
-			out += Math.pow(Y[i] - O, 2);
-		}
-		return out / 2;
-	}
-
-	private double calculateError(int[][] X, int[] Y, double w[], int p) {
+	private double calculateError(double[][] X, double[] Y, double w[], int p) {
 		double out = 0;
 		for (int i = 0; i < p; i++) {
 			// get excitement h= x[i_x].w
