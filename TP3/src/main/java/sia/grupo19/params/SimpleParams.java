@@ -16,11 +16,11 @@ public class SimpleParams {
     private SimplePerceptronMode perceptronMode = SimplePerceptronMode.STEP;
 
     public enum SimplePerceptronMode {
-        @SerializedName("0")
+        @SerializedName("step")
         STEP,
-        @SerializedName("1")
+        @SerializedName("lineal")
         LINEAL,
-        @SerializedName("2")
+        @SerializedName("nonlineal")
         NONLINEAL,
     };
 

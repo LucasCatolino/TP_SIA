@@ -10,5 +10,5 @@
     "trainingDataOutputs": [-1, -1, -1, 1],
     "trainingDataInptutDimension": 2,
     "trainingDataInputSize": 4,
-    "perceptronMode": 0
+    "perceptronMode": "step"
 }
