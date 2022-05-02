@@ -47,3 +47,7 @@ local.properties
 # Resources files
 resources/**
 /out/
+
+#outputs
+output-*.json
+test*-output-*.json

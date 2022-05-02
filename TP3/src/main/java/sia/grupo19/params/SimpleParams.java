@@ -6,6 +6,7 @@ public class SimpleParams {
 
     private int iterationLimit = 1000;
     private double learningRate = 0.1;
+    private double minAcceptable = 0;
 
     private double[][] trainingDataInputs;
     private double[] trainingDataOutputs;
@@ -17,6 +18,8 @@ public class SimpleParams {
 
     private double beta = 1.5;
     private NonLinearSigmoidType sigmoidType = NonLinearSigmoidType.TANH;
+
+    private boolean printHistory = false;
 
     public enum SimplePerceptronMode {
         @SerializedName("step")
@@ -34,7 +37,27 @@ public class SimpleParams {
         LOGISTIC,
     };
 
+    public boolean isPrintHistory() {
+        return this.printHistory;
+    }
+
     // GETTERS & SETTERS
+
+    public double getMinAcceptable() {
+        return this.minAcceptable;
+    }
+
+    public void setMinAcceptable(double minAcceptable) {
+        this.minAcceptable = minAcceptable;
+    }
+
+    public boolean getPrintHistory() {
+        return this.printHistory;
+    }
+
+    public void setPrintHistory(boolean printHistory) {
+        this.printHistory = printHistory;
+    }
 
     public NonLinearSigmoidType getSigmoidType() {
         return this.sigmoidType;

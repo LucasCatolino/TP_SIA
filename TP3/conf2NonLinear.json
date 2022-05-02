@@ -209,5 +209,7 @@
     "trainingDataInptutDimension": 3,
     "trainingDataInputSize": 200,
     "perceptronMode": "nonlinear",
-    "beta": 0.2
+    "beta": 0.2,
+    "printHistory": true
+
 }

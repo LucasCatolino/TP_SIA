@@ -2,7 +2,10 @@ package sia.grupo19;
 
 import com.google.gson.Gson;
 
+import sia.grupo19.params.IterationInfo;
 import sia.grupo19.params.SimpleParams;
+import sia.grupo19.params.SimpleSolution;
+import sia.grupo19.params.SimpleSolution.CutOffReason;
 
 public class SimplePerceptron {
 
@@ -17,6 +20,8 @@ public class SimplePerceptron {
 	private double[] Y;
 	private int N;
 	private int p;
+
+	private double minAcceptable;
 
 	private SimpleParams params;
 
@@ -39,10 +44,17 @@ public class SimplePerceptron {
 		this.LIMIT = params.getIterationLimit();
 		this.learningRate = params.getLearningRate();
 
+		this.minAcceptable = params.getMinAcceptable();
+
 		System.out.println("N: " + N + " p: " + p);
 	}
 
-	public void run() {
+	public SimpleSolution run() {
+		long startTime = System.currentTimeMillis();
+
+		SimpleSolution solution = new SimpleSolution();
+		solution.setParams(params);
+
 		int i = 0;
 		double[] w = new double[N];
 		zeros(w);
@@ -50,7 +62,7 @@ public class SimplePerceptron {
 		double minError = 2 * p;
 		double[] minW = w;
 
-		while ((error > 0) && (i < LIMIT)) {
+		while ((error > minAcceptable) && (i < LIMIT)) {
 			// get random number i_x between 1 and p
 			int i_x = (int) Math.floor(Math.random() * (p - 1) + 1);
 
@@ -96,6 +108,8 @@ public class SimplePerceptron {
 				minW = w;
 			}
 
+			solution.addIterationInfo(new IterationInfo(w, error));
+
 			/*
 			 * Tomar un n´umero i x al azar entre 1 y p
 			 * Calcular la exitaci´on h = x[i x].w
@@ -111,13 +125,22 @@ public class SimplePerceptron {
 			 */
 			i++;
 		}
+		long stopTime = System.currentTimeMillis();
 
-		System.out.println("Minimum Weights found:");
-		for (int j = 0; j < minW.length; j++) {
-			System.out.print(minW[j] + " ");
-		}
-		System.out.println("\nminError: " + minError);
-		System.out.println("iters: " + i);
+		solution.setIterations(i);
+		solution.setElapsedTimeMillis(stopTime - startTime);
+		solution.setStopReason(error <= 0 ? CutOffReason.MINACCEPTABLE : CutOffReason.MAXITER);
+
+		/*
+		 * System.out.println("Minimum Weights found:");
+		 * for (int j = 0; j < minW.length; j++) {
+		 * System.out.print(minW[j] + " ");
+		 * }
+		 * System.out.println("\nminError: " + minError);
+		 * System.out.println("iters: " + i);
+		 */
+
+		return solution;
 	}
 
 	private void zeros(double[] array) {

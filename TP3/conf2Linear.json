@@ -1,6 +1,7 @@
 {
-    "iterationLimit": 500,
-    "learningRate": 0.1,
+    "iterationLimit": 500000,
+    "learningRate": 0.0001,
+    "minAcceptable": 0.5,
     "trainingDataInputs": [
         [4.4793, -4.0765, 4.4558],
         [-4.1793, -4.9218, 1.7664],
@@ -208,5 +209,7 @@
     ],
     "trainingDataInptutDimension": 3,
     "trainingDataInputSize": 200,
-    "perceptronMode": "linear"
+    "perceptronMode": "linear",
+    "printHistory": true
+
 }
