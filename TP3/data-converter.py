@@ -2,9 +2,11 @@ import json
 
 
 words = []
-pattern_dim = 3
+pattern_dim = 1
 for word in open('./tp3-ej2-outputs.txt'):
     words.append(word.rstrip('\n'))
+
+#print(words)
 
 out = []
 for w in words:
@@ -16,6 +18,7 @@ for w in words:
     else:
         for val in w.split():
             out.append(float(val))
+            #out.append(float(val))
 
 y = json.dumps(out)
 #un-comment if you want to read the resulting array from the terminal!

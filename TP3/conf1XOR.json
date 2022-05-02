@@ -1,5 +1,5 @@
 {
-    "interationLimit": 1000,
+    "iterationLimit": 1000,
     "learningRate": 0.1,
     "trainingDataInputs": [
         [-1, 1],

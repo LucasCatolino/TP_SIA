@@ -15,16 +15,42 @@ public class SimpleParams {
 
     private SimplePerceptronMode perceptronMode = SimplePerceptronMode.STEP;
 
+    private double beta = 1.5;
+    private NonLinearSigmoidType sigmoidType = NonLinearSigmoidType.TANH;
+
     public enum SimplePerceptronMode {
         @SerializedName("step")
         STEP,
-        @SerializedName("lineal")
-        LINEAL,
-        @SerializedName("nonlineal")
-        NONLINEAL,
+        @SerializedName("linear")
+        LINEAR,
+        @SerializedName("nonlinear")
+        NONLINEAR,
+    };
+
+    public enum NonLinearSigmoidType {
+        @SerializedName("tanh")
+        TANH,
+        @SerializedName("logistic")
+        LOGISTIC,
     };
 
     // GETTERS & SETTERS
+
+    public NonLinearSigmoidType getSigmoidType() {
+        return this.sigmoidType;
+    }
+
+    public void setSigmoidType(NonLinearSigmoidType sigmoidType) {
+        this.sigmoidType = sigmoidType;
+    }
+
+    public double getBeta() {
+        return this.beta;
+    }
+
+    public void setBeta(double beta) {
+        this.beta = beta;
+    }
 
     public SimplePerceptronMode getPerceptronMode() {
         return this.perceptronMode;

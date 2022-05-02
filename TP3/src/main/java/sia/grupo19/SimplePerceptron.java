@@ -6,10 +6,15 @@ import sia.grupo19.params.SimpleParams;
 
 public class SimplePerceptron {
 
-	private int LIMIT = 1000;
-	private double learningRate = 0.1;
-	private double[][] X = { { -1, 1 }, { 1, -1 }, { -1, -1 }, { 1, 1 } }; // TODO: desharcodeame esta
-	private double[] Y = { -1, -1, -1, 1 }; // TODO: desharcodeame esta
+	// private int LIMIT = 1000;
+	private int LIMIT;
+	// private double learningRate = 0.1;
+	private double learningRate;
+	// private double[][] X = { { -1, 1 }, { 1, -1 }, { -1, -1 }, { 1, 1 } }; //
+	// TODO: desharcodeame esta
+	private double[][] X;
+	// private double[] Y = { -1, -1, -1, 1 }; // TODO: desharcodeame esta
+	private double[] Y;
 	private int N;
 	private int p;
 
@@ -52,11 +57,35 @@ public class SimplePerceptron {
 			// get excitement h= x[i_x].w
 			double h = innerProduct(X[i_x], w);
 
-			// get activation O= sign(h)
-			int O = (int) Math.signum(h - w[N - 1]); // TODO: esto es por ser escalón
+			double O;
 
-			// ∆w = η * (y[i_x] − O).x[i_x]
-			double correction = learningRate * innerProduct(Y[i_x] - O, X[i_x]);
+			switch (this.params.getPerceptronMode()) {
+				default:
+				case STEP:
+					// get activation O= sign(h)
+					O = (int) Math.signum(h - w[N - 1]);
+					break;
+				case LINEAR:
+					O = h;
+					break;
+				case NONLINEAR:
+					O = g(h);
+					break;
+			}
+
+			double correction;
+			switch (this.params.getPerceptronMode()) {
+				default:
+				case STEP:
+				case LINEAR:
+					// ∆w = η * (y[i_x] − O).x[i_x]
+					correction = learningRate * innerProduct(Y[i_x] - O, X[i_x]);
+					break;
+				case NONLINEAR:
+					// ∆w = η * (y[i_x] − O).g'(h).x[i_x]
+					correction = learningRate * innerProduct(Y[i_x] - O, X[i_x]) * derivativeG(h);
+					break;
+			}
 
 			// w = w + ∆w
 			w = addCorrection(w, correction);
@@ -127,13 +156,48 @@ public class SimplePerceptron {
 			// get excitement h= x[i_x].w
 			double h = innerProduct(X[i], w);
 
-			// get activation O= sign(h)
-			int O = (int) Math.signum(h - w[N - 1]); // TODO: esto es por ser escalón
+			double O;
 
-			System.out.println("inputs: " + new Gson().toJson(X[i]) + "expected " + Y[i] + " outcome: " + O);
+			switch (this.params.getPerceptronMode()) {
+				default:
+				case STEP:
+					// get activation O= sign(h)
+					O = (int) Math.signum(h - w[N - 1]); // TODO: esto es por ser escalón
+					break;
+				case LINEAR:
+					O = h;
+					break;
+				case NONLINEAR:
+					O = g(h);
+					break;
+			}
+
+			// System.out.println("inputs: " + new Gson().toJson(X[i]) + "expected " + Y[i]
+			// + " outcome: " + O);
 			out += Math.pow(Y[i] - O, 2);
 		}
 		return out / 2;
+	}
+
+	private double g(double excitation) {
+		switch (params.getSigmoidType()) {
+			default:
+			case TANH:
+				return Math.tanh(params.getBeta() * excitation);
+			case LOGISTIC:
+				return 1 / (1 + Math.exp(-2 * params.getBeta() * excitation));
+		}
+	}
+
+	private double derivativeG(double excitation) {
+		double auxG = g(excitation); // why call g 3 times when you can call it once?
+		switch (params.getSigmoidType()) {
+			default:
+			case TANH:
+				return params.getBeta() * (1 - Math.pow(auxG, 2));
+			case LOGISTIC:
+				return 2 * params.getBeta() * auxG * (1 - auxG);
+		}
 	}
 
 	public static void main(String[] args) {

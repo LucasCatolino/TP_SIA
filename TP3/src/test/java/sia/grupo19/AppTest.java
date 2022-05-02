@@ -30,4 +30,20 @@ public class AppTest {
         sp.run();
         System.out.println(new Gson().toJson(parser));
     }
+
+    @Test
+    public void test02Linear() throws Exception {
+        SimpleParser parser = new SimpleParser("./conf2Linear.json", true);
+        SimplePerceptron sp = new SimplePerceptron(parser.getParams());
+        sp.run();
+        // System.out.println(new Gson().toJson(parser));
+    }
+
+    @Test
+    public void test02NonLinear() throws Exception {
+        SimpleParser parser = new SimpleParser("./conf2NonLinear.json", true);
+        SimplePerceptron sp = new SimplePerceptron(parser.getParams());
+        sp.run();
+        // System.out.println(new Gson().toJson(parser));
+    }
 }
