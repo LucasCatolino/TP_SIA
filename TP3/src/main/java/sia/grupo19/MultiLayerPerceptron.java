@@ -3,10 +3,10 @@ package sia.grupo19;
 public class MultiLayerPerceptron {
 
 	private static final double[][] X = { { -1, 1 }, { 1, -1 }, { -1, -1 }, { 1, 1 } }; // TODO: desharcodeame esta
-	private static final double[] Y = { -1, -1, -1, 1 }; // TODO: desharcodeame esta
+	private static final double[] Y = { 1, 1, -1, -1 }; // TODO: desharcodeame esta
 	private static final String FUNCTION= "sigmoid";
-	private static final int LIMIT= 500;
-	private Layer[] network; //rows: layers, columns: units
+	private static final int LIMIT= 100000;
+	private Layer[] network;
 	private int lastLayer;
 	
 	public MultiLayerPerceptron(int inputSize, int outputSize, int hiddenLayers, int[] hiddenLayersSizes) {
@@ -30,7 +30,7 @@ public class MultiLayerPerceptron {
 		double error= 1;
 		
 		int i= 0;		
-		while (error > 0.00001 && i < LIMIT) {
+		while (error > 0.00000001 && i < LIMIT) {
 			System.out.println(i);
 			//get random X_i
 			int position= (int) Math.floor(Math.random() * X.length);
@@ -51,6 +51,9 @@ public class MultiLayerPerceptron {
 			//update weights
 			updateWeights();
 			
+			//restart excitations
+			restartExcitations();
+			
 			//update error
 			error= calculateError(position, network[lastLayer]);
 			
@@ -58,10 +61,17 @@ public class MultiLayerPerceptron {
 		}
 	}
 	
+	private void restartExcitations() {
+		for (int i = 1; i < lastLayer + 1; i++) {
+			network[i].restartExcitations();			
+		}		
+	}
+
 	private double calculateError(int position, Layer layer) {
 		double errorToRet= Y[position] - layer.getTotalActivation();
 		System.out.println("Expected: " + Y[position] + " result: " + layer.getTotalActivation());
-		return Math.abs(errorToRet);
+		return 1;
+		//return Math.abs(errorToRet);
 	}
 
 	private void updateWeights() {
@@ -77,10 +87,12 @@ public class MultiLayerPerceptron {
 	}
 
 	private void propagate() {
-		for (int i = 1; i < lastLayer + 1; i++) { //i= 1 because first layer was already calculated
+		for (int i = 1; i < lastLayer; i++) { //i= 1 because first layer was already calculated
 			System.out.println("capa: " + i);
 			network[i].apply();
 		}
+		System.out.println("capa: " + lastLayer);
+		network[lastLayer].apply(true);
 		
 	}
 
@@ -92,7 +104,7 @@ public class MultiLayerPerceptron {
 	}
 
 	public static void main(String[] args) {
-		int[] hiddenLayersSizes= {3, 3};
+		int[] hiddenLayersSizes= {4, 3};
 		MultiLayerPerceptron multiLayerPerceptron= new MultiLayerPerceptron(2, 1, 2, hiddenLayersSizes);
 		
 		multiLayerPerceptron.run();
