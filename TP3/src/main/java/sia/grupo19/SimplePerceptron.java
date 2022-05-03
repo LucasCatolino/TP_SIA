@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import sia.grupo19.params.IterationInfo;
 import sia.grupo19.params.SimpleParams;
 import sia.grupo19.params.SimpleSolution;
+import sia.grupo19.params.SimpleParams.SimplePerceptronMode;
 import sia.grupo19.params.SimpleSolution.CutOffReason;
 
 public class SimplePerceptron {
@@ -69,21 +70,25 @@ public class SimplePerceptron {
 			// get excitement h= x[i_x].w
 			double h = innerProduct(X[i_x], w);
 
-			double O;
+			double O = calculateActivation(h, w, params.getPerceptronMode());
 
-			switch (this.params.getPerceptronMode()) {
-				default:
-				case STEP:
-					// get activation O= sign(h)
-					O = (int) Math.signum(h - w[N - 1]);
-					break;
-				case LINEAR:
-					O = h;
-					break;
-				case NONLINEAR:
-					O = g(h);
-					break;
-			}
+			/*
+			 * double O;
+			 *
+			 * switch (this.params.getPerceptronMode()) {
+			 * default:
+			 * case STEP:
+			 * // get activation O= sign(h)
+			 * O = (int) Math.signum(h - w[N - 1]);
+			 * break;
+			 * case LINEAR:
+			 * O = h;
+			 * break;
+			 * case NONLINEAR:
+			 * O = g(h);
+			 * break;
+			 * }
+			 */
 
 			double correction;
 			switch (this.params.getPerceptronMode()) {
@@ -179,21 +184,25 @@ public class SimplePerceptron {
 			// get excitement h= x[i_x].w
 			double h = innerProduct(X[i], w);
 
-			double O;
+			double O = calculateActivation(h, w, params.getPerceptronMode());
 
-			switch (this.params.getPerceptronMode()) {
-				default:
-				case STEP:
-					// get activation O= sign(h)
-					O = (int) Math.signum(h - w[N - 1]); // TODO: esto es por ser escalón
-					break;
-				case LINEAR:
-					O = h;
-					break;
-				case NONLINEAR:
-					O = g(h);
-					break;
-			}
+			/*
+			 * double O;
+			 *
+			 * switch (this.params.getPerceptronMode()) {
+			 * default:
+			 * case STEP:
+			 * // get activation O= sign(h)
+			 * O = (int) Math.signum(h - w[N - 1]); // TODO: esto es por ser escalón
+			 * break;
+			 * case LINEAR:
+			 * O = h;
+			 * break;
+			 * case NONLINEAR:
+			 * O = g(h);
+			 * break;
+			 * }
+			 */
 
 			// System.out.println("inputs: " + new Gson().toJson(X[i]) + "expected " + Y[i]
 			// + " outcome: " + O);
@@ -221,6 +230,25 @@ public class SimplePerceptron {
 			case LOGISTIC:
 				return 2 * params.getBeta() * auxG * (1 - auxG);
 		}
+	}
+
+	private double calculateActivation(double h, double[] w, SimplePerceptronMode mode) {
+		double O;
+		switch (this.params.getPerceptronMode()) {
+			default:
+			case STEP:
+				// get activation O= sign(h)
+				O = (int) Math.signum(h - w[N - 1]); // TODO: esto es por ser escalón
+				break;
+			case LINEAR:
+				O = h;
+				break;
+			case NONLINEAR:
+				O = g(h);
+				break;
+		}
+
+		return O;
 	}
 
 	public static void main(String[] args) {
