@@ -21,11 +21,11 @@ public class SimpleSolution {
     private long elapsedTimeMillis;
     private transient List<IterationInfo> iterationsInfo;
     private CutOffReason stopReason;
-    private IterationInfo finalIteration;
+    private IterationInfo bestIteration;
 
     @Override
     public String toString() {
-        finalIteration = getFinalIteration();
+        ;
         return new Gson().toJson(this);
     }
 
@@ -63,12 +63,12 @@ public class SimpleSolution {
         this.stopReason = stopReason;
     }
 
-    public IterationInfo getFinalIteration() {
-        return this.iterationsInfo.get(iterations - 1);
+    public IterationInfo getBestIteration() {
+        return this.bestIteration;
     }
 
-    public void setFinalIteration(IterationInfo finalIteration) {
-        this.finalIteration = finalIteration;
+    public void setBestIteration(IterationInfo bestIteration) {
+        this.bestIteration = bestIteration;
     }
 
     public void setIterationsInfo(List<IterationInfo> iterationsInfo) {

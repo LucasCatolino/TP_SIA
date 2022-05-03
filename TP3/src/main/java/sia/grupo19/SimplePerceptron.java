@@ -111,6 +111,7 @@ public class SimplePerceptron {
 			if (error < minError) {
 				minError = error;
 				minW = w;
+				solution.setBestIteration(new IterationInfo(minW, minError));
 			}
 
 			solution.addIterationInfo(new IterationInfo(w, error));
@@ -206,6 +207,10 @@ public class SimplePerceptron {
 
 			// System.out.println("inputs: " + new Gson().toJson(X[i]) + "expected " + Y[i]
 			// + " outcome: " + O);
+
+			// WE HAVE TO SCALE THE ACTIVATION WHEN IN NON-LINEAR MODE!!!!
+			// non linear only outputs values between -1 and 1, but the expected outputs can
+			// be a larger range of numbers
 			out += Math.pow(Y[i] - O, 2);
 		}
 		return out / 2;

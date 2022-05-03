@@ -44,6 +44,17 @@ public class AppTest {
         // System.out.println(new Gson().toJson(parser));
     }
 
+    // TESTEAR LINEAR CON 2*X Y NON-LINEAR CON X**2
+
+    @Test
+    public void test02Linear2X() throws Exception {
+        SimpleParser parser = new SimpleParser("./conf2Linear2X.json", true);
+        SimplePerceptron sp = new SimplePerceptron(parser.getParams());
+        SimpleSolution s = sp.run();
+        SimpleWriter w = new SimpleWriter(s, "test02Linear2X-output-");
+        // System.out.println(new Gson().toJson(parser));
+    }
+
     @Test
     public void test02NonLinear() throws Exception {
         SimpleParser parser = new SimpleParser("./conf2NonLinear.json", true);
