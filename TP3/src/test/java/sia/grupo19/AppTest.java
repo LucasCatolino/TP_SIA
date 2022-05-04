@@ -63,4 +63,15 @@ public class AppTest {
         SimpleWriter w = new SimpleWriter(s, "test02NonLinear-output-");
         // System.out.println(new Gson().toJson(parser));
     }
+
+    // its not meant to do a perfect aproximation, but get kinda close (single
+    // digits ideally)
+    @Test
+    public void test02NonLinearXtoThe2() throws Exception {
+        SimpleParser parser = new SimpleParser("./conf2NonLinearXtothe2.json", true);
+        SimplePerceptron sp = new SimplePerceptron(parser.getParams());
+        SimpleSolution s = sp.run();
+        SimpleWriter w = new SimpleWriter(s, "test02NonLinearXtothe2-output-");
+        // System.out.println(new Gson().toJson(parser));
+    }
 }

@@ -1,5 +1,6 @@
 package sia.grupo19;
 
+import java.util.Arrays;
 import com.google.gson.Gson;
 
 import sia.grupo19.params.IterationInfo;
@@ -10,15 +11,12 @@ import sia.grupo19.params.SimpleSolution.CutOffReason;
 
 public class SimplePerceptron {
 
-	// private int LIMIT = 1000;
 	private int LIMIT;
-	// private double learningRate = 0.1;
 	private double learningRate;
-	// private double[][] X = { { -1, 1 }, { 1, -1 }, { -1, -1 }, { 1, 1 } }; //
-	// TODO: desharcodeame esta
+
 	private double[][] X;
-	// private double[] Y = { -1, -1, -1, 1 }; // TODO: desharcodeame esta
 	private double[] Y;
+
 	private int N;
 	private int p;
 
@@ -37,7 +35,34 @@ public class SimplePerceptron {
 		this.params = params;
 
 		this.X = params.getTrainingDataInputs();
-		this.Y = params.getTrainingDataOutputs();
+
+		if (params.getPerceptronMode() == SimplePerceptronMode.NONLINEAR) {
+			/**
+			 * For the non-linear perceptron we need to rescale the expected outputs to the
+			 * range [-1, 1]
+			 * since g: R -> [-1, 1] for both logistic and tanh
+			 *
+			 * "but wouldn't that mean we can only predict values within the original
+			 * training data expected outputs range?":
+			 * - Yes.
+			 * "and woundn't we be only able to answer in this rescaled range?":
+			 * - Yes. We could save the original range's min and max to scale the output
+			 * once again... but that's not really necessary.
+			 */
+			double minExpectedOutput = Arrays.stream(params.getTrainingDataOutputs()).min().getAsDouble();
+			double maxExpectedOutput = Arrays.stream(params.getTrainingDataOutputs()).max().getAsDouble();
+
+			/**
+			 * rescaler initially works in the positive including 0 domain, but we can just
+			 * substract 1 on each rescale!
+			 * so the new range is [0, 2] -> [-1, 1]
+			 */
+			this.Y = scaleValues(params.getTrainingDataOutputs(), minExpectedOutput, maxExpectedOutput, 0, 2);
+			System.out.println(new Gson().toJson(this.Y));
+		} else {
+
+			this.Y = params.getTrainingDataOutputs();
+		}
 
 		this.N = params.getTrainingDataInputDimension() + 1;
 		this.p = params.getTrainingDataInputSize();
@@ -72,24 +97,6 @@ public class SimplePerceptron {
 
 			double O = calculateActivation(h, w, params.getPerceptronMode());
 
-			/*
-			 * double O;
-			 *
-			 * switch (this.params.getPerceptronMode()) {
-			 * default:
-			 * case STEP:
-			 * // get activation O= sign(h)
-			 * O = (int) Math.signum(h - w[N - 1]);
-			 * break;
-			 * case LINEAR:
-			 * O = h;
-			 * break;
-			 * case NONLINEAR:
-			 * O = g(h);
-			 * break;
-			 * }
-			 */
-
 			double correction;
 			switch (this.params.getPerceptronMode()) {
 				default:
@@ -111,7 +118,10 @@ public class SimplePerceptron {
 			if (error < minError) {
 				minError = error;
 				minW = w;
-				solution.setBestIteration(new IterationInfo(minW, minError));
+			}
+			// let's just show something at least
+			if (solution.getBestIteration() == null || error < solution.getBestIteration().getError()) {
+				solution.setBestIteration(new IterationInfo(w, error));
 			}
 
 			solution.addIterationInfo(new IterationInfo(w, error));
@@ -135,7 +145,7 @@ public class SimplePerceptron {
 
 		solution.setIterations(i);
 		solution.setElapsedTimeMillis(stopTime - startTime);
-		solution.setStopReason(error <= 0 ? CutOffReason.MINACCEPTABLE : CutOffReason.MAXITER);
+		solution.setStopReason(error <= minAcceptable ? CutOffReason.MINACCEPTABLE : CutOffReason.MAXITER);
 
 		/*
 		 * System.out.println("Minimum Weights found:");
@@ -187,30 +197,9 @@ public class SimplePerceptron {
 
 			double O = calculateActivation(h, w, params.getPerceptronMode());
 
-			/*
-			 * double O;
-			 *
-			 * switch (this.params.getPerceptronMode()) {
-			 * default:
-			 * case STEP:
-			 * // get activation O= sign(h)
-			 * O = (int) Math.signum(h - w[N - 1]); // TODO: esto es por ser escalón
-			 * break;
-			 * case LINEAR:
-			 * O = h;
-			 * break;
-			 * case NONLINEAR:
-			 * O = g(h);
-			 * break;
-			 * }
-			 */
-
 			// System.out.println("inputs: " + new Gson().toJson(X[i]) + "expected " + Y[i]
 			// + " outcome: " + O);
 
-			// WE HAVE TO SCALE THE ACTIVATION WHEN IN NON-LINEAR MODE!!!!
-			// non linear only outputs values between -1 and 1, but the expected outputs can
-			// be a larger range of numbers
 			out += Math.pow(Y[i] - O, 2);
 		}
 		return out / 2;
@@ -243,7 +232,7 @@ public class SimplePerceptron {
 			default:
 			case STEP:
 				// get activation O= sign(h)
-				O = (int) Math.signum(h - w[N - 1]); // TODO: esto es por ser escalón
+				O = (int) Math.signum(h - w[N - 1]);
 				break;
 			case LINEAR:
 				O = h;
@@ -254,6 +243,16 @@ public class SimplePerceptron {
 		}
 
 		return O;
+	}
+
+	private double[] scaleValues(double[] ins, double insMin, double insMax, double outsMin, double outsMax) {
+		double scale = (outsMax - outsMin) / (insMax - insMin);
+		double[] out = new double[ins.length];
+		for (int i = 0; i < ins.length; i++) {
+			out[i] = ((ins[i] - insMin) * scale) - 1;
+		}
+
+		return out;
 	}
 
 	public static void main(String[] args) {
