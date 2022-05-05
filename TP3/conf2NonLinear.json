@@ -210,7 +210,7 @@
     "trainingDataInputSize": 200,
     "perceptronMode": "nonlinear",
     "sigmoidType": "logistic",
-    "beta": 0.5,
+    "beta": 0.8,
     "printHistory": true
 
 }
