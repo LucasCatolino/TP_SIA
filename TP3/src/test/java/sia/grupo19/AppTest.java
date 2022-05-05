@@ -56,6 +56,15 @@ public class AppTest {
     }
 
     @Test
+    public void test02Linear2XPlus90() throws Exception {
+        SimpleParser parser = new SimpleParser("./conf2Linear2X+90.json", true);
+        SimplePerceptron sp = new SimplePerceptron(parser.getParams());
+        SimpleSolution s = sp.run();
+        SimpleWriter w = new SimpleWriter(s, "test02Linear2X+90-output-");
+        // System.out.println(new Gson().toJson(parser));
+    }
+
+    @Test
     public void test02NonLinear() throws Exception {
         SimpleParser parser = new SimpleParser("./conf2NonLinear.json", true);
         SimplePerceptron sp = new SimplePerceptron(parser.getParams());

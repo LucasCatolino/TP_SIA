@@ -34,7 +34,11 @@ public class SimplePerceptron {
 	public SimplePerceptron(SimpleParams params) {
 		this.params = params;
 
-		this.X = params.getTrainingDataInputs();
+		this.N = params.getTrainingDataInputDimension() + 1;
+		this.p = params.getTrainingDataInputSize();
+
+		this.X = addBias(params.getTrainingDataInputs(), p, N);
+		// System.out.println("new X " + new Gson().toJson(this.X));
 
 		if (params.getPerceptronMode() == SimplePerceptronMode.NONLINEAR) {
 			/**
@@ -58,14 +62,12 @@ public class SimplePerceptron {
 			 * so the new range is [0, 2] -> [-1, 1]
 			 */
 			this.Y = scaleValues(params.getTrainingDataOutputs(), minExpectedOutput, maxExpectedOutput, 0, 2);
-			System.out.println(new Gson().toJson(this.Y));
+			// System.out.println(new Gson().toJson(params.getTrainingDataOutputs()));
+			// System.out.println(new Gson().toJson(this.Y));
 		} else {
 
 			this.Y = params.getTrainingDataOutputs();
 		}
-
-		this.N = params.getTrainingDataInputDimension() + 1;
-		this.p = params.getTrainingDataInputSize();
 
 		this.LIMIT = params.getIterationLimit();
 		this.learningRate = params.getLearningRate();
@@ -73,6 +75,19 @@ public class SimplePerceptron {
 		this.minAcceptable = params.getMinAcceptable();
 
 		System.out.println("N: " + N + " p: " + p);
+	}
+
+	private double[][] addBias(double[][] in, int size, int dim) {
+		double[][] out = new double[size][dim];
+		for (int i = 0; i < size; i++) {
+			double[] newElem = new double[dim];
+			for (int j = 0; j < dim - 1; j++) {
+				newElem[j] = in[i][j];
+			}
+			newElem[dim - 1] = 1;
+			out[i] = newElem;
+		}
+		return out;
 	}
 
 	public SimpleSolution run() {
@@ -84,30 +99,31 @@ public class SimplePerceptron {
 		int i = 0;
 		double[] w = new double[N];
 		zeros(w);
+		// System.out.println("w[w.length -1] = " + w[w.length - 1]);
 		double error = 1;
 		double minError = 2 * p;
 		double[] minW = w;
 
 		while ((error > minAcceptable) && (i < LIMIT)) {
 			// get random number i_x between 1 and p
-			int i_x = (int) Math.floor(Math.random() * (p - 1) + 1);
+			int i_x = (int) Math.floor(Math.random() * (p - 1) + 0);
 
 			// get excitement h= x[i_x].w
 			double h = innerProduct(X[i_x], w);
 
-			double O = calculateActivation(h, w, params.getPerceptronMode());
+			double O = calculateActivation(h, params.getPerceptronMode());
 
-			double correction;
+			double[] correction = new double[N];
 			switch (this.params.getPerceptronMode()) {
 				default:
 				case STEP:
 				case LINEAR:
 					// ∆w = η * (y[i_x] − O).x[i_x]
-					correction = learningRate * innerProduct(Y[i_x] - O, X[i_x]);
+					correction = scalarProduct(learningRate * (Y[i_x] - O), X[i_x]);
 					break;
 				case NONLINEAR:
 					// ∆w = η * (y[i_x] − O).g'(h).x[i_x]
-					correction = learningRate * innerProduct(Y[i_x] - O, X[i_x]) * derivativeG(h);
+					correction = scalarProduct(learningRate * (Y[i_x] - O) * derivativeG(h), X[i_x]);
 					break;
 			}
 
@@ -147,15 +163,6 @@ public class SimplePerceptron {
 		solution.setElapsedTimeMillis(stopTime - startTime);
 		solution.setStopReason(error <= minAcceptable ? CutOffReason.MINACCEPTABLE : CutOffReason.MAXITER);
 
-		/*
-		 * System.out.println("Minimum Weights found:");
-		 * for (int j = 0; j < minW.length; j++) {
-		 * System.out.print(minW[j] + " ");
-		 * }
-		 * System.out.println("\nminError: " + minError);
-		 * System.out.println("iters: " + i);
-		 */
-
 		return solution;
 	}
 
@@ -163,6 +170,7 @@ public class SimplePerceptron {
 		for (int i = 0; i < array.length; i++) {
 			array[i] = 0;
 		}
+		// array[array.length - 1] = -1;
 	}
 
 	private double innerProduct(double[] a, double[] b) {
@@ -173,18 +181,18 @@ public class SimplePerceptron {
 		return toRet;
 	}
 
-	private double innerProduct(double a, double[] b) {
-		double toRet = 0;
+	private double[] scalarProduct(double a, double[] b) {
+		double[] toRet = new double[b.length];
 		for (int i = 0; i < b.length; i++) {
-			toRet += a * b[i];
+			toRet[i] += a * b[i];
 		}
 		return toRet;
 	}
 
-	private double[] addCorrection(double[] w, double correction) {
+	private double[] addCorrection(double[] w, double[] correction) {
 		double[] toRet = new double[w.length];
 		for (int i = 0; i < w.length; i++) {
-			toRet[i] = w[i] + correction;
+			toRet[i] = w[i] + correction[i];
 		}
 		return toRet;
 	}
@@ -193,14 +201,16 @@ public class SimplePerceptron {
 		double out = 0;
 		for (int i = 0; i < p; i++) {
 			// get excitement h= x[i_x].w
+			// double h = innerProduct(X[i], w) + w[w.length - 1];
 			double h = innerProduct(X[i], w);
 
-			double O = calculateActivation(h, w, params.getPerceptronMode());
+			double O = calculateActivation(h, params.getPerceptronMode());
 
 			// System.out.println("inputs: " + new Gson().toJson(X[i]) + "expected " + Y[i]
 			// + " outcome: " + O);
 
-			out += Math.pow(Y[i] - O, 2);
+			// out += Math.pow(Y[i] - (O + w[w.length - 1]), 2);
+			out += Math.pow(Y[i] - (O), 2);
 		}
 		return out / 2;
 	}
@@ -226,13 +236,14 @@ public class SimplePerceptron {
 		}
 	}
 
-	private double calculateActivation(double h, double[] w, SimplePerceptronMode mode) {
+	private double calculateActivation(double h, SimplePerceptronMode mode) {
 		double O;
 		switch (this.params.getPerceptronMode()) {
 			default:
 			case STEP:
 				// get activation O= sign(h)
-				O = (int) Math.signum(h - w[N - 1]);
+				// O = (int) Math.signum(h - w[N - 1]);
+				O = Math.signum(h);
 				break;
 			case LINEAR:
 				O = h;
