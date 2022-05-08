@@ -2,7 +2,11 @@ package sia.grupo19.params;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SimpleParams {
+public class SimpleParams implements Cloneable {
+
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 
     private int iterationLimit = 1000;
     private double learningRate = 0.1;

@@ -88,6 +88,7 @@ public class AppTest {
     public void test02CrossValidatorSubdivisions() throws Exception {
         SimpleParser parser = new SimpleParser("./conf2NonLinearXtothe2.json", true);
         SimpleCrossValidator scv = new SimpleCrossValidator(parser.getParams());
+        scv.run();
 
         // System.out.println(new Gson().toJson(parser));
     }
