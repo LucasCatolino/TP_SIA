@@ -15,6 +15,7 @@ public class SimpleParams {
     private int trainingDataInputSize = 4;
 
     private SimplePerceptronMode perceptronMode = SimplePerceptronMode.STEP;
+    private int kCuts = 3;
 
     private double beta = 1.5;
     private NonLinearSigmoidType sigmoidType = NonLinearSigmoidType.TANH;
@@ -131,4 +132,11 @@ public class SimpleParams {
         this.trainingDataInputDimension = trainingDataInputDimension;
     }
 
+    public int getKCuts() {
+        return this.kCuts;
+    }
+
+    public void setKCuts(int kCuts) {
+        this.kCuts = kCuts;
+    }
 }

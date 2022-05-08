@@ -67,7 +67,7 @@ public class SimplePerceptron {
 			 */
 			this.Y = scaleValues(params.getTrainingDataOutputs(), minExpectedOutput, maxExpectedOutput, 0, 2);
 			// System.out.println(new Gson().toJson(params.getTrainingDataOutputs()));
-			// System.out.println(new Gson().toJson(this.Y));
+			System.out.println(new Gson().toJson(this.Y));
 		} else {
 
 			this.Y = params.getTrainingDataOutputs();
@@ -182,7 +182,7 @@ public class SimplePerceptron {
 
 	private List<Integer> getNewIndices(int size) {
 		List<Integer> out = new ArrayList<>();
-		for (int i = 0; i < p; i++) {
+		for (int i = 0; i < size; i++) {
 			out.add(i);
 		}
 
@@ -286,6 +286,7 @@ public class SimplePerceptron {
 		double[] out = new double[ins.length];
 		for (int i = 0; i < ins.length; i++) {
 			out[i] = ((ins[i] - insMin) * scale) - 1;
+			// out[i] = 2 * (ins[i] - insMin) / (insMax - insMin) - 1; slack equation
 		}
 
 		return out;

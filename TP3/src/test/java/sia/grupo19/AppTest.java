@@ -83,4 +83,12 @@ public class AppTest {
         SimpleWriter w = new SimpleWriter(s, "test02NonLinearXtothe2-output-");
         // System.out.println(new Gson().toJson(parser));
     }
+
+    @Test
+    public void test02CrossValidatorSubdivisions() throws Exception {
+        SimpleParser parser = new SimpleParser("./conf2NonLinearXtothe2.json", true);
+        SimpleCrossValidator scv = new SimpleCrossValidator(parser.getParams());
+
+        // System.out.println(new Gson().toJson(parser));
+    }
 }
