@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class SimpleWriter {
     public SimpleWriter(SimpleSolution solution, String path) {
-        String timeStamp = new SimpleDateFormat("yyyy-MM-dd+hh-mm-ss").format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyy-MM-dd+hh-mm-ss-a").format(new Date());
         try {
             // File file = new File(path + timeStamp + ".log");
             FileWriter myWriter = new FileWriter(path + timeStamp + ".json");

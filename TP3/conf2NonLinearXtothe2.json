@@ -19,7 +19,8 @@
     "trainingDataInputDimension": 1,
     "trainingDataInputSize": 11,
     "perceptronMode": "nonlinear",
+    "sigmoidType": "tanh",
     "beta": 0.5,
-    "printHistory": true
+    "printHistory": false
 
 }
