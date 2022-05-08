@@ -1,6 +1,10 @@
 package sia.grupo19;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import com.google.gson.Gson;
 
 import sia.grupo19.params.IterationInfo;
@@ -104,9 +108,17 @@ public class SimplePerceptron {
 		double minError = 2 * p;
 		double[] minW = w;
 
+		List<Integer> indices = getNewIndices(p);
+		int epochs = 0;
+
 		while ((error > minAcceptable) && (i < LIMIT)) {
 			// get random number i_x between 1 and p
-			int i_x = (int) Math.floor(Math.random() * (p - 1) + 0);
+			if (indices.isEmpty()) {
+				indices = getNewIndices(p);
+				epochs++;
+			}
+
+			int i_x = indices.remove(0);
 
 			// get excitement h= x[i_x].w
 			double h = innerProduct(X[i_x], w);
@@ -160,10 +172,23 @@ public class SimplePerceptron {
 		long stopTime = System.currentTimeMillis();
 
 		solution.setIterations(i);
+		solution.setEpochs(epochs);
+
 		solution.setElapsedTimeMillis(stopTime - startTime);
 		solution.setStopReason(error <= minAcceptable ? CutOffReason.MINACCEPTABLE : CutOffReason.MAXITER);
 
 		return solution;
+	}
+
+	private List<Integer> getNewIndices(int size) {
+		List<Integer> out = new ArrayList<>();
+		for (int i = 0; i < p; i++) {
+			out.add(i);
+		}
+
+		Collections.shuffle(out);
+
+		return out;
 	}
 
 	private void zeros(double[] array) {

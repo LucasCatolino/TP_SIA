@@ -17,10 +17,14 @@ public class SimpleSolution {
     };
 
     private int iterations;
+    private int epochs;
+
     private SimpleParams params;
     private long elapsedTimeMillis;
+
     private transient List<IterationInfo> iterationsInfo;
     private CutOffReason stopReason;
+
     private IterationInfo bestIteration;
 
     @Override
@@ -37,6 +41,14 @@ public class SimpleSolution {
 
     public void setIterations(int iterations) {
         this.iterations = iterations;
+    }
+
+    public int getEpochs() {
+        return this.epochs;
+    }
+
+    public void setEpochs(int epochs) {
+        this.epochs = epochs;
     }
 
     public SimpleParams getParams() {
