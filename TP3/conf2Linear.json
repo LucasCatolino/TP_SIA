@@ -210,6 +210,6 @@
     "trainingDataInputDimension": 3,
     "trainingDataInputSize": 200,
     "perceptronMode": "linear",
-    "printHistory": false
+    "printHistory": "off"
 
 }

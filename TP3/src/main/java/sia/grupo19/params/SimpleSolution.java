@@ -9,6 +9,7 @@ public class SimpleSolution {
 
     public SimpleSolution() {
         iterationsInfo = new ArrayList<>();
+        epochsInfo = new ArrayList<>();
     }
 
     public enum CutOffReason {
@@ -26,6 +27,8 @@ public class SimpleSolution {
     private CutOffReason stopReason;
 
     private IterationInfo bestIteration;
+
+    private transient List<EpochInfo> epochsInfo;
 
     @Override
     public String toString() {
@@ -93,6 +96,18 @@ public class SimpleSolution {
 
     public void addIterationInfo(IterationInfo iterationInfo) {
         this.iterationsInfo.add(iterationInfo);
+    }
+
+    public void setEpochsInfo(List<EpochInfo> epochsInfo) {
+        this.epochsInfo = epochsInfo;
+    }
+
+    public List<EpochInfo> getEpochsInfo() {
+        return this.epochsInfo;
+    }
+
+    public void addEpochsInfo(EpochInfo epochInfo) {
+        this.epochsInfo.add(epochInfo);
     }
 
 }

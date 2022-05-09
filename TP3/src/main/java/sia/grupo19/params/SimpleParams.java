@@ -24,7 +24,7 @@ public class SimpleParams implements Cloneable {
     private double beta = 1.5;
     private NonLinearSigmoidType sigmoidType = NonLinearSigmoidType.TANH;
 
-    private boolean printHistory = false;
+    private PrintHistoryMode printHistory = PrintHistoryMode.OFF;
 
     public enum SimplePerceptronMode {
         @SerializedName("step")
@@ -42,8 +42,15 @@ public class SimpleParams implements Cloneable {
         LOGISTIC,
     };
 
-    public boolean isPrintHistory() {
-        return this.printHistory;
+    public enum PrintHistoryMode {
+        @SerializedName("off")
+        OFF,
+        @SerializedName("iters")
+        ITERS,
+        @SerializedName("epochs")
+        EPOCHS,
+        @SerializedName("both")
+        BOTH,
     }
 
     // GETTERS & SETTERS
@@ -56,11 +63,11 @@ public class SimpleParams implements Cloneable {
         this.minAcceptable = minAcceptable;
     }
 
-    public boolean getPrintHistory() {
+    public PrintHistoryMode getPrintHistory() {
         return this.printHistory;
     }
 
-    public void setPrintHistory(boolean printHistory) {
+    public void setPrintHistory(PrintHistoryMode printHistory) {
         this.printHistory = printHistory;
     }
 
