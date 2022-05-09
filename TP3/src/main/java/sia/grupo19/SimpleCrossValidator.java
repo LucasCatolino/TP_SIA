@@ -18,8 +18,13 @@ public class SimpleCrossValidator {
     private List<double[][]> inputSubsets;
     private List<double[]> outputSubsets;
 
+    private double minExpectedOutput, maxExpectedOutput;
+
     public SimpleCrossValidator(SimpleParams params) {
         this.params = params;
+
+        minExpectedOutput = Arrays.stream(params.getTrainingDataOutputs()).min().getAsDouble();
+        maxExpectedOutput = Arrays.stream(params.getTrainingDataOutputs()).max().getAsDouble();
 
         divideData(params.getTrainingDataInputs(), params.getTrainingDataOutputs());
 
@@ -30,6 +35,9 @@ public class SimpleCrossValidator {
 
     private void divideData(double[][] inputs, double[] outputs) {
         int divisionSize = params.getTrainingDataInputSize() / params.getKCuts();
+        if (divisionSize < 1) {
+            throw new Error("Invalid k-parts value");
+        }
 
         List<double[][]> inputDivisions = new ArrayList<>(); // outcome
         List<double[]> outputDivisions = new ArrayList<>(); // outcome
@@ -75,7 +83,7 @@ public class SimpleCrossValidator {
     }
 
     public void run() {
-        List<SimpleSolution> iters = new ArrayList<>();
+        // List<SimpleSolution> iters = new ArrayList<>();
         int excludedSubsetIndex = 0;
 
         while (excludedSubsetIndex < this.inputSubsets.size()) {
@@ -94,41 +102,46 @@ public class SimpleCrossValidator {
                 }
             }
 
+            double[][] testingSetInputs = this.inputSubsets.get(excludedSubsetIndex);
+            double[] testingSetOutputs = this.outputSubsets.get(excludedSubsetIndex);
+
             try {
                 SimpleParams newParams = (SimpleParams) params.clone();
                 newParams.setTrainingDataInputSize(newP);
                 newParams.setTrainingDataInputs(trainingSetInputs);
                 newParams.setTrainingDataOutputs(trainingSetOutputs);
 
-                SimplePerceptron sp = new SimplePerceptron(newParams);
-                iters.add(sp.run());
+                SimplePerceptron sp = new SimplePerceptron(newParams, minExpectedOutput, maxExpectedOutput);
+                SimpleSolution sol = sp.runExtended(testingSetInputs, testingSetOutputs);
+
+                double finalAccuracy = sp.calculateAccuracy(sol.getBestIteration().getW(), testingSetInputs,
+                        testingSetOutputs, 0.15);
+
+                System.out.println("training set inputs " + new Gson().toJson(trainingSetInputs));
+                System.out.println("training set outputs " + new Gson().toJson(trainingSetOutputs));
+
+                System.out.println("test set inputs" + new Gson().toJson(this.inputSubsets.get(excludedSubsetIndex)));
+                System.out.println("test set outputs" + new Gson().toJson(this.outputSubsets.get(excludedSubsetIndex)));
+
+                System.out.println("final accuracy: " + finalAccuracy);
+                System.out.println("best error: " + sol.getBestIteration().getError());
+
+                System.out.println("+++++++++++++++++++++++++++++++");
 
             } catch (CloneNotSupportedException e) {
-                // TODO Auto-generated catch block
-                System.out.println("parameters cloning failed");
+                System.out.println("parameters cloning failed!");
                 e.printStackTrace();
             }
 
-            /*
-             * System.out.println("training set inputs " + new
-             * Gson().toJson(trainingSetInputs));
-             * System.out.println("training set outputs " + new
-             * Gson().toJson(trainingSetOutputs));
-             *
-             * System.out.println("test set inputs" + new
-             * Gson().toJson(this.inputSubsets.get(excludedSubsetIndex)));
-             * System.out.println("test set outputs" + new
-             * Gson().toJson(this.outputSubsets.get(excludedSubsetIndex)));
-             *
-             * System.out.println("+++++++++++++++++++++++++++++++");
-             *
-             */
             excludedSubsetIndex++;
         }
 
-        for (SimpleSolution s : iters) {
-            System.out.println(new Gson().toJson(s.getBestIteration()) + "\n++++++++++++++\n");
-        }
+        /*
+         * for (SimpleSolution s : iters) {
+         * System.out.println(new Gson().toJson(s.getBestIteration()) +
+         * "\n++++++++++++++\n");
+         * }
+         */
 
     }
 

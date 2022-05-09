@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
+import sia.grupo19.params.EpochInfo;
 import sia.grupo19.params.IterationInfo;
 import sia.grupo19.params.SimpleParams;
 import sia.grupo19.params.SimpleSolution;
@@ -14,6 +15,8 @@ import sia.grupo19.params.SimpleParams.SimplePerceptronMode;
 import sia.grupo19.params.SimpleSolution.CutOffReason;
 
 public class SimplePerceptron {
+
+	public double ACCURACY_EPSILON = 0.25;
 
 	private int LIMIT;
 	private double learningRate;
@@ -26,6 +29,8 @@ public class SimplePerceptron {
 
 	private double minAcceptable;
 
+	private double minExpected, maxExpected;
+
 	private SimpleParams params;
 
 	public SimplePerceptron() {
@@ -35,6 +40,7 @@ public class SimplePerceptron {
 		System.out.println("N: " + N + " p: " + p);
 	}
 
+	// running the simple perceptron by itself with params
 	public SimplePerceptron(SimpleParams params) {
 		this.params = params;
 
@@ -57,18 +63,19 @@ public class SimplePerceptron {
 			 * - Yes. We could save the original range's min and max to scale the output
 			 * once again... but that's not really necessary.
 			 */
-			double minExpectedOutput = Arrays.stream(params.getTrainingDataOutputs()).min().getAsDouble();
-			double maxExpectedOutput = Arrays.stream(params.getTrainingDataOutputs()).max().getAsDouble();
+			this.minExpected = Arrays.stream(params.getTrainingDataOutputs()).min().getAsDouble();
+			this.maxExpected = Arrays.stream(params.getTrainingDataOutputs()).max().getAsDouble();
 
 			/**
 			 * rescaler initially works in the positive including 0 domain, but we can just
 			 * substract 1 on each rescale!
 			 * so the new range is [0, 2] -> [-1, 1]
 			 */
-			this.Y = scaleValues(params.getTrainingDataOutputs(), minExpectedOutput, maxExpectedOutput, 0, 2);
+			this.Y = scaleValues(params.getTrainingDataOutputs(), minExpected, maxExpected, 0, 2);
 			// System.out.println(new Gson().toJson(params.getTrainingDataOutputs()));
 			System.out.println(new Gson().toJson(this.Y));
 		} else {
+			this.ACCURACY_EPSILON = params.getMinAcceptable();
 
 			this.Y = params.getTrainingDataOutputs();
 		}
@@ -81,17 +88,37 @@ public class SimplePerceptron {
 		System.out.println("N: " + N + " p: " + p);
 	}
 
-	private double[][] addBias(double[][] in, int size, int dim) {
-		double[][] out = new double[size][dim];
-		for (int i = 0; i < size; i++) {
-			double[] newElem = new double[dim];
-			for (int j = 0; j < dim - 1; j++) {
-				newElem[j] = in[i][j];
-			}
-			newElem[dim - 1] = 1;
-			out[i] = newElem;
+	// running the simple perceptron via the simple cross validator
+	public SimplePerceptron(SimpleParams params, double minExpectedOutput, double maxExpectedOutput) {
+		this.params = params;
+
+		this.N = params.getTrainingDataInputDimension() + 1;
+		this.p = params.getTrainingDataInputSize();
+
+		this.X = addBias(params.getTrainingDataInputs(), p, N);
+
+		if (params.getPerceptronMode() == SimplePerceptronMode.NONLINEAR) {
+			this.minExpected = minExpectedOutput;
+			this.maxExpected = maxExpectedOutput;
+			/**
+			 * rescaler initially works in the positive including 0 domain, but we can just
+			 * substract 1 on each rescale!
+			 * so the new range is [0, 2] -> [-1, 1]
+			 */
+			this.Y = scaleValues(params.getTrainingDataOutputs(), minExpectedOutput, maxExpectedOutput, 0, 2);
+			// System.out.println(new Gson().toJson(this.Y));
+		} else {
+			this.Y = params.getTrainingDataOutputs();
+			this.ACCURACY_EPSILON = params.getMinAcceptable();
+
 		}
-		return out;
+
+		this.LIMIT = params.getIterationLimit();
+		this.learningRate = params.getLearningRate();
+
+		this.minAcceptable = params.getMinAcceptable();
+
+		// System.out.println("N: " + N + " p: " + p);
 	}
 
 	public SimpleSolution run() {
@@ -116,6 +143,11 @@ public class SimplePerceptron {
 			if (indices.isEmpty()) {
 				indices = getNewIndices(p);
 				epochs++;
+				solution.addEpochsInfo(
+						new EpochInfo(w,
+								// calculateAccuracy(w, X, Y, params.getMinAcceptable()),
+								calculateAccuracy(w, X, Y, ACCURACY_EPSILON),
+								error));
 			}
 
 			int i_x = indices.remove(0);
@@ -174,10 +206,154 @@ public class SimplePerceptron {
 		solution.setIterations(i);
 		solution.setEpochs(epochs);
 
+		if (i % p != 0) {
+			solution.addEpochsInfo(new EpochInfo(w, calculateAccuracy(w, X, Y, ACCURACY_EPSILON), error));
+		}
+
+		System.out
+				.println("final acc: " + calculateAccuracy(solution.getBestIteration().getW(), X, Y, ACCURACY_EPSILON));
+
 		solution.setElapsedTimeMillis(stopTime - startTime);
 		solution.setStopReason(error <= minAcceptable ? CutOffReason.MINACCEPTABLE : CutOffReason.MAXITER);
 
 		return solution;
+	}
+
+	public SimpleSolution runExtended(double[][] testingSetInputs, double[] testingSetOutputs) {
+		long startTime = System.currentTimeMillis();
+
+		SimpleSolution solution = new SimpleSolution();
+		solution.setParams(params);
+
+		int i = 0;
+		double[] w = new double[N];
+		zeros(w);
+		// System.out.println("w[w.length -1] = " + w[w.length - 1]);
+		double error = 1;
+		double minError = 2 * p;
+		double[] minW = w;
+
+		List<Integer> indices = getNewIndices(p);
+		int epochs = 0;
+
+		while ((error > minAcceptable) && (i < LIMIT)) {
+			// get random number i_x between 1 and p
+			if (indices.isEmpty()) {
+				indices = getNewIndices(p);
+				epochs++;
+				solution.addEpochsInfo(
+						new EpochInfo(w,
+								calculateAccuracy(w, testingSetInputs, testingSetOutputs, ACCURACY_EPSILON),
+								error));
+			}
+
+			int i_x = indices.remove(0);
+
+			// get excitement h= x[i_x].w
+			double h = innerProduct(X[i_x], w);
+
+			double O = calculateActivation(h, params.getPerceptronMode());
+
+			double[] correction = new double[N];
+			switch (this.params.getPerceptronMode()) {
+				default:
+				case STEP:
+				case LINEAR:
+					// ∆w = η * (y[i_x] − O).x[i_x]
+					correction = scalarProduct(learningRate * (Y[i_x] - O), X[i_x]);
+					break;
+				case NONLINEAR:
+					// ∆w = η * (y[i_x] − O).g'(h).x[i_x]
+					correction = scalarProduct(learningRate * (Y[i_x] - O) * derivativeG(h), X[i_x]);
+					break;
+			}
+
+			// w = w + ∆w
+			w = addCorrection(w, correction);
+
+			error = calculateError(X, Y, w, p);
+			if (error < minError) {
+				minError = error;
+				minW = w;
+			}
+			// let's just show something at least
+			if (solution.getBestIteration() == null || error < solution.getBestIteration().getError()) {
+				solution.setBestIteration(new IterationInfo(w, error));
+			}
+
+			solution.addIterationInfo(new IterationInfo(w, error));
+			i++;
+		}
+		long stopTime = System.currentTimeMillis();
+
+		solution.setIterations(i);
+		solution.setEpochs(epochs);
+
+		solution.setElapsedTimeMillis(stopTime - startTime);
+		solution.setStopReason(error <= minAcceptable ? CutOffReason.MINACCEPTABLE : CutOffReason.MAXITER);
+
+		return solution;
+	}
+
+	private double calculateError(double[][] X, double[] Y, double w[], int p) {
+		double out = 0;
+		for (int i = 0; i < p; i++) {
+			// get excitement h= x[i_x].w
+			// double h = innerProduct(X[i], w) + w[w.length - 1];
+			double h = innerProduct(X[i], w);
+
+			double O = calculateActivation(h, params.getPerceptronMode());
+
+			// out += Math.pow(Y[i] - (O + w[w.length - 1]), 2);
+			out += Math.pow(Y[i] - (O), 2);
+		}
+		return out / 2;
+	}
+
+	public double predict(double[] w, double[] X) {
+		double h = innerProduct(X, w);
+		double O = calculateActivation(h, params.getPerceptronMode());
+
+		return O;
+	}
+
+	public double calculateAccuracy(double[] w, double[][] testInputs, double[] testOutputs, double expectedError) {
+
+		double[] rescaledOutputs;
+		if (params.getPerceptronMode() == SimplePerceptronMode.NONLINEAR) {
+			rescaledOutputs = scaleValues(testOutputs, this.minExpected, this.maxExpected, 0, 2);
+		} else {
+			rescaledOutputs = testOutputs;
+		}
+
+		int correct = 0;
+		for (int i = 0; i < testOutputs.length; i++) {
+			double diff = Math.abs(predict(w, testInputs[i]) - rescaledOutputs[i]);
+			if (diff <= expectedError) {
+				correct++;
+			}
+		}
+
+		return ((double) correct) / testOutputs.length;
+	}
+
+	/*
+	 **********************
+	 * HELPER FUNCTIONS *
+	 **********************
+	 */
+
+	private double[][] addBias(double[][] in, int size, int dim) {
+		double[][] out = new double[size][dim];
+		for (int i = 0; i < size; i++) {
+			double[] newElem = new double[dim];
+			for (int j = 0; j < dim - 1; j++) {
+				newElem[j] = in[i][j];
+			}
+			newElem[dim - 1] = 1;
+			out[i] = newElem;
+		}
+		return out;
 	}
 
 	private List<Integer> getNewIndices(int size) {
@@ -220,24 +396,6 @@ public class SimplePerceptron {
 			toRet[i] = w[i] + correction[i];
 		}
 		return toRet;
-	}
-
-	private double calculateError(double[][] X, double[] Y, double w[], int p) {
-		double out = 0;
-		for (int i = 0; i < p; i++) {
-			// get excitement h= x[i_x].w
-			// double h = innerProduct(X[i], w) + w[w.length - 1];
-			double h = innerProduct(X[i], w);
-
-			double O = calculateActivation(h, params.getPerceptronMode());
-
-			// System.out.println("inputs: " + new Gson().toJson(X[i]) + "expected " + Y[i]
-			// + " outcome: " + O);
-
-			// out += Math.pow(Y[i] - (O + w[w.length - 1]), 2);
-			out += Math.pow(Y[i] - (O), 2);
-		}
-		return out / 2;
 	}
 
 	private double g(double excitation) {
