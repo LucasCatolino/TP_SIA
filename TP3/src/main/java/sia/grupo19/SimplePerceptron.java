@@ -16,7 +16,7 @@ import sia.grupo19.params.SimpleSolution.CutOffReason;
 
 public class SimplePerceptron {
 
-	public double ACCURACY_EPSILON = 0.25;
+	public double ACCURACY_EPSILON = 0.18;
 
 	private int LIMIT;
 	private double learningRate;
@@ -73,9 +73,9 @@ public class SimplePerceptron {
 			 */
 			this.Y = scaleValues(params.getTrainingDataOutputs(), minExpected, maxExpected, 0, 2);
 			// System.out.println(new Gson().toJson(params.getTrainingDataOutputs()));
-			System.out.println(new Gson().toJson(this.Y));
+			// System.out.println(new Gson().toJson(this.Y));
 		} else {
-			this.ACCURACY_EPSILON = params.getMinAcceptable();
+			// this.ACCURACY_EPSILON = params.getMinAcceptable();
 
 			this.Y = params.getTrainingDataOutputs();
 		}
@@ -109,7 +109,7 @@ public class SimplePerceptron {
 			// System.out.println(new Gson().toJson(this.Y));
 		} else {
 			this.Y = params.getTrainingDataOutputs();
-			this.ACCURACY_EPSILON = params.getMinAcceptable();
+			// this.ACCURACY_EPSILON = params.getMinAcceptable();
 
 		}
 
@@ -130,7 +130,6 @@ public class SimplePerceptron {
 		int i = 0;
 		double[] w = new double[N];
 		zeros(w);
-		// System.out.println("w[w.length -1] = " + w[w.length - 1]);
 		double error = 1;
 		double minError = 2 * p;
 		double[] minW = w;
@@ -139,17 +138,20 @@ public class SimplePerceptron {
 		int epochs = 0;
 
 		while ((error > minAcceptable) && (i < LIMIT)) {
-			// get random number i_x between 1 and p
 			if (indices.isEmpty()) {
 				indices = getNewIndices(p);
 				epochs++;
+				// save the epoch's train accuracy (testing kept as 0 since this is running
+				// without cross validation...)
+				double acc = calculateAccuracy(w, X, Y, ACCURACY_EPSILON, true);
 				solution.addEpochsInfo(
 						new EpochInfo(w,
-								// calculateAccuracy(w, X, Y, params.getMinAcceptable()),
-								calculateAccuracy(w, X, Y, ACCURACY_EPSILON),
+								acc,
+								0,
 								error));
 			}
 
+			// get random number i_x between 1 and p
 			int i_x = indices.remove(0);
 
 			// get excitement h= x[i_x].w
@@ -206,12 +208,14 @@ public class SimplePerceptron {
 		solution.setIterations(i);
 		solution.setEpochs(epochs);
 
+		// in case iteration ended before end of epoch, save it
 		if (i % p != 0) {
-			solution.addEpochsInfo(new EpochInfo(w, calculateAccuracy(w, X, Y, ACCURACY_EPSILON), error));
+			solution.addEpochsInfo(new EpochInfo(w, calculateAccuracy(w, X, Y, ACCURACY_EPSILON, true), 0, error));
 		}
 
 		System.out
-				.println("final acc: " + calculateAccuracy(solution.getBestIteration().getW(), X, Y, ACCURACY_EPSILON));
+				.println("final training accuracy: "
+						+ calculateAccuracy(w, X, Y, ACCURACY_EPSILON, true));
 
 		solution.setElapsedTimeMillis(stopTime - startTime);
 		solution.setStopReason(error <= minAcceptable ? CutOffReason.MINACCEPTABLE : CutOffReason.MAXITER);
@@ -237,16 +241,21 @@ public class SimplePerceptron {
 		int epochs = 0;
 
 		while ((error > minAcceptable) && (i < LIMIT)) {
-			// get random number i_x between 1 and p
 			if (indices.isEmpty()) {
 				indices = getNewIndices(p);
 				epochs++;
+
+				// save the epoch's train accuracy & testing accuracy
+				double trainAcc = calculateAccuracy(w, X, Y, ACCURACY_EPSILON, true);
+				double testAcc = calculateAccuracy(w, testingSetInputs, testingSetOutputs, ACCURACY_EPSILON);
 				solution.addEpochsInfo(
 						new EpochInfo(w,
-								calculateAccuracy(w, testingSetInputs, testingSetOutputs, ACCURACY_EPSILON),
+								trainAcc,
+								testAcc,
 								error));
 			}
 
+			// get random number i_x between 1 and p
 			int i_x = indices.remove(0);
 
 			// get excitement h= x[i_x].w
@@ -317,8 +326,8 @@ public class SimplePerceptron {
 		return O;
 	}
 
+	// for use in the cross validator
 	public double calculateAccuracy(double[] w, double[][] testInputs, double[] testOutputs, double expectedError) {
-
 		double[] rescaledOutputs;
 		if (params.getPerceptronMode() == SimplePerceptronMode.NONLINEAR) {
 			rescaledOutputs = scaleValues(testOutputs, this.minExpected, this.maxExpected, 0, 2);
@@ -329,6 +338,19 @@ public class SimplePerceptron {
 		int correct = 0;
 		for (int i = 0; i < testOutputs.length; i++) {
 			double diff = Math.abs(predict(w, testInputs[i]) - rescaledOutputs[i]);
+			if (diff <= expectedError) {
+				correct++;
+			}
+		}
+
+		return ((double) correct) / testOutputs.length;
+	}
+
+	private double calculateAccuracy(double[] w, double[][] testInputs, double[] testOutputs, double expectedError,
+			boolean internal) {
+		int correct = 0;
+		for (int i = 0; i < testOutputs.length; i++) {
+			double diff = Math.abs(predict(w, testInputs[i]) - testOutputs[i]);
 			if (diff <= expectedError) {
 				correct++;
 			}

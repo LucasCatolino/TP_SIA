@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 
 public class EpochInfo {
     private double[] w;
-    private double accuracy;
+    private double trainAccuracy;
+    private double testAccuracy;
+
     private double error;
 
     public double[] getW() {
@@ -15,14 +17,6 @@ public class EpochInfo {
         this.w = w;
     }
 
-    public double getAccuracy() {
-        return this.accuracy;
-    }
-
-    public void setAccuracy(double accuracy) {
-        this.accuracy = accuracy;
-    }
-
     public double getError() {
         return this.error;
     }
@@ -31,10 +25,27 @@ public class EpochInfo {
         this.error = error;
     }
 
-    public EpochInfo(double[] w, double acc, double err) {
+    public EpochInfo(double[] w, double trainAcc, double testAcc, double err) {
         this.w = w;
-        this.accuracy = acc;
+        this.trainAccuracy = trainAcc;
+        this.testAccuracy = testAcc;
         this.error = err;
+    }
+
+    public double getTrainAccuracy() {
+        return this.trainAccuracy;
+    }
+
+    public void setTrainAccuracy(double trainAccuracy) {
+        this.trainAccuracy = trainAccuracy;
+    }
+
+    public double getTestAccuracy() {
+        return this.testAccuracy;
+    }
+
+    public void setTestAccuracy(double testAccuracy) {
+        this.testAccuracy = testAccuracy;
     }
 
     @Override

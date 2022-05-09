@@ -2,6 +2,8 @@ package sia.grupo19;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
 import com.google.gson.Gson;
 
 import org.junit.Test;
@@ -86,9 +88,10 @@ public class AppTest {
 
     @Test
     public void test02CrossValidatorSubdivisions() throws Exception {
-        SimpleParser parser = new SimpleParser("./conf2NonLinear.json", true);
+        SimpleParser parser = new SimpleParser("./conf2Linear2X.json", true);
         SimpleCrossValidator scv = new SimpleCrossValidator(parser.getParams());
-        scv.run();
+        List<SimpleSolution> sols = scv.run();
+        SimpleWriter w = new SimpleWriter(sols, "./cross-outs/2X-linear-");
 
         // System.out.println(new Gson().toJson(parser));
     }
