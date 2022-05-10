@@ -83,8 +83,10 @@ public class Ex3_2 {
 	public static void main(String[] args) {
 		readFile();
 		
+		System.out.println("Starting");
 		MultiLayerPerceptron multiLayerPerceptron= new MultiLayerPerceptron(inputSize, outputSize, hiddenLayers, hiddenLayersSizes, x, y, epochs, null, 0);
 		multiLayerPerceptron.run3_2();
 		multiLayerPerceptron.printFile("Ex3_2.out");
+		System.out.println("Finished");
 	}
 }

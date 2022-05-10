@@ -45,7 +45,7 @@ local.properties
 *.launch
 
 # Resources files
-resources/**
+resources/*.out
 /out/
 
 #outputs

@@ -1,0 +1,9 @@
+Epochs: 100001
+HiddenLayers: 2
+HiddenLayersSizes: 4 3
+InputSize: 2
+XSize: 4
+inputX: { { -1, 1 }, { 1, -1 }, { -1, -1 }, { 1, 1 } }
+OutputSize: 1
+YSize: 4
+outputY: { 1, 1, -1, -1 }

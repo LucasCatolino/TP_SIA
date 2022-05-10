@@ -46,8 +46,8 @@ public class MultiLayerPerceptron {
 	private static double[][] X;
 	private static double[] Y;
 	private static double [] [] txt;
-	private static double[] txtY;
-	private static double[][] txtY2;
+	private double[] txtY;
+	private double[][] txtY2;
 	private static final double ERROR= 0.00001;
 	private static final double ACCURACY_ERROR= 0.18;
 //	private static final int LIMIT= 1000000;
@@ -567,12 +567,6 @@ public class MultiLayerPerceptron {
 			}
 		}
 		
-		for (int i = 0; i < noiseText.length; i++) {
-			for (int j = 0; j < noiseText[0].length; j++) {
-				System.out.println(txt[i][j] + " - " + noiseText[i][j] );
-			}
-			
-		}
 		noiseFileOutput("Original", txt);
 		noiseFileOutput("Noise", noiseText);
 		

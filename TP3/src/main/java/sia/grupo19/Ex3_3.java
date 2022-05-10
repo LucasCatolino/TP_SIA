@@ -80,9 +80,7 @@ public class Ex3_3 {
 		noiseProb= Double.parseDouble(inputScanner.next());
 		
 		inputScanner.close();
-		
-		System.out.println(noiseProb);
-		
+				
         hiddenLayersSizes= new int[hiddenSizes.size()];
         for (int i = 0; i < hiddenLayers; i++) {
 			hiddenLayersSizes[i]= hiddenSizes.remove(0);
@@ -92,9 +90,11 @@ public class Ex3_3 {
 	public static void main(String[] args) {
 		readFile();
 		
+		System.out.println("Starting");
 		MultiLayerPerceptron multiLayerPerceptron= new MultiLayerPerceptron(inputSize, outputSize, hiddenLayers, hiddenLayersSizes, x, null, epochs, y, noiseProb);
 		multiLayerPerceptron.run3_3();
 		multiLayerPerceptron.testNoise();
 		multiLayerPerceptron.printFile("Ex3_3.out");
+		System.out.println("Finished");
 	}
 }
