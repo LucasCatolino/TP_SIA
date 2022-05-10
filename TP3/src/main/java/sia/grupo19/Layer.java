@@ -36,7 +36,7 @@ public class Layer {
 				units[i].setWeight(1);
 			} else {
 				for (int j = 0; j < previousLayer.getSize(); j++) {
-					double w= Math.random();// * 1.4 - 0.7;
+					double w= Math.random() - 0.5;
 					units[i].setWeight(w);
 				}				
 			}
@@ -78,7 +78,7 @@ public class Layer {
 		}
 	}
 
-	private double getUnitActivation(int position) {
+	public double getUnitActivation(int position) {
 		return units[position].getActivation();
 	}
 
@@ -139,9 +139,17 @@ public class Layer {
 		}
 	}
 
-	public void restartExcitations() {
+	public void restartUnits() {
 		for (int i = 0; i < units.length; i++) {
 			units[i].setExcitation(0);
+			units[i].setActivation(0);
+			units[i].setDelta(0);
+		}
+	}
+
+	public void calculateDelta3_3(double[] expectedOutput) {
+		for (int i = 0; i < units.length; i++) {
+			units[i].calculateDelta(expectedOutput[i]);
 		}
 	}
 

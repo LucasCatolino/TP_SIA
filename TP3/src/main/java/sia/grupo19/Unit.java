@@ -38,12 +38,10 @@ public class Unit {
 
 	public void calculateActivation() {
 		activation= Math.tanh(BETA * excitation); //TODO: desharcodear para usar otra funcion g(h)= tanh(bh)
-		System.out.println("act: " + activation);
 	}
 	
 	public void calculateActivation(boolean input) {
 		activation= excitation; //Identity function
-		System.out.println("act ficticia: " + activation);
 	}
 
 	public double getActivation() {
@@ -77,5 +75,13 @@ public class Unit {
 
 	public void setExcitation(int exc) {
 		excitation= exc;
+	}
+
+	public void setActivation(int i) {
+		activation= 0;		
+	}
+
+	public void setDelta(int i) {
+		delta= 0;
 	}
 }
