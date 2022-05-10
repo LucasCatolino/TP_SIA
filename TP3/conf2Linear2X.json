@@ -1,7 +1,7 @@
 {
     "iterationLimit": 1000000,
     "learningRate": 0.0001,
-    "minAcceptable": 10e-3,
+    "minAcceptable": 0.001,
     "trainingDataInputs": [
         [0],
         [1],
@@ -19,5 +19,5 @@
     "trainingDataInputDimension": 1,
     "trainingDataInputSize": 11,
     "perceptronMode": "linear",
-    "printHistory": false
+    "printHistory": "epochs"
 }

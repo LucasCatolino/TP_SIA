@@ -2,7 +2,11 @@ package sia.grupo19.params;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SimpleParams {
+public class SimpleParams implements Cloneable {
+
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 
     private int iterationLimit = 1000;
     private double learningRate = 0.1;
@@ -15,11 +19,12 @@ public class SimpleParams {
     private int trainingDataInputSize = 4;
 
     private SimplePerceptronMode perceptronMode = SimplePerceptronMode.STEP;
+    private int kCuts = 3;
 
     private double beta = 1.5;
     private NonLinearSigmoidType sigmoidType = NonLinearSigmoidType.TANH;
 
-    private boolean printHistory = false;
+    private PrintHistoryMode printHistory = PrintHistoryMode.OFF;
 
     public enum SimplePerceptronMode {
         @SerializedName("step")
@@ -37,8 +42,15 @@ public class SimpleParams {
         LOGISTIC,
     };
 
-    public boolean isPrintHistory() {
-        return this.printHistory;
+    public enum PrintHistoryMode {
+        @SerializedName("off")
+        OFF,
+        @SerializedName("iters")
+        ITERS,
+        @SerializedName("epochs")
+        EPOCHS,
+        @SerializedName("both")
+        BOTH,
     }
 
     // GETTERS & SETTERS
@@ -51,11 +63,11 @@ public class SimpleParams {
         this.minAcceptable = minAcceptable;
     }
 
-    public boolean getPrintHistory() {
+    public PrintHistoryMode getPrintHistory() {
         return this.printHistory;
     }
 
-    public void setPrintHistory(boolean printHistory) {
+    public void setPrintHistory(PrintHistoryMode printHistory) {
         this.printHistory = printHistory;
     }
 
@@ -131,4 +143,11 @@ public class SimpleParams {
         this.trainingDataInputDimension = trainingDataInputDimension;
     }
 
+    public int getKCuts() {
+        return this.kCuts;
+    }
+
+    public void setKCuts(int kCuts) {
+        this.kCuts = kCuts;
+    }
 }

@@ -11,5 +11,5 @@
     "trainingDataInputDimension": 2,
     "trainingDataInputSize": 4,
     "perceptronMode": "step",
-    "printHistory": true
+    "printHistory": "both"
 }

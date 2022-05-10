@@ -2,6 +2,8 @@ package sia.grupo19;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
 import com.google.gson.Gson;
 
 import org.junit.Test;
@@ -81,6 +83,16 @@ public class AppTest {
         SimplePerceptron sp = new SimplePerceptron(parser.getParams());
         SimpleSolution s = sp.run();
         SimpleWriter w = new SimpleWriter(s, "test02NonLinearXtothe2-output-");
+        // System.out.println(new Gson().toJson(parser));
+    }
+
+    @Test
+    public void test02CrossValidatorSubdivisions() throws Exception {
+        SimpleParser parser = new SimpleParser("./conf2NonLinear.json", true);
+        SimpleCrossValidator scv = new SimpleCrossValidator(parser.getParams());
+        List<SimpleSolution> sols = scv.run();
+        SimpleWriter w = new SimpleWriter(sols, "./cross-outs/EJ2-NONL-K50/output");
+
         // System.out.println(new Gson().toJson(parser));
     }
 }

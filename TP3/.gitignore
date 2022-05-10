@@ -51,3 +51,4 @@ resources/*.out
 #outputs
 output-*.json
 test*-output-*.json
+cross-outs/

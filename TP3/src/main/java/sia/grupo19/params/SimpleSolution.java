@@ -9,6 +9,7 @@ public class SimpleSolution {
 
     public SimpleSolution() {
         iterationsInfo = new ArrayList<>();
+        epochsInfo = new ArrayList<>();
     }
 
     public enum CutOffReason {
@@ -17,11 +18,17 @@ public class SimpleSolution {
     };
 
     private int iterations;
+    private int epochs;
+
     private SimpleParams params;
     private long elapsedTimeMillis;
+
     private transient List<IterationInfo> iterationsInfo;
     private CutOffReason stopReason;
+
     private IterationInfo bestIteration;
+
+    private transient List<EpochInfo> epochsInfo;
 
     @Override
     public String toString() {
@@ -37,6 +44,14 @@ public class SimpleSolution {
 
     public void setIterations(int iterations) {
         this.iterations = iterations;
+    }
+
+    public int getEpochs() {
+        return this.epochs;
+    }
+
+    public void setEpochs(int epochs) {
+        this.epochs = epochs;
     }
 
     public SimpleParams getParams() {
@@ -81,6 +96,18 @@ public class SimpleSolution {
 
     public void addIterationInfo(IterationInfo iterationInfo) {
         this.iterationsInfo.add(iterationInfo);
+    }
+
+    public void setEpochsInfo(List<EpochInfo> epochsInfo) {
+        this.epochsInfo = epochsInfo;
+    }
+
+    public List<EpochInfo> getEpochsInfo() {
+        return this.epochsInfo;
+    }
+
+    public void addEpochsInfo(EpochInfo epochInfo) {
+        this.epochsInfo.add(epochInfo);
     }
 
 }

@@ -1,5 +1,5 @@
 {
-    "iterationLimit": 50000,
+    "iterationLimit": 5000000,
     "learningRate": 0.001,
     "minAcceptable": 10e-3,
     "trainingDataInputs": [
@@ -21,6 +21,6 @@
     "perceptronMode": "nonlinear",
     "sigmoidType": "tanh",
     "beta": 0.5,
-    "printHistory": false
+    "printHistory": "epochs"
 
 }
