@@ -212,6 +212,6 @@
     "sigmoidType": "tanh",
     "beta": 0.8,
     "printHistory": "both",
-    "kCuts": 2
+    "kCuts": 50
 
 }

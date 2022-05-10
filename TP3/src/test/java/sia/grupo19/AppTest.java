@@ -88,10 +88,10 @@ public class AppTest {
 
     @Test
     public void test02CrossValidatorSubdivisions() throws Exception {
-        SimpleParser parser = new SimpleParser("./conf2Linear2X+90.json", true);
+        SimpleParser parser = new SimpleParser("./conf2NonLinear.json", true);
         SimpleCrossValidator scv = new SimpleCrossValidator(parser.getParams());
         List<SimpleSolution> sols = scv.run();
-        SimpleWriter w = new SimpleWriter(sols, "./cross-outs/2X+90-LIN-K3/output");
+        SimpleWriter w = new SimpleWriter(sols, "./cross-outs/EJ2-NONL-K50/output");
 
         // System.out.println(new Gson().toJson(parser));
     }
