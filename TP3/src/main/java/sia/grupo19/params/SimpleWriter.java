@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gson.Gson;
+
 import sia.grupo19.params.SimpleParams.PrintHistoryMode;
 
 public class SimpleWriter {
@@ -19,14 +21,31 @@ public class SimpleWriter {
             if (solution.getParams().getPrintHistory() != PrintHistoryMode.OFF) {
                 if (solution.getParams().getPrintHistory() == PrintHistoryMode.ITERS
                         || solution.getParams().getPrintHistory() == PrintHistoryMode.BOTH) {
-                    myWriter.write(",\"IterationsInfo\":");
-                    myWriter.write(solution.getIterationsInfo().toString());
+                    /*
+                     * myWriter.write(",\"IterationsInfo\":");
+                     * myWriter.write(solution.getIterationsInfo().toString());
+                     */
+                    FileWriter myTrainWriter = new FileWriter(path + "-ERROR-" + timeStamp + ".txt");
+                    for (int i = 0; i < solution.getIterationsInfo().size(); i++) {
+                        myTrainWriter.write(i + "," + solution.getIterationsInfo().get(i).getError() + "\n");
+                    }
+                    myTrainWriter.close();
+                    System.out.println("Successfully wrote to the file: " + path + "-ERROR-" + timeStamp + ".txt");
                 }
 
                 if (solution.getParams().getPrintHistory() == PrintHistoryMode.EPOCHS
                         || solution.getParams().getPrintHistory() == PrintHistoryMode.BOTH) {
-                    myWriter.write(",\"EpochsInfo\":");
-                    myWriter.write(solution.getEpochsInfo().toString());
+                    /*
+                     * myWriter.write(",\"EpochsInfo\":");
+                     * myWriter.write(solution.getEpochsInfo().toString());
+                     */
+                    FileWriter myTrainWriter = new FileWriter(path + "-TRAIN-ACC-" + timeStamp + ".txt");
+                    for (int i = 0; i < solution.getEpochsInfo().size(); i++) {
+                        myTrainWriter.write(i + "," + solution.getEpochsInfo().get(i).getTrainAccuracy() + "\n");
+                    }
+                    myTrainWriter.close();
+                    System.out.println("Successfully wrote to the file: " + path + "-TRAIN-ACC-" + timeStamp + ".txt");
+
                 }
 
             }
@@ -42,6 +61,16 @@ public class SimpleWriter {
     public SimpleWriter(List<SimpleSolution> solutions, String path) {
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd+hh-mm-ss-a").format(new Date());
         int sol = 0;
+
+        try {
+            FileWriter myParserWriter = new FileWriter(path + "-PARAMS-" + timeStamp + ".txt");
+            myParserWriter.write(new Gson().toJson(solutions.get(0).getParams()));
+            myParserWriter.close();
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+
         for (SimpleSolution solution : solutions) {
             try {
                 // File file = new File(path + timeStamp + ".log");

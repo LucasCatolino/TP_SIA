@@ -247,7 +247,9 @@ public class SimplePerceptron {
 
 				// save the epoch's train accuracy & testing accuracy
 				double trainAcc = calculateAccuracy(w, X, Y, ACCURACY_EPSILON, true);
+
 				double testAcc = calculateAccuracy(w, testingSetInputs, testingSetOutputs, ACCURACY_EPSILON);
+
 				solution.addEpochsInfo(
 						new EpochInfo(w,
 								trainAcc,

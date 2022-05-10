@@ -69,22 +69,15 @@ public class SimpleCrossValidator {
                 double finalAccuracy = sp.calculateAccuracy(sol.getBestIteration().getW(), testingSetInputs,
                         testingSetOutputs, 0.18);
 
-                /*
-                 * System.out.println("training set inputs " + new
-                 * Gson().toJson(trainingSetInputs));
-                 * System.out.println("training set outputs " + new
-                 * Gson().toJson(trainingSetOutputs));
-                 *
-                 * System.out.println("test set inputs" + new
-                 * Gson().toJson(this.inputSubsets.get(excludedSubsetIndex)));
-                 * System.out.println("test set outputs" + new
-                 * Gson().toJson(this.outputSubsets.get(excludedSubsetIndex)));
-                 *
-                 * System.out.println("final accuracy: " + finalAccuracy);
-                 * System.out.println("best error: " + sol.getBestIteration().getError());
-                 *
-                 * System.out.println("+++++++++++++++++++++++++++++++");
-                 */
+                System.out.println("Permutation: " + (excludedSubsetIndex + 1));
+                System.out.println("-------------------------------");
+
+                System.out.println("training set inputs " + new Gson().toJson(trainingSetInputs));
+                System.out.println("training set outputs " + new Gson().toJson(trainingSetOutputs));
+
+                System.out.println("test set inputs" + new Gson().toJson(this.inputSubsets.get(excludedSubsetIndex)));
+                System.out.println("test set outputs" + new Gson().toJson(this.outputSubsets.get(excludedSubsetIndex)));
+                System.out.println("+++++++++++++++++++++++++++++++");
 
             } catch (CloneNotSupportedException e) {
                 System.out.println("parameters cloning failed!");

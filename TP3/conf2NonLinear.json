@@ -211,6 +211,7 @@
     "perceptronMode": "nonlinear",
     "sigmoidType": "tanh",
     "beta": 0.8,
-    "printHistory": "off"
+    "printHistory": "both",
+    "kCuts": 2
 
 }
