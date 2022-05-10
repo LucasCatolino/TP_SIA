@@ -36,7 +36,7 @@ public class Layer {
 				units[i].setWeight(1);
 			} else {
 				for (int j = 0; j < previousLayer.getSize(); j++) {
-					double w= Math.random();
+					double w= Math.random() - 0.5;
 					units[i].setWeight(w);
 				}				
 			}
@@ -49,7 +49,7 @@ public class Layer {
 
 	public void apply(double[] input) {
 		//calculate excitation
-		units[0].calculateExcitation(0, -1, true);
+		units[0].calculateExcitation(0, 1, true);
 		for (int i = 0; i < input.length; i++) {
 			units[i + 1].calculateExcitation(0, input[i], true);
 		}
@@ -62,7 +62,8 @@ public class Layer {
 
 	public void apply() {
 		//calculate excitation
-		units[0].calculateExcitation(0, -1);
+		units[0].setExcitation(1);
+		//units[0].calculateExcitation(0, -1);
 		for (int i = 1; i < units.length; i++) {
 			for (int j = 0; j < previousLayer.getSize(); j++) {
 				double prevActivation= previousLayer.getUnitActivation(j);
@@ -71,12 +72,13 @@ public class Layer {
 		}
 		
 		//calculate activation
-		for (int i = 0; i < units.length; i++) {
+		units[0].calculateActivation(true);
+		for (int i = 1; i < units.length; i++) {
 			units[i].calculateActivation();
 		}
 	}
 
-	private double getUnitActivation(int position) {
+	public double getUnitActivation(int position) {
 		return units[position].getActivation();
 	}
 
@@ -120,6 +122,35 @@ public class Layer {
 			layerActivation+= units[i].getActivation();
 		}
 		return layerActivation;
+	}
+
+	public void apply(boolean b) {
+		//calculate excitation
+		for (int i = 0; i < units.length; i++) {
+			for (int j = 0; j < previousLayer.getSize(); j++) {
+				double prevActivation= previousLayer.getUnitActivation(j);
+				units[i].calculateExcitation(j, prevActivation);
+			}
+		}
+		
+		//calculate activation
+		for (int i = 0; i < units.length; i++) {
+			units[i].calculateActivation();
+		}
+	}
+
+	public void restartUnits() {
+		for (int i = 0; i < units.length; i++) {
+			units[i].setExcitation(0);
+			units[i].setActivation(0);
+			units[i].setDelta(0);
+		}
+	}
+
+	public void calculateDelta3_3(double[] expectedOutput) {
+		for (int i = 0; i < units.length; i++) {
+			units[i].calculateDelta(expectedOutput[i]);
+		}
 	}
 
 	

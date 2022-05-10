@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Unit {
 	
-	private static final double BETA= 0.5;
-	private static final double LEARNING_RATE = 0.1;
+	private static final double BETA= 1;
+	private static final double LEARNING_RATE = 0.01;
 	private ArrayList<Double> weights;
 	private double activation;
 	private double excitation;
@@ -16,6 +16,12 @@ public class Unit {
 		this.activation= 0;
 		this.excitation= 0;
 		this.delta= 0;
+	}
+
+	public Unit(int exc, int act) {
+		weights= new ArrayList<Double>();
+		this.excitation= exc;
+		this.activation= act; 
 	}
 
 	public void setWeight(double w) {
@@ -32,12 +38,10 @@ public class Unit {
 
 	public void calculateActivation() {
 		activation= Math.tanh(BETA * excitation); //TODO: desharcodear para usar otra funcion g(h)= tanh(bh)
-		System.out.println("act: " + activation);
 	}
 	
 	public void calculateActivation(boolean input) {
-		activation= excitation; //TODO: desharcodear para usar otra funcion g(h)= tanh(bh)
-		System.out.println("act: " + activation);
+		activation= excitation; //Identity function
 	}
 
 	public double getActivation() {
@@ -67,5 +71,17 @@ public class Unit {
 		double wNew= LEARNING_RATE * delta * unitActivation;
 		
 		weights.set(position, wOld + wNew);
+	}
+
+	public void setExcitation(int exc) {
+		excitation= exc;
+	}
+
+	public void setActivation(int i) {
+		activation= 0;		
+	}
+
+	public void setDelta(int i) {
+		delta= 0;
 	}
 }

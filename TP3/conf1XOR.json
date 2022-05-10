@@ -1,0 +1,16 @@
+{
+    "iterationLimit": 1000,
+    "learningRate": 0.1,
+    "trainingDataInputs": [
+        [-1, 1],
+        [1, -1],
+        [-1, -1],
+        [1, 1]
+    ],
+    "trainingDataOutputs": [1, 1, -1, -1],
+    "trainingDataInptutDimension": 2,
+    "trainingDataInputSize": 4,
+    "perceptronMode": "step",
+    "printHistory": "epochs"
+
+}

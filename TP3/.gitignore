@@ -45,5 +45,10 @@ local.properties
 *.launch
 
 # Resources files
-resources/**
+resources/*.out
 /out/
+
+#outputs
+output-*.json
+test*-output-*.json
+cross-outs/

@@ -1,0 +1,23 @@
+{
+    "iterationLimit": 1000000,
+    "learningRate": 0.0001,
+    "minAcceptable": 0.001,
+    "trainingDataInputs": [
+        [0],
+        [1],
+        [2],
+        [3],
+        [4],
+        [5],
+        [6],
+        [7],
+        [8],
+        [9],
+        [10]
+    ],
+    "trainingDataOutputs": [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20],
+    "trainingDataInputDimension": 1,
+    "trainingDataInputSize": 11,
+    "perceptronMode": "linear",
+    "printHistory": "epochs"
+}
