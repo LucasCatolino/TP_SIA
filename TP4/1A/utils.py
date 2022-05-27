@@ -1,4 +1,14 @@
+def init_weights_from_data(k, n, samples, samples_rows):
+    import numpy as np
+    w = [[[i+j*k for l in range(n)] for i in range(k)] for j in range(k)]
 
+    sams_np = np.array(samples)
+
+    for i in range(k):
+        for j in range(k):
+            randRow = np.random.randint(samples_rows, size=1)
+            w[i][j] = np.random.choice(sams_np[randRow[0], :])
+    return w
 
 
 def init_weights(k, n):
@@ -43,23 +53,56 @@ def get_active_neurons(w, k, winner_x, winner_y, r):
 
     for i in range(k):
         for j in range(k):
-            dist = sc.spatial.distance.euclidean([winner_x, winner_y], [i, j])
+            dist = sc.spatial.distance.euclidean(w[winner_x][winner_y], w[i][j])
             if (dist <= r):
                 list_of_active_coords.append({"x": i, "y":j, "val": dist})
 
     return list_of_active_coords
 
-def update_weights(w, k, sample, N_on, learning_rate):
+
+def update_weights(w, sample, N_on, learning_rate):
     import numpy as np
     import scipy as sc
 
     sam_np = np.array(sample)
 
-    for i in range(k):
-        for j in range(k):
-            if {"x": i, "y": j} in N_on:
-                aux_wij = np.array(w[i][j])
-                diff = sam_np - aux_wij
-                w[i][j] = aux_wij + (learning_rate*diff)
+    for i in range(len(N_on)):
+        x = N_on[i]['x']
+        y = N_on[i]['y']
+        aux_wij = np.array(w[x][y])
+        diff = sam_np - aux_wij
+        w[x][y] = aux_wij + (learning_rate*diff)
 
     return w
+
+
+#only gets you coords for available top-bottom-left-right, no diagonals, not the values, just the coords that work
+def get_neighbors(matrix, row, col):
+    rows, cols = len(matrix), len(matrix[0])
+    out = [(col+a[0], row+a[1]) for a in
+                    [(-1,0), (1,0), (0,-1), (0,1)]
+                    if ( (0 <= col+a[0] < cols) and (0 <= row+a[1] < rows))]
+
+    return out
+
+def get_neighbors_avg_dst(x, y, w):
+    import scipy as sc
+    nb = get_neighbors(w, y, x)
+    curr = w[x][y]
+
+    out = 0
+    for i in range(len(nb)):
+        neigh = w[nb[i][0]][nb[i][1]]
+        out += sc.spatial.distance.euclidean(curr,neigh)
+
+    return out / len(nb)
+
+
+
+def get_avg_distance(w):
+    dist = 0
+    for i in range(len(w)):
+        for j in range(len(w[0])):
+            dist += get_neighbors_avg_dst(i, j, w)
+
+    return dist / (len(w)*len(w[0]))
