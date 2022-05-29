@@ -77,3 +77,26 @@ class SOM:
 
         return out
 
+    def test(self, labels, w):
+        import numpy as np
+        from utils import get_avg_distance, init_weights_from_data, get_winner_neuron, get_active_neurons, update_weights
+        import copy
+
+        data_count = len(self.data.index)
+
+        #res array...
+        points = [[ [] for i in range(self.params.k)] for j in range(self.params.k)]
+
+        for p in range(data_count):
+            #get sample from data
+            x_p = self.data.iloc[[p]][["Area", "GDP", "Inflation", "Life.expect", "Military", "Pop.growth", "Unemployment"]].to_numpy()[0]
+
+            #find winner neuron
+            closest_info = get_winner_neuron(w, x_p, self.params.k)
+            #print(str(closest_info['x']) + " " + str(closest_info['y']) + " " +  str(closest_info['value']) + " " + str(closest_info['diff']) + " " + str(x_p))
+            points[closest_info['x']][ closest_info['y']].append(labels[p])
+
+        return points
+
+
+

@@ -1,15 +1,29 @@
-def init_weights_from_data(k, n, samples, samples_rows):
+
+
+def init_weights_from_data(k, n, data, samples_rows):
+    import random
+    import copy
     import numpy as np
     w = [[[i+j*k for l in range(n)] for i in range(k)] for j in range(k)]
 
-    sams_np = np.array(samples)
-
+    samples = copy.deepcopy(np.array(data))
+    samples = sorted(samples, key=lambda x: random.random())
+    print('w', samples)
+    s = 0
     for i in range(k):
         for j in range(k):
-            randRow = np.random.randint(samples_rows, size=1)
-            #w[i][j] = np.random.choice(sams_np[randRow[0], :])
-            #print(randRow, sams_np[randRow[0]])
-            w[i][j] = sams_np[randRow[0]]
+            w[i][j] = samples[s]
+            s += 1
+
+
+    #sams_np = np.array(samples)
+
+    #for i in range(k):
+        #for j in range(k):
+            #randRow = np.random.randint(samples_rows, size=1)
+            ##w[i][j] = np.random.choice(sams_np[randRow[0], :])
+            ##print(randRow, sams_np[randRow[0]])
+            #w[i][j] = sams_np[randRow[0]]
     return w
 
 
