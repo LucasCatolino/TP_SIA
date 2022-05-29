@@ -57,9 +57,10 @@ class SOM:
 
                 #update radius and learning_rate
                 radius = np.floor((max_t - t*1.2) * radius/max_t) + 1
+                print(radius)
                 #learning_rate = learning_rate / (t+1)
                 learning_rate = self.params.learning_rate * (np.exp(-t*0.002))
-                print(learning_rate)
+                #print(learning_rate)
                 t += 1
 
             #save info for heatmap...

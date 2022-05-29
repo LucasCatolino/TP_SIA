@@ -58,8 +58,10 @@ def get_active_neurons(w, k, winner_x, winner_y, r):
 
     for i in range(k):
         for j in range(k):
-            dist = sc.spatial.distance.euclidean(w[winner_x][winner_y], w[i][j])
+            #dist = sc.spatial.distance.euclidean(w[winner_x][winner_y], w[i][j])
+            dist = sc.spatial.distance.euclidean([winner_x, winner_y], [i, j])
             if (dist <= r):
+                #print([winner_x, winner_y], [i, j], dist,r)
                 #print('close enough')
                 list_of_active_coords.append({"x": i, "y":j, "val": dist})
 
@@ -79,7 +81,8 @@ def update_weights(w, sample, N_on, learning_rate):
         #aux_wij = np.array(w[x][y])
         aux_wij = w[x][y]
         #print(x, y, aux_wij)
-        diff = sam_np - aux_wij
+        #diff = sam_np - aux_wij
+        diff = aux_wij - sam_np
         w[x][y] = aux_wij + (learning_rate*diff)
         #print('out:', w[x][y])
 
