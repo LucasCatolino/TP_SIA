@@ -7,7 +7,9 @@ def init_weights_from_data(k, n, samples, samples_rows):
     for i in range(k):
         for j in range(k):
             randRow = np.random.randint(samples_rows, size=1)
-            w[i][j] = np.random.choice(sams_np[randRow[0], :])
+            #w[i][j] = np.random.choice(sams_np[randRow[0], :])
+            #print(randRow, sams_np[randRow[0]])
+            w[i][j] = sams_np[randRow[0]]
     return w
 
 
@@ -25,7 +27,7 @@ def get_winner_neuron(w, sample, k):
     import numpy as np
     import scipy as sc
 
-    sam_np = np.array(sample)
+    #sam_np = np.array(sample)
 
     closest = dict()
     closest['value'] = w[0][0]
@@ -36,10 +38,13 @@ def get_winner_neuron(w, sample, k):
 
     for i in range(k):
         for j in range(k):
-            w_ij_np = np.array(w[i][j])
+            #w_ij_np = np.array(w[i][j])
+            #w_ij_np = w[i][j]
             #dist = np.linalg.norm(sam_np-w_ij_np)
-            dist = sc.spatial.distance.euclidean(sam_np, w_ij_np)
+            #dist = sc.spatial.distance.euclidean(sam_np, w_ij_np)
+            dist = sc.spatial.distance.euclidean(sample, w[i][j])
             if(dist < closest['diff']):
+                #print(w[i][j], sample)
                 closest['diff'] = dist
                 closest['value'] = w[i][j]
                 closest['x'] = i
@@ -55,6 +60,7 @@ def get_active_neurons(w, k, winner_x, winner_y, r):
         for j in range(k):
             dist = sc.spatial.distance.euclidean(w[winner_x][winner_y], w[i][j])
             if (dist <= r):
+                #print('close enough')
                 list_of_active_coords.append({"x": i, "y":j, "val": dist})
 
     return list_of_active_coords
@@ -64,14 +70,18 @@ def update_weights(w, sample, N_on, learning_rate):
     import numpy as np
     import scipy as sc
 
-    sam_np = np.array(sample)
+    #sam_np = np.array(sample)
+    sam_np = sample
 
     for i in range(len(N_on)):
         x = N_on[i]['x']
         y = N_on[i]['y']
-        aux_wij = np.array(w[x][y])
+        #aux_wij = np.array(w[x][y])
+        aux_wij = w[x][y]
+        #print(x, y, aux_wij)
         diff = sam_np - aux_wij
         w[x][y] = aux_wij + (learning_rate*diff)
+        #print('out:', w[x][y])
 
     return w
 
