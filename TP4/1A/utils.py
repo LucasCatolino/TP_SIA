@@ -82,7 +82,8 @@ def update_weights(w, sample, N_on, learning_rate):
         aux_wij = w[x][y]
         #print(x, y, aux_wij)
         #diff = sam_np - aux_wij
-        diff = aux_wij - sam_np
+        #diff = aux_wij - sam_np
+        diff = np.subtract(sam_np, aux_wij)
         w[x][y] = aux_wij + (learning_rate*diff)
         #print('out:', w[x][y])
 

@@ -45,7 +45,7 @@ class SOM:
 
                 #find winner neuron
                 closest_info = get_winner_neuron(w, x_p, self.params.k)
-                #print(closest_info)
+                #print(str(closest_info['x']) + " " + str(closest_info['y']) + " " +  str(closest_info['value']) + " " + str(closest_info['diff']) + " " + str(x_p))
 
                 points[closest_info['x']][ closest_info['y']] += 1
 
@@ -57,7 +57,7 @@ class SOM:
 
                 #update radius and learning_rate
                 radius = np.floor((max_t - t*1.2) * radius/max_t) + 1
-                print(radius)
+                #print(radius)
                 #learning_rate = learning_rate / (t+1)
                 learning_rate = self.params.learning_rate * (np.exp(-t*0.002))
                 #print(learning_rate)
@@ -67,13 +67,13 @@ class SOM:
             heatmaps.append(copy.deepcopy(points))
             avg = get_avg_distance(w)
             averages.append(copy.copy(avg))
-            #print(e)
+            #print(avg)
 
         out = dict()
         out['heatmaps'] = heatmaps
         out['averages'] = averages
         out['weights'] = w
-        print(w)
+        print('final weights', w)
 
         return out
 
