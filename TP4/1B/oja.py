@@ -1,20 +1,26 @@
 import math
+import os
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 
 def mainOja(fileData, epochs, learningRate):
-    df= pd.read_csv (fileData, 'r')
+    #print(os.listdir())
+    df= pd.read_csv (fileData)
+    print("Reading data...")
+    #print(df)
 
     df1 = df.loc[:, df.columns != 'Country']
 
     #Estandarizo los datos
-    df_countries= df["Country"]
+    #df_countries= df["Country"]
     df_stand=  StandardScaler().fit_transform(df[["Area", "GDP", "Inflation", "Life.expect", "Military", "Pop.growth", "Unemployment"]])
     df_stand= pd.DataFrame(df_stand, columns=df[["Area", "GDP", "Inflation", "Life.expect", "Military", "Pop.growth", "Unemployment"]].columns)
 
     o = OJA(data=df_stand, epochs=epochs, learningRate=learningRate)
+    print("Running Oja's rule algorithm...")
     o.run()
+    print("Done.")
 
 
 
@@ -48,6 +54,7 @@ class OJA:
             file.write("Epoch: " + str(i) + ", " + str(self.getW()) + "\n")
 
         file.close()
+        print("Output weights for each epoch succesfully writen to Oja.out")
 
     def printX(self):
         print(self.X)
