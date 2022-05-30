@@ -1,3 +1,61 @@
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import StandardScaler
+
+def mainKohonen (fileData, k, n, rad, learRate, epochs ):
+    df= pd.read_csv(fileData)
+    df_countries = df["Country"]
+    print("Reading data...")
+
+    df_stand=  StandardScaler().fit_transform(df[["Area", "GDP", "Inflation", "Life.expect", "Military", "Pop.growth", "Unemployment"]])
+    df_stand= pd.DataFrame(df_stand, columns=df[["Area", "GDP", "Inflation", "Life.expect", "Military", "Pop.growth", "Unemployment"]].columns)
+
+    params = Params(k=k,n=n,r=rad, lr=learRate)
+    som = SOM(params, data=df_stand, epochs=epochs)
+    res = som.run()
+
+    save_heatmaps(res)
+    save_averages(res)
+    save_weights(res)
+
+    file = open("KohonenGroupings.out", "w")
+    groups = som.test(df_countries, res['weights'])
+    for i in range(k):
+        for j in range(k):
+            file.write("Neuron at (" + str(i) + ", " + str(j) + "): ")
+            file.write(list2str(groups[i][j]) + "\n")
+    #file.write(som.test(df_countries, res['weights']))
+    file.close()
+
+def list2str(l):
+    return arr2str(np.asarray(l))
+
+def arr2str(arr):
+    return np.array2string(arr, formatter={'float_kind':lambda x: "%.2f" % x}, separator=",")
+
+
+def save_heatmaps(res):
+    file = open("KohonenHeatmaps.out", "w")
+    for i in range(len(res["heatmaps"])):
+        file.write("Epoch: " + str(i) + "\n")
+        file.write(list2str(res["heatmaps"][i]) + "\n")
+    file.close()
+
+def save_averages(res):
+    file = open("KohonenAverages.out", "w")
+    for i in range(len(res["averages"])):
+        file.write("Epoch: " + str(i) + "\n")
+        file.write(list2str(res["averages"][i]) + "\n")
+    file.close()
+
+def save_weights(res):
+    file = open("KohonenWeights.out", "w")
+    for i in range(len(res["allWeights"])):
+        file.write("Epoch: " + str(i) + "\n")
+        file.write(list2str(res["allWeights"][i]) + "\n")
+    file.close()
+
+
 class Params:
     def __init__(self, k, n, r, lr):
         self.k = k
@@ -23,7 +81,7 @@ class SOM:
         t = 0
 
         w = init_weights_from_data(self.params.k, self.params.n, self.data, data_count)
-        print(w)
+        #print(w)
 
         radius = self.params.radius
         learning_rate = self.params.learning_rate
@@ -33,6 +91,9 @@ class SOM:
 
         #for the animated heatmap (so we are not running it in real time, i blame jupyter)
         heatmaps = []
+
+        #for posterity
+        weights = []
 
 
         for e in range(0, self.epochs):
@@ -67,13 +128,15 @@ class SOM:
             heatmaps.append(copy.deepcopy(points))
             avg = get_avg_distance(w)
             averages.append(copy.copy(avg))
+            weights.append(copy.deepcopy(w))
             #print(avg)
 
         out = dict()
         out['heatmaps'] = heatmaps
         out['averages'] = averages
         out['weights'] = w
-        print('final weights', w)
+        out['allWeights'] = weights
+        #print('final weights', w)
 
         return out
 

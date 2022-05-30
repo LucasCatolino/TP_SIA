@@ -8,7 +8,7 @@ def init_weights_from_data(k, n, data, samples_rows):
 
     samples = copy.deepcopy(np.array(data))
     samples = sorted(samples, key=lambda x: random.random())
-    print('w', samples)
+    #print('w', samples)
     s = 0
     for i in range(k):
         for j in range(k):
