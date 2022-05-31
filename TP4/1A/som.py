@@ -26,6 +26,7 @@ def mainKohonen (fileData, k, n, rad, learRate, epochs ):
             file.write(list2str(groups[i][j]) + "\n")
     #file.write(som.test(df_countries, res['weights']))
     file.close()
+    print("Done.")
 
 def list2str(l):
     return arr2str(np.asarray(l))
