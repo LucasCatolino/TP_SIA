@@ -126,8 +126,8 @@ class SOM:
 
             #save info for heatmap...
             heatmaps.append(copy.deepcopy(points))
-            avg = get_avg_distance(w)
-            averages.append(copy.copy(avg))
+            avg = get_avg_distance(w, self.params.k)
+            averages.append(copy.deepcopy(avg))
             weights.append(copy.deepcopy(w))
             #print(avg)
 

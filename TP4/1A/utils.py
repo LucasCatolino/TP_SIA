@@ -127,10 +127,12 @@ def get_neighbors_avg_dst(x, y, w):
 
 
 
-def get_avg_distance(w):
-    dist = 0
+def get_avg_distance(w, k):
+    #dist = 0
+    points = [[0 for i in range(k)] for j in range(k)]
     for i in range(len(w)):
         for j in range(len(w[0])):
-            dist += get_neighbors_avg_dst(i, j, w)
-
-    return dist / (len(w)*len(w[0]))
+            #dist += get_neighbors_avg_dst(i, j, w)
+            points[i][j] = get_neighbors_avg_dst(i, j, w)
+    return points
+    #return dist / (len(w)*len(w[0]))
