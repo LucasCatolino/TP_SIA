@@ -1,0 +1,7 @@
+{
+	"Exercise 1B": {
+		"dataName": "europe.csv",
+		"learningRate": 0.0001,
+		"epochs": 1000
+	}
+}

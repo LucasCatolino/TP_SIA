@@ -1,0 +1,11 @@
+{
+	"Exercise 2": {
+		"dataFrameName": "letras.txt",
+		"data1": 11,
+		"data2": 15,
+		"data3": 19,
+		"data4": 23,
+		"testingData": 15,
+		"noiseProb": 0.5
+	}
+}
