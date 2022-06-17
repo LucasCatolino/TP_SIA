@@ -1,0 +1,26 @@
+{
+    "iterationLimit": 5000000,
+    "learningRate": 0.001,
+    "minAcceptable": 10e-3,
+    "trainingDataInputs": [
+        [0],
+        [1],
+        [2],
+        [3],
+        [4],
+        [5],
+        [6],
+        [7],
+        [8],
+        [9],
+        [10]
+    ],
+    "trainingDataOutputs": [0, 1, 4, 9, 16, 25, 36, 49, 64, 81, 100],
+    "trainingDataInputDimension": 1,
+    "trainingDataInputSize": 11,
+    "perceptronMode": "nonlinear",
+    "sigmoidType": "tanh",
+    "beta": 0.5,
+    "printHistory": "epochs"
+
+}
