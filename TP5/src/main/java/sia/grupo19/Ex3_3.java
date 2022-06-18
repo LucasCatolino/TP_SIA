@@ -93,7 +93,7 @@ public class Ex3_3 {
 		System.out.println("Starting");
 		MultiLayerPerceptron multiLayerPerceptron= new MultiLayerPerceptron(inputSize, outputSize, hiddenLayers, hiddenLayersSizes, x, null, epochs, y, noiseProb);
 		multiLayerPerceptron.run3_3();
-		multiLayerPerceptron.testNoise();
+		//multiLayerPerceptron.testNoise();
 		multiLayerPerceptron.printFile("Ex3_3.out");
 		System.out.println("Finished");
 	}
