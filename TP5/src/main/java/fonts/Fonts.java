@@ -43,7 +43,7 @@ public class Fonts {
 			   };
 	
 	private void printFont() {
-		characters.add("{ ");
+		characters.add("[ ");
 		for (int j = 0; j < Font2.length; j++) {
 			String toPrint= "";
 			for (int i = 0; i < Font2[j].length; i++) {
@@ -51,9 +51,9 @@ public class Fonts {
 				String fontWithPadding = String.format("%5s", font).replaceAll(" ", "0").replaceAll("0", "0, ").replaceAll("1", "1, ");
 				toPrint= toPrint + fontWithPadding;
 			}
-			characters.add("{ " + toPrint.substring(0, toPrint.length() - 2) + " }, ");
+			characters.add("[ " + toPrint.substring(0, toPrint.length() - 2) + " ], ");
 		}
-		characters.add(" }");
+		characters.add(" ]");
 		
 		String toFileAux= "";
 		for (Iterator iterator = characters.iterator(); iterator.hasNext();) {
@@ -61,7 +61,7 @@ public class Fonts {
 			toFileAux+= string;
 		}
 		
-		String toFile= toFileAux.substring(0, toFileAux.length() - 4) + " }";
+		String toFile= toFileAux.substring(0, toFileAux.length() - 4) + " ]";
 		
 		System.out.println(toFile);
 	}
