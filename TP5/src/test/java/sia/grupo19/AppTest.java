@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 
 import org.junit.Test;
 
+import sia.grupo19.helpers.ParamsParser;
 import sia.grupo19.params.SimpleParser;
 import sia.grupo19.params.SimpleSolution;
 import sia.grupo19.params.SimpleWriter;
@@ -16,6 +17,22 @@ import sia.grupo19.params.SimpleWriter;
  * Unit test for simple App.
  */
 public class AppTest {
+
+    @Test
+    public void testParseParams() throws Exception {
+        ParamsParser parser = new ParamsParser("./confAUTO.json", true);
+        System.out.println(new Gson().toJson(parser.getParams()));
+    }
+
+    @Test
+    public void testAutoEncoderWithParams() throws Exception {
+        ParamsParser parser = new ParamsParser("./confAUTO.json", true);
+        MultiLayerPerceptron mlp = new MultiLayerPerceptron(parser.getParams());
+        mlp.run3_3();
+        mlp.testNoise();
+        mlp.printFile("TEST_Ex3_3.out");
+    }
+
     /**
      * Rigorous Test :-)
      */
@@ -34,65 +51,6 @@ public class AppTest {
         SimplePerceptron sp = new SimplePerceptron(parser.getParams());
         SimpleSolution s = sp.run();
         SimpleWriter w = new SimpleWriter(s, "test01XOR-output-");
-        // System.out.println(new Gson().toJson(parser));
-    }
-
-    @Test
-    public void test02Linear() throws Exception {
-        SimpleParser parser = new SimpleParser("./conf2Linear.json", true);
-        SimplePerceptron sp = new SimplePerceptron(parser.getParams());
-        SimpleSolution s = sp.run();
-        SimpleWriter w = new SimpleWriter(s, "test02Linear-output-");
-        // System.out.println(new Gson().toJson(parser));
-    }
-
-    // TESTEAR LINEAR CON 2*X Y NON-LINEAR CON X**2
-
-    @Test
-    public void test02Linear2X() throws Exception {
-        SimpleParser parser = new SimpleParser("./conf2Linear2X.json", true);
-        SimplePerceptron sp = new SimplePerceptron(parser.getParams());
-        SimpleSolution s = sp.run();
-        SimpleWriter w = new SimpleWriter(s, "test02Linear2X-output-");
-        // System.out.println(new Gson().toJson(parser));
-    }
-
-    @Test
-    public void test02Linear2XPlus90() throws Exception {
-        SimpleParser parser = new SimpleParser("./conf2Linear2X+90.json", true);
-        SimplePerceptron sp = new SimplePerceptron(parser.getParams());
-        SimpleSolution s = sp.run();
-        SimpleWriter w = new SimpleWriter(s, "test02Linear2X+90-output-");
-        // System.out.println(new Gson().toJson(parser));
-    }
-
-    @Test
-    public void test02NonLinear() throws Exception {
-        SimpleParser parser = new SimpleParser("./conf2NonLinear.json", true);
-        SimplePerceptron sp = new SimplePerceptron(parser.getParams());
-        SimpleSolution s = sp.run();
-        SimpleWriter w = new SimpleWriter(s, "test02NonLinear-output-");
-        // System.out.println(new Gson().toJson(parser));
-    }
-
-    // its not meant to do a perfect aproximation, but get kinda close (single
-    // digits ideally)
-    @Test
-    public void test02NonLinearXtoThe2() throws Exception {
-        SimpleParser parser = new SimpleParser("./conf2NonLinearXtothe2.json", true);
-        SimplePerceptron sp = new SimplePerceptron(parser.getParams());
-        SimpleSolution s = sp.run();
-        SimpleWriter w = new SimpleWriter(s, "test02NonLinearXtothe2-output-");
-        // System.out.println(new Gson().toJson(parser));
-    }
-
-    @Test
-    public void test02CrossValidatorSubdivisions() throws Exception {
-        SimpleParser parser = new SimpleParser("./conf2NonLinear.json", true);
-        SimpleCrossValidator scv = new SimpleCrossValidator(parser.getParams());
-        List<SimpleSolution> sols = scv.run();
-        SimpleWriter w = new SimpleWriter(sols, "./cross-outs/EJ2-NONL-K50/output");
-
         // System.out.println(new Gson().toJson(parser));
     }
 }

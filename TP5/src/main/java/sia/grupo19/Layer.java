@@ -1,33 +1,53 @@
 package sia.grupo19;
 
 public class Layer {
-	
+
 	private Unit[] units;
 	private Layer previousLayer;
 	private Layer nextLayer;
 
 	public Layer(int size) {
-		this.units= new Unit[size + 1];
-		
+		this.units = new Unit[size + 1];
+
 		for (int i = 0; i < size + 1; i++) {
-			units[i]= new Unit();
+			units[i] = new Unit();
 		}
 	}
 
 	public Layer(Layer layer, int size, boolean last) {
-		int limit= (last) ? size : size + 1; 
-		this.units= new Unit[limit];
-		
-		this.previousLayer= layer;
+		int limit = (last) ? size : size + 1;
+		this.units = new Unit[limit];
+
+		this.previousLayer = layer;
 		previousLayer.setNextLayer(this);
-		
+
 		for (int i = 0; i < limit; i++) {
-			units[i]= new Unit();
+			units[i] = new Unit();
+		}
+	}
+
+	public Layer(int size, double momentum) {
+		this.units = new Unit[size + 1];
+
+		for (int i = 0; i < size + 1; i++) {
+			units[i] = new Unit(momentum);
+		}
+	}
+
+	public Layer(Layer layer, int size, boolean last, double momentum) {
+		int limit = (last) ? size : size + 1;
+		this.units = new Unit[limit];
+
+		this.previousLayer = layer;
+		previousLayer.setNextLayer(this);
+
+		for (int i = 0; i < limit; i++) {
+			units[i] = new Unit(momentum);
 		}
 	}
 
 	private void setNextLayer(Layer layer) {
-		this.nextLayer= layer;
+		this.nextLayer = layer;
 	}
 
 	public void initializeWeights() {
@@ -36,9 +56,9 @@ public class Layer {
 				units[i].setWeight(1);
 			} else {
 				for (int j = 0; j < previousLayer.getSize(); j++) {
-					double w= Math.random() - 0.5;
+					double w = Math.random() - 0.5;
 					units[i].setWeight(w);
-				}				
+				}
 			}
 		}
 	}
@@ -48,30 +68,30 @@ public class Layer {
 	}
 
 	public void apply(double[] input) {
-		//calculate excitation
+		// calculate excitation
 		units[0].calculateExcitation(0, 1, true);
 		for (int i = 0; i < input.length; i++) {
 			units[i + 1].calculateExcitation(0, input[i], true);
 		}
-		
-		//calculate activation
+
+		// calculate activation
 		for (int i = 0; i < units.length; i++) {
 			units[i].calculateActivation(true);
 		}
 	}
 
 	public void apply() {
-		//calculate excitation
+		// calculate excitation
 		units[0].setExcitation(1);
-		//units[0].calculateExcitation(0, -1);
+		// units[0].calculateExcitation(0, -1);
 		for (int i = 1; i < units.length; i++) {
 			for (int j = 0; j < previousLayer.getSize(); j++) {
-				double prevActivation= previousLayer.getUnitActivation(j);
+				double prevActivation = previousLayer.getUnitActivation(j);
 				units[i].calculateExcitation(j, prevActivation);
-			}			
+			}
 		}
-		
-		//calculate activation
+
+		// calculate activation
 		units[0].calculateActivation(true);
 		for (int i = 1; i < units.length; i++) {
 			units[i].calculateActivation();
@@ -90,14 +110,14 @@ public class Layer {
 
 	public void calculateDelta() {
 		for (int i = 0; i < units.length; i++) {
-			double weightedDeltas= 0;
-			for (int j = 0; j < nextLayer.getSize(); j++) { //TODO: see if is j= 0 or j= 1
-				//weightedDeltas+= units[i].getWeight(i) * nextLayer.getUnitDelta(j);
-				weightedDeltas+= nextLayer.getUnitWeight(i, j) * nextLayer.getUnitDelta(j);
+			double weightedDeltas = 0;
+			for (int j = 0; j < nextLayer.getSize(); j++) { // TODO: see if is j= 0 or j= 1
+				// weightedDeltas+= units[i].getWeight(i) * nextLayer.getUnitDelta(j);
+				weightedDeltas += nextLayer.getUnitWeight(i, j) * nextLayer.getUnitDelta(j);
 			}
 			units[i].calculateBackDelta(weightedDeltas);
 		}
-		
+
 	}
 
 	private double getUnitWeight(int childPosition, int actualPosition) {
@@ -109,7 +129,8 @@ public class Layer {
 	}
 
 	public void updateWeights() {
-		for (int i = 1; i < units.length; i++) { //i= 1 because first unit is fictional and it doesn't change it's weight
+		for (int i = 1; i < units.length; i++) { // i= 1 because first unit is fictional and it doesn't change it's
+													// weight
 			for (int j = 0; j < previousLayer.getSize(); j++) {
 				units[i].updateWeight(j, previousLayer.getUnitActivation(j));
 			}
@@ -117,23 +138,23 @@ public class Layer {
 	}
 
 	public double getTotalActivation() {
-		double layerActivation= 0;
+		double layerActivation = 0;
 		for (int i = 0; i < units.length; i++) {
-			layerActivation+= units[i].getActivation();
+			layerActivation += units[i].getActivation();
 		}
 		return layerActivation;
 	}
 
 	public void apply(boolean b) {
-		//calculate excitation
+		// calculate excitation
 		for (int i = 0; i < units.length; i++) {
 			for (int j = 0; j < previousLayer.getSize(); j++) {
-				double prevActivation= previousLayer.getUnitActivation(j);
+				double prevActivation = previousLayer.getUnitActivation(j);
 				units[i].calculateExcitation(j, prevActivation);
 			}
 		}
-		
-		//calculate activation
+
+		// calculate activation
 		for (int i = 0; i < units.length; i++) {
 			units[i].calculateActivation();
 		}
@@ -153,5 +174,4 @@ public class Layer {
 		}
 	}
 
-	
 }
