@@ -4,61 +4,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 import sia.grupo19.helpers.ParamsContainer;
 
 public class MultiLayerPerceptron {
 
-	// private static final double[][] X = { { -1, 1 }, { 1, -1 }, { -1, -1 }, { 1,
-	// 1 } }; // TODO: desharcodeame esta
-	// private static final double[] Y = { 1, 1, -1, -1 }; // TODO: desharcodeame
-	// esta
-	// private static final double [] [] txt= {
-	// {0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1,
-	// 1, 0, 0, 0, 1, 0, 1, 1, 1, 0},
-	// {0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0,
-	// 0, 0, 1, 0, 0, 0, 1, 1, 1, 0},
-	// {0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0,
-	// 0, 1, 0, 0, 0, 1, 1, 1, 1, 1},
-	// {0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1,
-	// 1, 0, 0, 0, 1, 0, 1, 1, 1, 0},
-	// {0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1,
-	// 0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
-	// {1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1,
-	// 1, 0, 0, 0, 1, 0, 1, 1, 1, 0},
-	// {0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1,
-	// 1, 0, 0, 0, 1, 0, 1, 1, 1, 0},
-	// {1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0,
-	// 0, 1, 0, 0, 0, 0, 1, 0, 0, 0},
-	// {0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1,
-	// 1, 0, 0, 0, 1, 0, 1, 1, 1, 0},
-	// {0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1,
-	// 0, 0, 0, 1, 0, 0, 1, 1, 0, 0} };
-	// private static final double[] txtY = { 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 };
-	// private static final double[] txtY = { 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1
-	// };
-	// private static final double[][] txtY2 = { {1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-	// {0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
-	// {0, 0, 1, 0, 0, 0, 0, 0, 0, 0},
-	// {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-	// {0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
-	// {0, 0, 0, 0, 0, 1, 0, 0, 0, 0},
-	// {0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
-	// {0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
-	// {0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
-	// {0, 0, 0, 0, 0, 0, 0, 0, 0, 1} };
-	// private static final double[][] txtY2= { {1, -1, -1, -1, -1, -1, -1, -1, -1,
-	// -1},
-	// {-1, 1, -1, -1, -1, -1, -1, -1, -1, -1},
-	// {-1, -1, 1, -1, -1, -1, -1, -1, -1, -1},
-	// {-1, -1, -1, 1, -1, -1, -1, -1, -1, -1},
-	// {-1, -1, -1, -1, 1, -1, -1, -1, -1, -1},
-	// {-1, -1, -1, -1, -1, 1, -1, -1, -1, -1},
-	// {-1, -1, -1, -1, -1, -1, 1, -1, -1, -1},
-	// {-1, -1, -1, -1, -1, -1, -1, 1, -1, -1},
-	// {-1, -1, -1, -1, -1, -1, -1, -1, 1, -1},
-	// {-1, -1, -1, -1, -1, -1, -1, -1, -1, 1} };
 	private static double[][] X;
 	private static double[] Y;
 	private static double[][] txt;
@@ -86,6 +38,31 @@ public class MultiLayerPerceptron {
 	private ArrayList<String> toPrint;
 
 	private ParamsContainer params;
+
+	public MultiLayerPerceptron(ParamsContainer params, Layer[] baseNetwork) {
+		this.params = params;
+
+		X = params.getTrainingDataInputs();
+		txt = params.getTrainingDataInputs();
+		Y = null; // THIS VARIABLE ISN'T BEING USED ???
+		txtY = null; // THIS VARIABLE ISN'T BEING USED ???
+		EPOCHS = params.getEpochs();
+		txtY2 = params.getTrainingDataOutputs();
+		PROBABILITY_NOISE = params.getNoise();
+
+		toPrint = new ArrayList<>();
+
+		this.network = baseNetwork;
+		this.lastLayer = params.getHiddenLayers() + 1;
+
+		this.indexList = new ArrayList<Integer>();
+		this.trainingList = new ArrayList<Integer>();
+		this.testingList = new ArrayList<Integer>();
+		this.trainingAccuracyList = new ArrayList<Double>();
+		this.testingAccuracyList = new ArrayList<Double>();
+		this.minError = Integer.MAX_VALUE;
+		this.bestNetwork = network;
+	}
 
 	public MultiLayerPerceptron(ParamsContainer params) {
 		this.params = params;
@@ -206,68 +183,34 @@ public class MultiLayerPerceptron {
 		}
 	}
 
-	public void run3_2() {
-		int epoch = 0;
-		initializeUnits();
-		double error = 1;
-		initializeIndex(txt.length);
-		double totalTraining;
-		double totalTesting;
+	public MultiLayerPerceptron getEncoder() throws CloneNotSupportedException {
+		ParamsContainer encoderParams = (ParamsContainer) params.clone();
 
-		while (epoch < EPOCHS && error > ERROR) {
-			toPrint.add("Epoch: " + epoch + "\n");
-			double auxError = 0;
-			setTrainingTestingLists();
+		encoderParams.setHiddenLayers((int) Math.floor(params.getHiddenLayers() / 2));
+		encoderParams.setHiddenLayersSizes(
+				Arrays.copyOfRange(params.getHiddenLayersSizes(), 0, encoderParams.getHiddenLayers()));
 
-			totalTraining = trainingList.size();
-			totalTesting = testingList.size();
-			trainingWellClassified = 0;
-			testingWellClassified = 0;
+		Layer[] encoderNetwork = Arrays.copyOfRange(network, 0, encoderParams.getHiddenLayers() + 2);
+		// fix middle/last layer so it won't have the extra weight
+		encoderNetwork[encoderParams.getHiddenLayers() + 1] = new Layer(
+				encoderNetwork[encoderParams.getHiddenLayers() + 1], true);
 
-			toPrint.add("Training\n");
-			while (!trainingList.isEmpty()) {
-				// get random X_i
-				int position = trainingList.remove(0);
+		return new MultiLayerPerceptron(encoderParams,
+				encoderNetwork);
+	}
 
-				// calculate activation for input layer
-				network[0].apply(txt[position]);
-
-				// propagate activation to output layer
-				propagate(network);
-
-				// calculate delta for output layer
-				network[lastLayer].calculateDelta(txtY[position]);
-
-				// backpropagate delta
-				backpropagate();
-
-				// update weights
-				updateWeights();
-
-				// update error
-				auxError += calculateErrorTxt(position, network[lastLayer]);
-
-				// restart excitations
-				restartUnits();
+	public void testInputs(double[][] testingDataInputs) {
+		toPrint.add("\nFinal output" + "\n");
+		for (int i = 0; i < X.length; i++) {
+			bestNetwork[0].apply(testingDataInputs[i]);
+			propagate(bestNetwork);
+			toPrint.add("Result: ");
+			for (int j = 0; j < bestNetwork[lastLayer].getSize(); j++) {
+				toPrint.add(bestNetwork[lastLayer].getUnitActivation(j) + " ");
 			}
-
-			evaluateTestingList();
-
-			double trainingAccuracy = (trainingWellClassified / totalTraining);
-			double testingAccuracy = (testingWellClassified / totalTesting);
-
-			trainingAccuracyList.add(trainingAccuracy);
-			testingAccuracyList.add(testingAccuracy);
-
-			epoch++;
-			error = auxError / 2;
-			updateBestNetwork(error);
-
-			toPrint.add("Error: " + error + "\n");
+			toPrint.add("\n");
+			restartUnits();
 		}
-
-		accuracyFileOutput("Training", trainingAccuracyList);
-		accuracyFileOutput("Testing", testingAccuracyList);
 	}
 
 	private void accuracyFileOutput(String fileName, ArrayList<Double> accuracyList) {
@@ -366,14 +309,15 @@ public class MultiLayerPerceptron {
 	}
 
 	private double[] noysiInput(double[] notNoisyInput) {
-		double[] noisyInput= new double[notNoisyInput.length];
-		double prob= 0;
+		double[] noisyInput = new double[notNoisyInput.length];
+		double prob = 0;
 		for (int i = 0; i < notNoisyInput.length; i++) {
 			prob = Math.random();
-			if (prob < PROBABILITY_NOISE) { //if there is noise in the bit
-				noisyInput[i]= (notNoisyInput[i] == 0) ? 1 : 0; //swap value (if it was 0 now is 1 and if it was 1 now is 0)
-			} else { //if there is no noise in the bit
-				noisyInput[i]= notNoisyInput[i]; //value remains equal
+			if (prob < PROBABILITY_NOISE) { // if there is noise in the bit
+				noisyInput[i] = (notNoisyInput[i] == 0) ? 1 : 0; // swap value (if it was 0 now is 1 and if it was 1 now
+																	// is 0)
+			} else { // if there is no noise in the bit
+				noisyInput[i] = notNoisyInput[i]; // value remains equal
 			}
 		}
 		return noisyInput;

@@ -1,1 +1,0 @@
-{"iterationLimit":1000000,"learningRate":9.0E-4,"minAcceptable":0.01,"trainingDataInputs":[[3.0],[4.0],[5.0],[6.0],[7.0],[8.0],[9.0],[10.0]],"trainingDataOutputs":[96.0,98.0,100.0,102.0,104.0,106.0,108.0,110.0],"trainingDataInputDimension":1,"trainingDataInputSize":8,"perceptronMode":"linear","kCuts":3,"beta":1.5,"sigmoidType":"tanh","printHistory":"epochs"}

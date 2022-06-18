@@ -33,6 +33,17 @@ public class AppTest {
         mlp.printFile("TEST_Ex3_3.out");
     }
 
+    @Test
+    public void testGetEncoderAndLatente() throws Exception {
+        ParamsParser parser = new ParamsParser("./confAUTO.json", true);
+        MultiLayerPerceptron mlp = new MultiLayerPerceptron(parser.getParams());
+        mlp.run3_3();
+        mlp.testNoise();
+        MultiLayerPerceptron encoder = mlp.getEncoder();
+        encoder.testInputs(parser.getParams().getTrainingDataInputs());
+        encoder.printFile("TEST_Latente.out");
+    }
+
     /**
      * Rigorous Test :-)
      */
