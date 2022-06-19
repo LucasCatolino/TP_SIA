@@ -6,8 +6,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
+import sia.grupo19.helpers.EpochInfo;
+import sia.grupo19.helpers.IterInfo;
 import sia.grupo19.helpers.ParamsContainer;
+import sia.grupo19.helpers.ActComp;
 
 public class MultiLayerPerceptron {
 
@@ -324,6 +328,59 @@ public class MultiLayerPerceptron {
 		}
 	}
 
+	public List<EpochInfo> learn() {
+		int epoch = 0;
+		initializeUnits();
+		double error = 1;
+		double auxError;
+
+		List<EpochInfo> epochsInfo = new ArrayList<>();
+
+		while (error > ERROR && epoch < EPOCHS) {
+			// toPrint.add("Epoch: " + epoch + "\n");
+			auxError = 0;
+			initializeIndex(txt.length);
+			List<IterInfo> itersInfo = new ArrayList<>();
+
+			while (!indexList.isEmpty()) {
+				// get random X_i
+				int position = indexList.remove(0);
+
+				// calculate activation for input layer
+				network[0].apply(noysiInput(txt[position]));
+
+				// propagate activation to output layer
+				propagate(network);
+
+				// calculate delta for output layer
+				network[lastLayer].calculateDelta3_3(txtY2[position]);
+
+				// backpropagate delta
+				backpropagate();
+
+				// update weights
+				updateWeights();
+
+				// update error
+				// auxError += calculateErrorTYPE3(position, network[lastLayer]);
+				IterInfo iterInfo = calculateErrorTYPE3(position, network[lastLayer]);
+				itersInfo.add(iterInfo);
+				auxError += iterInfo.getError();
+
+				// restart excitations
+				restartUnits();
+			}
+
+			epoch++;
+			error = auxError / 2;
+			updateBestNetwork(error);
+			epochsInfo.add(new EpochInfo(itersInfo, error));
+			// toPrint.add("Error: " + error + "\n");
+		}
+
+		return epochsInfo;
+	}
+
 	private double[] noysiInput(double[] notNoisyInput) {
 		double[] noisyInput = new double[notNoisyInput.length];
 		double prob = 0;
@@ -377,6 +434,19 @@ public class MultiLayerPerceptron {
 			toPrint.add("Expected: " + txtY2[position][i] + " result: " + act + "\n");
 		}
 		return errorToRet;
+	}
+
+	private IterInfo calculateErrorTYPE3(int position, Layer layer) {
+		double errorToRet = 0;
+		IterInfo out = new IterInfo();
+		for (int i = 0; i < txtY2.length; i++) {
+			double act = layer.getUnitActivation(i);
+			errorToRet += Math.pow(txtY2[position][i] - act, 2);
+			out.addActComp(new ActComp(act, txtY2[position][i]));
+			// toPrint.add("Expected: " + txtY2[position][i] + " result: " + act + "\n");
+		}
+		out.setError(errorToRet);
+		return out;
 	}
 
 	private void updateWeights() {

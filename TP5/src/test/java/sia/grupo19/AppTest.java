@@ -2,13 +2,16 @@ package sia.grupo19;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.google.gson.Gson;
 
 import org.junit.Test;
 
+import sia.grupo19.helpers.EpochInfo;
 import sia.grupo19.helpers.ParamsParser;
+import sia.grupo19.helpers.Writer;
 import sia.grupo19.params.SimpleParser;
 import sia.grupo19.params.SimpleSolution;
 import sia.grupo19.params.SimpleWriter;
@@ -66,6 +69,21 @@ public class AppTest {
         };
         decoder.testInputs(latentes);
         decoder.printFile("TEST_Latente_deco.out");
+    }
+
+    @Test
+    public void autoEncoderRun() throws Exception {
+        ParamsParser parser = new ParamsParser("./confAUTO.json", true);
+        MultiLayerPerceptron mlp = new MultiLayerPerceptron(parser.getParams());
+        List<EpochInfo> epochInfos = mlp.learn();
+        /**
+         * TODO:
+         * [ ]-> better writting (right now it dumps everything, all iterations, pretty
+         * ugly)
+         */
+        new Writer(epochInfos, "resources/testingThis");
+        // mlp.testNoise();
+        // mlp.printFile("TEST_Ex3_3.out");
     }
 
     /**
