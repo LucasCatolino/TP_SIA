@@ -86,6 +86,33 @@ public class AppTest {
         // mlp.printFile("TEST_Ex3_3.out");
     }
 
+    @Test
+    public void autoEncoderCompare() throws Exception {
+        ParamsParser parser = new ParamsParser("./confAUTOfonts.json", true);
+        MultiLayerPerceptron mlp = new MultiLayerPerceptron(parser.getParams());
+        mlp.run3_3();
+
+        double[][] trainingData = parser.getParams().getTrainingDataInputs();
+
+        double[][] expectedOutputs = mlp.runInputs(trainingData);
+
+        MultiLayerPerceptron encoder = mlp.getEncoder();
+        double[][] encoderOutputs = encoder.runInputs(trainingData);
+
+        MultiLayerPerceptron decoder = mlp.getDecoder();
+        double[][] decoderOutputs = decoder.runInputs(encoderOutputs);
+
+        System.out.println("Expected:");
+        System.out.println(new Gson().toJson(expectedOutputs));
+        System.out.println("Result:");
+        System.out.println(new Gson().toJson(decoderOutputs));
+        System.out.println("Latente:");
+        System.out.println(new Gson().toJson(encoderOutputs));
+        System.out.println("Inputs:");
+        System.out.println(new Gson().toJson(trainingData));
+
+    }
+
     /**
      * Rigorous Test :-)
      */

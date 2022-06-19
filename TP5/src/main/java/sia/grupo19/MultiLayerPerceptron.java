@@ -233,6 +233,26 @@ public class MultiLayerPerceptron {
 		}
 	}
 
+	public double[][] runInputs(double[][] testingDataInputs) {
+		// toPrint.add("\nFinal output" + "\n");
+		double[][] out = new double[testingDataInputs.length][bestNetwork[lastLayer].getSize()];
+		for (int i = 0; i < X.length; i++) {
+			bestNetwork[0].apply(testingDataInputs[i]);
+			propagate(bestNetwork);
+			// toPrint.add("Result: ");
+			double[] res = new double[bestNetwork[lastLayer].getSize()];
+			for (int j = 0; j < bestNetwork[lastLayer].getSize(); j++) {
+				// toPrint.add(bestNetwork[lastLayer].getUnitActivation(j) + " ");
+				res[j] = bestNetwork[lastLayer].getUnitActivation(j);
+			}
+			// toPrint.add("\n");
+			out[i] = res;
+			restartUnits();
+		}
+
+		return out;
+	}
+
 	private void accuracyFileOutput(String fileName, ArrayList<Double> accuracyList) {
 		try {
 			File file = new File("accuracy" + fileName);
