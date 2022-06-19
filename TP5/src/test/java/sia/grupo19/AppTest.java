@@ -44,6 +44,30 @@ public class AppTest {
         encoder.printFile("TEST_Latente.out");
     }
 
+    @Test
+    public void testGetDecoderAndLatente() throws Exception {
+        ParamsParser parser = new ParamsParser("./confAUTO.json", true);
+        MultiLayerPerceptron mlp = new MultiLayerPerceptron(parser.getParams());
+        mlp.run3_3();
+        mlp.testNoise();
+        MultiLayerPerceptron decoder = mlp.getDecoder();
+        double[][] latentes = {
+                { -0.8628522390911326, 0.024698937470470993 },
+                { 0.9940573192285671, -0.1629764327645953 },
+                { 0.9973456166001179, 0.8939276876604434 },
+                { 0.5325497313632074, 0.9229697981342071 },
+                { -0.9002039507523814, -0.9723702617699167 },
+                { 0.33558208934378786, -0.35822945106042914 },
+                { -0.3564519233978818, 0.8626884010298133 },
+                { 0.9989121845744537, -0.988265655448676 },
+                { 0.13222454078252177, 0.840139650443761 },
+                { -0.9850814103109841, 0.9676466625663507 },
+
+        };
+        decoder.testInputs(latentes);
+        decoder.printFile("TEST_Latente_deco.out");
+    }
+
     /**
      * Rigorous Test :-)
      */

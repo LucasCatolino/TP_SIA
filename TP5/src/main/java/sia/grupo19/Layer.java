@@ -46,6 +46,17 @@ public class Layer {
 		}
 	}
 
+	public Layer(Layer layer) {
+		int limit = layer.getSize();
+		this.units = new Unit[limit];
+
+		this.setNextLayer(layer.nextLayer);
+
+		for (int i = 0; i < limit; i++) {
+			units[i] = layer.units[i];
+		}
+	}
+
 	public Layer(Layer layer, boolean cut) {
 		int limit = cut ? layer.getSize() - 1 : layer.getSize();
 		this.units = new Unit[limit];
@@ -53,7 +64,7 @@ public class Layer {
 		this.previousLayer = layer.previousLayer;
 
 		for (int i = 0; i < limit; i++) {
-			units[i] = layer.units[i];
+			units[i] = layer.units[i + 1];
 		}
 	}
 

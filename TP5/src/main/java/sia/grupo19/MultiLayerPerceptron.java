@@ -199,6 +199,22 @@ public class MultiLayerPerceptron {
 				encoderNetwork);
 	}
 
+	public MultiLayerPerceptron getDecoder() throws CloneNotSupportedException {
+		ParamsContainer decoderParams = (ParamsContainer) params.clone();
+
+		decoderParams.setHiddenLayers((int) Math.floor(params.getHiddenLayers() / 2));
+		decoderParams.setHiddenLayersSizes(
+				Arrays.copyOfRange(params.getHiddenLayersSizes(), decoderParams.getHiddenLayers() + 1,
+						decoderParams.getHiddenLayersSizes().length));
+
+		Layer[] decoderNetwork = Arrays.copyOfRange(network, decoderParams.getHiddenLayers() + 1, network.length);
+		// fix middle/first layer so it won't have a "previousLayer"
+		decoderNetwork[0] = new Layer(decoderNetwork[0]);
+
+		return new MultiLayerPerceptron(decoderParams,
+				decoderNetwork);
+	}
+
 	public void testInputs(double[][] testingDataInputs) {
 		toPrint.add("\nFinal output" + "\n");
 		for (int i = 0; i < X.length; i++) {
