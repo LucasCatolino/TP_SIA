@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import sia.grupo19.helpers.EpochInfo;
 import sia.grupo19.helpers.ParamsParser;
+import sia.grupo19.helpers.Utils;
 import sia.grupo19.helpers.Writer;
 import sia.grupo19.params.SimpleParser;
 import sia.grupo19.params.SimpleSolution;
@@ -101,6 +102,8 @@ public class AppTest {
 
         MultiLayerPerceptron decoder = mlp.getDecoder();
         double[][] decoderOutputs = decoder.runInputs(encoderOutputs);
+        
+        double[][] testLatent= Utils.getTestingLatent();
 
         System.out.println("Expected:");
         System.out.println(new Gson().toJson(expectedOutputs));
