@@ -104,6 +104,7 @@ public class AppTest {
         double[][] decoderOutputs = decoder.runInputs(encoderOutputs);
         
         double[][] testLatent= Utils.getTestingLatent();
+        double[][] latenteOutput = decoder.runInputs(testLatent);
 
         System.out.println("Expected:");
         System.out.println(new Gson().toJson(expectedOutputs));
@@ -113,7 +114,9 @@ public class AppTest {
         System.out.println(new Gson().toJson(encoderOutputs));
         System.out.println("Inputs:");
         System.out.println(new Gson().toJson(trainingData));
-
+        System.out.println("New char:");
+        System.out.println(new Gson().toJson(latenteOutput));
+        int i=0;
     }
 
     /**
