@@ -102,8 +102,9 @@ public class AppTest {
 
         MultiLayerPerceptron decoder = mlp.getDecoder();
         double[][] decoderOutputs = decoder.runInputs(encoderOutputs);
-        
-        double[][] testLatent= Utils.getTestingLatent();
+
+        double[][] testLatent = Utils.getTestingLatent();
+        // double[][] testtt = { { 0.8999999999999998, 0.9999999999999998 } };
         double[][] latenteOutput = decoder.runInputs(testLatent);
 
         System.out.println("Expected:");
@@ -114,9 +115,10 @@ public class AppTest {
         System.out.println(new Gson().toJson(encoderOutputs));
         System.out.println("Inputs:");
         System.out.println(new Gson().toJson(trainingData));
+        System.out.println("TestLatent:");
+        System.out.println(new Gson().toJson(testLatent));
         System.out.println("New char:");
         System.out.println(new Gson().toJson(latenteOutput));
-        int i=0;
     }
 
     /**

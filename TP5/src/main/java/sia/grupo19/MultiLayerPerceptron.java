@@ -236,7 +236,7 @@ public class MultiLayerPerceptron {
 	public double[][] runInputs(double[][] testingDataInputs) {
 		// toPrint.add("\nFinal output" + "\n");
 		double[][] out = new double[testingDataInputs.length][bestNetwork[lastLayer].getSize()];
-		for (int i = 0; i < X.length; i++) {
+		for (int i = 0; i < testingDataInputs.length; i++) {
 			bestNetwork[0].apply(testingDataInputs[i]);
 			propagate(bestNetwork);
 			// toPrint.add("Result: ");
