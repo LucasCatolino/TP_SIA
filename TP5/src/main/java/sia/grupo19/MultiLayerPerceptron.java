@@ -405,7 +405,7 @@ public class MultiLayerPerceptron {
 		return epochsInfo;
 	}
 
-	private double[] noysiInput(double[] notNoisyInput) {
+	public double[] noysiInput(double[] notNoisyInput) {
 		double[] noisyInput = new double[notNoisyInput.length];
 		double prob = 0;
 		for (int i = 0; i < notNoisyInput.length; i++) {
