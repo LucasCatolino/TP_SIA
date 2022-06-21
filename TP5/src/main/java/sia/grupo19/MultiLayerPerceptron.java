@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.gson.Gson;
+
 import sia.grupo19.helpers.EpochInfo;
 import sia.grupo19.helpers.IterInfo;
 import sia.grupo19.helpers.ParamsContainer;
@@ -253,6 +255,7 @@ public class MultiLayerPerceptron {
 			out[i] = res;
 			restartUnits();
 		}
+		toPrint.add("outcome = " + new Gson().toJson(out) + "\n");
 
 		return out;
 	}
