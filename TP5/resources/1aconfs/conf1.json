@@ -1,7 +1,7 @@
 {
 	"epochs": 10000,
 	"noise": 0,
-	"momentum": 0.5,
+	"momentum": 0.9,
 	"inputSize": 35,
 	"trainingDataInputs": [
 		[
@@ -264,6 +264,6 @@
 			0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1
 		]
 	],
-	"hiddenLayers": 9,
-	"hiddenLayersSizes": [25, 20, 15, 10, 2, 10, 15, 20, 25]
+	"hiddenLayers": 1,
+	"hiddenLayersSizes": [2]
 }

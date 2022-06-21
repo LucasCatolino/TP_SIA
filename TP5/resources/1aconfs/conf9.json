@@ -1,7 +1,7 @@
 {
 	"epochs": 10000,
 	"noise": 0,
-	"momentum": 0.5,
+	"momentum": 0.8,
 	"inputSize": 35,
 	"trainingDataInputs": [
 		[

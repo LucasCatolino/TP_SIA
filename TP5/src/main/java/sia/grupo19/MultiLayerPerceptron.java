@@ -137,6 +137,10 @@ public class MultiLayerPerceptron {
 		this.bestNetwork = network;
 	}
 
+	public double getError() {
+		return minError;
+	}
+
 	public void run() {
 		int epoch = 0;
 		initializeUnits();
@@ -453,7 +457,7 @@ public class MultiLayerPerceptron {
 			errorToRet += Math.pow(txtY2[position][i] - act, 2);
 			toPrint.add("Expected: " + txtY2[position][i] + " result: " + act + "\n");
 		}
-		return errorToRet;
+		return errorToRet / txtY2.length;
 	}
 
 	private IterInfo calculateErrorTYPE3(int position, Layer layer) {
