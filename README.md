@@ -10,3 +10,4 @@
 -   TP3: Carpeta del Trabajo Practico 3 (incluye código fuente y ejecutables), documento de la presentación oral, README con descripción sobre como correr el programa y como se pueden cambiar parametros.
 -   Componentes principales: Carpeta del Ejercicio Obligatorio sobre Componentes Principales (incluye código fuente).
 -   TP4: Carpeta del Trabajo Practico 4 (incluye código fuente), documento de la presentación oral, README con descripción sobre como correr el programa.
+-   TP5: Carpeta del Trabajo Practico 5 (incluye código fuente y ejecutables), documento de la presentación oral, README con descripción sobre como correr el programa.
